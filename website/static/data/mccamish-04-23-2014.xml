@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map>
+	<!--INNER STADIUM POLYGONS-->
+	<polygon color="#9E9981">
+		<point x="-356" y="-99"/>
+		<point x="-285" y="-228"/>
+		<point x="-178" y="-285"/>
+		<point x="178" y="-285"/>
+		<point x="285" y="-228"/>
+		<point x="356" y="-99"/>
+		<point x="356" y="99"/>
+		<point x="285" y="228"/>
+		<point x="178" y="285"/>
+		<point x="-178" y="285"/>
+		<point x="-285" y="228"/>
+		<point x="-356" y="99"/>
+	</polygon>
+	<polygon color="#F2D189">
+		<point x="-178" y="-49"/>
+		<point x="-160" y="-85"/>
+		<point x="-124" y="-99"/>
+		<point x="124" y="-99"/>
+		<point x="160" y="-85"/>
+		<point x="178" y="-49"/>
+		<point x="178" y="49"/>
+		<point x="160" y="85"/>
+		<point x="124" y="99"/>
+		<point x="-124" y="99"/>
+		<point x="-160" y="85"/>
+		<point x="-178" y="49"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-350" y="-100"/>
+		<point x="-283" y="-220"/>
+		<point x="-166" y="-82"/>
+		<point x="-180" y="-55"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-279" y="-225"/>
+		<point x="-181" y="-278"/>
+		<point x="-132" y="-101"/>
+		<point x="-159" y="-91"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-173" y="-280"/>
+		<point x="-58" y="-280"/>
+		<point x="-59" y="-104"/>
+		<point x="-121" y="-104"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-48" y="-280"/>
+		<point x="48" y="-280"/>
+		<point x="48" y="-104"/>
+		<point x="-48" y="-104"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="56" y="-280"/>
+		<point x="172" y="-280"/>
+		<point x="119" y="-104"/>
+		<point x="58" y="-104"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="179" y="-279"/>
+		<point x="277" y="-226"/>
+		<point x="157" y="-92"/>
+		<point x="130" y="-102"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="282" y="-222"/>
+		<point x="349" y="-102"/>
+		<point x="179" y="-57"/>
+		<point x="165" y="-85"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="351" y="-96"/>
+		<point x="351" y="93"/>
+		<point x="182" y="43"/>
+		<point x="182" y="-46"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="350" y="100"/>
+		<point x="283" y="220"/>
+		<point x="166" y="82"/>
+		<point x="180" y="55"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="279" y="225"/>
+		<point x="181" y="278"/>
+		<point x="132" y="101"/>
+		<point x="159" y="91"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="175" y="282"/>
+		<point x="55" y="282"/>
+		<point x="56" y="194"/>
+		<point x="149" y="194"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="51" y="282"/>
+		<point x="-51" y="282"/>
+		<point x="-51" y="194"/>
+		<point x="51" y="194"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-55" y="282"/>
+		<point x="-175" y="282"/>
+		<point x="-149" y="194"/>
+		<point x="-55" y="194"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="149" y="190"/>
+		<point x="55" y="190"/>
+		<point x="56" y="148"/>
+		<point x="136" y="148"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="51" y="190"/>
+		<point x="-51" y="190"/>
+		<point x="-51" y="148"/>
+		<point x="51" y="148"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-55" y="190"/>
+		<point x="-148" y="190"/>
+		<point x="-135" y="148"/>
+		<point x="-55" y="148"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="135" y="143"/>
+		<point x="55" y="143"/>
+		<point x="56" y="102"/>
+		<point x="122" y="102"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="51" y="143"/>
+		<point x="-51" y="143"/>
+		<point x="-51" y="102"/>
+		<point x="51" y="102"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-55" y="143"/>
+		<point x="-135" y="143"/>
+		<point x="-122" y="102"/>
+		<point x="-55" y="102"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-179" y="279"/>
+		<point x="-277" y="226"/>
+		<point x="-157" y="92"/>
+		<point x="-130" y="102"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-282" y="222"/>
+		<point x="-349" y="102"/>
+		<point x="-179" y="57"/>
+		<point x="-165" y="85"/>
+	</polygon>
+	<polygon color="#5C5D5A">
+		<point x="-351" y="96"/>
+		<point x="-351" y="-93"/>
+		<point x="-182" y="-43"/>
+		<point x="-182" y="46"/>
+	</polygon>
+
+	<!--INNER STADIUM SECTION NUMBER TEXT-->
+	<text x="-245" y="-114">114</text>
+	<text x="-188" y="-174">115</text>
+	<text x="-103" y="-192">100</text>
+	<text x="0" y="-192">101</text>
+	<text x="101" y="-192">102</text>
+	<text x="186" y="-174">103</text>
+	<text x="244" y="-117">104</text>
+	<text x="267" y="-1">105</text>
+	<text x="245" y="114">106</text>
+	<text x="188" y="174">107</text>
+	<text x="109" y="238">108</text>
+	<text x="0" y="238">109</text>
+	<text x="-108" y="238">110</text>
+	<text x="99" y="169">108</text>
+	<text x="0" y="169">109</text>
+	<text x="-98" y="169">110</text>
+	<text x="92" y="122">108</text>
+	<text x="0" y="122">109</text>
+	<text x="-92" y="122">110</text>
+	<text x="-186" y="174">111</text>
+	<text x="-244" y="117">112</text>
+	<text x="-267" y="-1">113</text>
+	
+	<!--GREEN SECTION-->
+	<sectionArc
+		color="#80FF80"
+		innerRadius="360"
+		outerRadius="500"
+		startAngle="212.5"
+		endAngle="320"
+		expandable="true">
+		
+		<sectionText x="-450" y="60" font-size="80px">G</sectionText>
+
+		<sectionArcOutdoor startAngle="255" endAngle="274" innerRadius="500" outerRadius="620"/>
+
+		<sectionDoor startAngle="261" endAngle="270" radius="500"/>
+
+		<sectionTextArc angle="264.5" radius="495">WEST EXIT</sectionTextArc>
+
+		<stadiumSection startAngle="212.5" endAngle="232">111</stadiumSection>
+		<stadiumSection startAngle="232" endAngle="254">112</stadiumSection>
+		<stadiumSection startAngle="254" endAngle="285">113</stadiumSection>
+		<stadiumSection startAngle="285" endAngle="307">114</stadiumSection>
+		<stadiumSection startAngle="307" endAngle="320">115</stadiumSection>
+
+		<tableArc angle="317" radius="390">G1</tableArc>
+		<tableArc angle="312" radius="390">G2</tableArc>
+		
+		<tableArc angle="305" radius="390">G3</tableArc>
+		<tableArc angle="300" radius="390">G4</tableArc>
+		<tableArc angle="295" radius="390">G5</tableArc>
+		<tableArc angle="290" radius="390">G6</tableArc>
+		
+		<tableArc angle="282" radius="390">G7</tableArc>
+		<tableArc angle="277" radius="390">G8</tableArc>
+		<tableArc angle="272" radius="390">G9</tableArc>
+		<tableArc angle="267" radius="390">G10</tableArc>
+		<tableArc angle="262" radius="390">G11</tableArc>
+		<tableArc angle="257" radius="390">G12</tableArc>
+		
+		<tableArc angle="250" radius="390">G13</tableArc>
+		<tableArc angle="245" radius="390">G14</tableArc>
+		<tableArc angle="240" radius="390">G15</tableArc>
+		<tableArc angle="235" radius="390">G16</tableArc>
+		
+		<tableArc angle="215" radius="470">G17</tableArc>
+		<tableArc angle="219.5" radius="470">G18</tableArc>
+		<tableArc angle="224" radius="470">G19</tableArc>
+		<tableArc angle="228.5" radius="470">G20</tableArc>
+		<tableArc angle="235" radius="470">G21</tableArc>
+		<tableArc angle="240" radius="470">G22</tableArc>
+		
+		<tableArc angle="257" radius="470">G23</tableArc>
+		
+		<tableArc angle="257" radius="520">G24</tableArc>
+		<tableArc angle="257" radius="550">G25</tableArc>
+		<tableArc angle="257" radius="580">G26</tableArc>
+		<tableArc angle="260" radius="600">G27</tableArc>
+		
+		<tableArc angle="269" radius="600">G28</tableArc>
+		<tableArc angle="272" radius="580">G29</tableArc>
+		<tableArc angle="272" radius="550">G30</tableArc>
+		<tableArc angle="272" radius="520">G31</tableArc>
+				
+		
+		<tableArc angle="272" radius="470">G32</tableArc>
+		<tableArc angle="278.5" radius="470">G33</tableArc>
+		<tableArc angle="285" radius="470">G34</tableArc>
+		<tableArc angle="293" radius="470">G35</tableArc>
+		<tableArc angle="302" radius="470">G36</tableArc>
+		<tableArc angle="314.5" radius="470">G37</tableArc>
+				
+	</sectionArc>
+	
+	<!--BLUE SECTION-->
+	<sectionArc
+		color="#9999D6"
+		innerRadius="360"
+		outerRadius="500"
+		startAngle="321.5"
+		endAngle="433"
+		expandable="true">
+		
+		<sectionText x="0" y="-475" font-size="80px">B</sectionText>
+
+		<sectionArcExtension startAngle="336" endAngle="385" dRadius="70"/>
+		<sectionArcOutdoor startAngle="338" endAngle="383" innerRadius="570" outerRadius="675"/>
+
+		<sectionDoor startAngle="350" endAngle="375" radius="570"/>
+
+		<sectionTextArc angle="362" radius="565">NORTH EXIT</sectionTextArc>
+
+		<stadiumSection startAngle="321" endAngle="331">115</stadiumSection>
+		<stadiumSection startAngle="331" endAngle="349">100</stadiumSection>
+		<stadiumSection startAngle="349" endAngle="369">101</stadiumSection>
+		<stadiumSection startAngle="9" endAngle="32">102</stadiumSection>
+		<stadiumSection startAngle="32" endAngle="52">103</stadiumSection>
+		<stadiumSection startAngle="52" endAngle="73">104</stadiumSection>
+		
+		<tableArc angle="70" radius="390">B1</tableArc>
+		<tableArc angle="65" radius="390">B2</tableArc>
+		<tableArc angle="60" radius="390">B3</tableArc>
+		<tableArc angle="55" radius="390">B4</tableArc>
+		
+		<tableArc angle="48" radius="390">B5</tableArc>
+		<tableArc angle="43" radius="390">B6</tableArc>
+		<tableArc angle="38" radius="390">B7</tableArc>
+		<tableArc angle="33" radius="390">B8</tableArc>
+		
+		<tableArc angle="28" radius="390">B9</tableArc>
+		<tableArc angle="23" radius="390">B10</tableArc>
+		<tableArc angle="17" radius="390">B11</tableArc>
+		<tableArc angle="12.5" radius="390">B12</tableArc>
+		<tableArc angle="8" radius="390">B13</tableArc>
+		
+		<tableArc angle="360" radius="390">B14</tableArc><!-- :D :D :D :D -->
+		
+		<tableArc angle="352" radius="390">B15</tableArc>
+		<tableArc angle="347" radius="390">B16</tableArc>
+		<tableArc angle="339" radius="390">B17</tableArc>
+		<tableArc angle="334" radius="390">B18</tableArc>
+		
+		<tableArc angle="328" radius="390">B19</tableArc>
+		<tableArc angle="324" radius="390">B20</tableArc>
+		
+		<tableArc angle="324" radius="470">B21</tableArc>
+		<tableArc angle="328" radius="470">B22</tableArc>
+		<tableArc angle="333" radius="470">B23</tableArc>
+		<tableArc angle="339" radius="470">B24</tableArc>
+		
+		
+		<tableArc angle="343" radius="520">B25</tableArc>
+		<tableArc angle="339" radius="520">B26</tableArc>
+		<tableArc angle="339" radius="550">B27</tableArc>
+		<tableArc angle="343" radius="550">B28</tableArc>
+
+		<tableArc angle="346" radius="590">B29</tableArc>
+		<tableArc angle="343" radius="590">B30</tableArc>
+		<tableArc angle="339.5" radius="605">B31</tableArc>
+		<tableArc angle="339.5" radius="640">B32</tableArc>
+		<tableArc angle="343" radius="655">B33</tableArc>
+		<tableArc angle="346" radius="655">B34</tableArc>
+		<tableArc angle="349" radius="655">B35</tableArc>
+		<tableArc angle="352" radius="655">B36</tableArc>
+		<tableArc angle="355" radius="655">B37</tableArc>
+		<tableArc angle="358" radius="655">B38</tableArc>
+		<tableArc angle="1" radius="655">B39</tableArc>
+		<tableArc angle="4" radius="655">B40</tableArc>
+		<tableArc angle="7" radius="655">B41</tableArc>
+		<tableArc angle="10" radius="655">B42</tableArc>
+		<tableArc angle="13" radius="655">B43</tableArc>
+		<tableArc angle="16" radius="655">B44</tableArc>
+		<tableArc angle="19" radius="655">B45</tableArc>
+		
+		<tableArc angle="19" radius="550">B46</tableArc>
+		<tableArc angle="23" radius="550">B47</tableArc>
+		<tableArc angle="21" radius="520">B48</tableArc>
+		
+		<tableArc angle="20" radius="470">B49</tableArc>
+		<tableArc angle="25" radius="470">B50</tableArc>
+		<tableArc angle="35" radius="470">B51</tableArc>
+		<tableArc angle="40" radius="470">B52</tableArc>
+		<tableArc angle="45" radius="470">B53</tableArc>
+		<tableArc angle="50" radius="470">B54</tableArc>
+		<tableArc angle="58" radius="470">B55</tableArc>
+		<tableArc angle="63" radius="470">B56</tableArc>
+		
+		
+	</sectionArc>
+	
+	<!--RED SECTION-->
+	<sectionArc
+		color="#FF6666"
+		innerRadius="360"
+		outerRadius="500"
+		startAngle="74.5"
+		endAngle="150"
+		expandable="true">
+
+		<sectionText x="325" y="325" font-size="80px">R</sectionText>
+
+		<sectionArcOutdoor startAngle="120" endAngle="145" innerRadius="500" outerRadius="610"/>
+		<sectionDoor startAngle="130" endAngle="140" radius="500"/>
+
+		<sectionTextArc angle="98" radius="460">CONCESSIONS</sectionTextArc>
+		<sectionTextArc angle="135" radius="495">EAST EXIT</sectionTextArc>
+
+		<stadiumSection startAngle="74.5" endAngle="105">105</stadiumSection>
+		<stadiumSection startAngle="105" endAngle="128">106</stadiumSection>
+		<stadiumSection startAngle="128" endAngle="150">107</stadiumSection>
+
+		<tableArc angle="147" radius="390">R1</tableArc>
+		<tableArc angle="142" radius="390">R2</tableArc>
+		<tableArc angle="137" radius="390">R3</tableArc>
+		<tableArc angle="132" radius="390">R4</tableArc>
+		
+		<tableArc angle="125" radius="390">R5</tableArc>
+		<tableArc angle="120" radius="390">R6</tableArc>
+		<tableArc angle="115" radius="390">R7</tableArc>
+		<tableArc angle="110" radius="390">R8</tableArc>
+		
+		<tableArc angle="103" radius="390">R9</tableArc>
+		<tableArc angle="98" radius="390">R10</tableArc>
+		<tableArc angle="93" radius="390">R11</tableArc>
+		<tableArc angle="88" radius="390">R12</tableArc>
+		<tableArc angle="83" radius="390">R13</tableArc>
+		<tableArc angle="78" radius="390">R14</tableArc>
+		
+		<tableArc angle="77" radius="470">R15</tableArc>
+		<tableArc angle="83" radius="470">R16</tableArc>
+		<tableArc angle="88" radius="470">R17</tableArc>
+		
+		<tableArc angle="108" radius="470">R18</tableArc>
+		<tableArc angle="117" radius="470">R19</tableArc>
+		
+		<tableArc angle="125" radius="520">R20</tableArc>
+		<tableArc angle="122" radius="545">R21</tableArc>
+		<tableArc angle="123" radius="585">R22</tableArc>
+		<tableArc angle="126" radius="585">R23</tableArc>
+		<tableArc angle="129" radius="585">R24</tableArc>
+		<tableArc angle="135" radius="585">R25</tableArc>
+		<tableArc angle="138" radius="585">R26</tableArc>
+		<tableArc angle="141" radius="585">R27</tableArc>
+		<tableArc angle="142" radius="555">R28</tableArc>
+		<tableArc angle="143" radius="525">R29</tableArc>
+						
+	</sectionArc>
+	
+	<!--CALLAWAY CLUB-->
+	<sectionArc
+		color="#bbbb00"
+		innerRadius="360"
+		outerRadius="500"
+		startAngle="151.5"
+		endAngle="211"
+		expandable="false">
+		<sectionText x="0" y="385" font-size="40px">Callaway Club</sectionText>
+		<sectionText x="0" y="425" font-size="30px">Judges Only</sectionText>
+		<sectionText x="0" y="455" font-size="20px">(Section not expandable)</sectionText>
+	</sectionArc>
+	
+	<!--WHITE SECTION-->
+	<sectionRect
+		color="#ffffff"
+		x="550"
+		y="-400"
+		width="200"
+		height="875"
+		expandable="true">
+
+		<sectionText x="650" y="200" font-size="80px">W</sectionText>
+
+		<tableRect dx="170" dy="10">W1</tableRect>
+		<tableRect dx="170" dy="50">W2</tableRect>
+		<tableRect dx="170" dy="90">W3</tableRect>
+		<tableRect dx="170" dy="130">W4</tableRect>
+		<tableRect dx="170" dy="170">W5</tableRect>
+		<tableRect dx="170" dy="210">W6</tableRect>
+		<tableRect dx="170" dy="250">W7</tableRect>
+		<tableRect dx="170" dy="290">W8</tableRect>
+		<tableRect dx="170" dy="330">W9</tableRect>
+		<tableRect dx="170" dy="370">W10</tableRect>
+		<tableRect dx="170" dy="410">W11</tableRect>
+		<tableRect dx="170" dy="450">W12</tableRect>
+		<tableRect dx="170" dy="490">W13</tableRect>
+		<tableRect dx="170" dy="530">W14</tableRect>
+		<tableRect dx="170" dy="570">W15</tableRect>
+		<tableRect dx="170" dy="610">W16</tableRect>
+		<tableRect dx="170" dy="650">W17</tableRect>
+		<tableRect dx="170" dy="690">W18</tableRect>
+		<tableRect dx="170" dy="730">W19</tableRect>
+		<tableRect dx="170" dy="770">W20</tableRect>
+
+		<tableRect dx="100" dy="50">W21</tableRect>
+		<tableRect dx="100" dy="110">W22</tableRect>
+		<tableRect dx="100" dy="170">W23</tableRect>
+		<tableRect dx="100" dy="230">W24</tableRect>
+		<tableRect dx="100" dy="290">W25</tableRect>
+		<tableRect dx="100" dy="350">W26</tableRect>
+		<tableRect dx="100" dy="410">W27</tableRect>
+		<tableRect dx="100" dy="470">W28</tableRect>
+
+		<tableRect dx="40" dy="10">W29</tableRect>
+		<tableRect dx="40" dy="50">W30</tableRect>
+		<tableRect dx="40" dy="90">W31</tableRect>
+		<tableRect dx="40" dy="130">W32</tableRect>
+		<!--W33 removed on request-->
+		<tableRect dx="40" dy="170">W34</tableRect>
+		<tableRect dx="40" dy="210">W35</tableRect>
+		<tableRect dx="40" dy="250">W36</tableRect>
+		
+		<tableRect dx="10" dy="270">W37</tableRect>
+		<tableRect dx="10" dy="310">W38</tableRect>
+		<tableRect dx="10" dy="350">W39</tableRect>
+		<tableRect dx="10" dy="390">W40</tableRect>
+		<tableRect dx="10" dy="430">W41</tableRect>
+		<tableRect dx="10" dy="470">W42</tableRect>
+		<tableRect dx="10" dy="510">W43</tableRect>
+		<tableRect dx="10" dy="550">W44</tableRect>
+		<tableRect dx="10" dy="590">W45</tableRect>
+		<tableRect dx="10" dy="630">W46</tableRect>
+		<tableRect dx="10" dy="670">W47</tableRect>
+		<tableRect dx="10" dy="710">W48</tableRect>
+		<tableRect dx="10" dy="750">W49</tableRect>
+		<tableRect dx="10" dy="790">W50</tableRect>
+		<tableRect dx="10" dy="830">W51</tableRect>
+		
+
+
+	</sectionRect>
+	
+</map>

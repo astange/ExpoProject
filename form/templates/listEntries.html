@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Capstone Design Expo Signup Form</title>
+        <strong><link rel="stylesheet" href="/registration{{ url_for('static', filename='css/main.css') }}"></strong>
+    </head>
+    <body>
+        <div class="container">
+            <div id="capstone">
+                    <img src="/registration{{ url_for('static', filename='images/CapstoneDesignExpo.jpg') }}" width="654" height="76"/>
+            </div> 
+            <header>
+                <div class="container">
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="{{ url_for('home') }}">Sign Up for the Expo</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+          </div>
+            
+  <h2>List of Entries</h2>
+  <table id="entryTable" summary="List of Entries">
+      <thead>
+        <tr>
+	  <th>Submission Number</th>
+          <th>Team Name</th>
+          <th>Project Name</th>
+          <th>Member Count</th>
+          <th>Member Names</th>
+	  <th>Member Majors</th>
+          <th>Project Major</th>
+          <th>Section</th>
+          <th>Sponsor</th>
+          <th>Needs Power</th>
+          <th>Has a Display</th>
+          <th>Has Dangerous Elements</th>
+          <th>Setup Type</th>
+          <th>Project Description</th>
+          <th>Email</th>
+          <th># small shirts</th>
+          <th># medium shirts</th>
+          <th># large shirts</th>
+          <th># XL shirts</th>
+          <th># XXL shirts</th>
+          <th># XXXL shirts</th>
+          <th>Setup Time</th>
+
+        </tr>
+      </thead>
+    <tbody>
+            {% for entry in entries %}            
+        <tr>
+	    <td>{{ entry[1] }}</td>
+            <td>{{ entry[0].teamName }}</td>
+            <td>{{ entry[0].projectName }}</td>
+            <td>{{ entry[0].memberCount }}</td>
+            <td>
+            {{ entry[0].name1 }}{% if entry[0].name2 %}, {{ entry[0].name2 }} {% endif %}
+            {% if entry[0].name3 %}, {{ entry[0].name3 }} {% endif %}
+            {% if entry[0].name4 %}, {{ entry[0].name4 }} {% endif %}
+            {% if entry[0].name5 %}, {{ entry[0].name5 }} {% endif %}
+            {% if entry[0].name6 %}, {{ entry[0].name6 }} {% endif %}
+            {% if entry[0].name7 %}, {{ entry[0].name7 }} {% endif %}
+            {% if entry[0].name8 %}, {{ entry[0].name8 }} {% endif %}
+            {% if entry[0].name9 %}, {{ entry[0].name9 }} {% endif %}
+            {% if entry[0].name10 %}, {{ entry[0].name10 }}{% endif %}
+            </td>
+			<td>
+            {{ entry[0].name1Major }}
+            {% if entry[0].name2 %}, {{ entry[0].name2Major }} {% endif %}
+            {% if entry[0].name3 %}, {{ entry[0].name3Major }} {% endif %}
+            {% if entry[0].name4 %}, {{ entry[0].name4Major }} {% endif %}
+            {% if entry[0].name5 %}, {{ entry[0].name5Major }} {% endif %}
+            {% if entry[0].name6 %}, {{ entry[0].name6Major }} {% endif %}
+            {% if entry[0].name7 %}, {{ entry[0].name7Major }} {% endif %}
+            {% if entry[0].name8 %}, {{ entry[0].name8Major }} {% endif %}
+            {% if entry[0].name9 %}, {{ entry[0].name9Major }} {% endif %}
+            {% if entry[0].name10 %}, {{ entry[0].name10Major }}{% endif %}
+            </td>			
+            <td>{{ entry[0].projectMajor }}</td>
+            <td>{{ entry[0].section }}</td>
+            <td>{{ entry[0].sponsor }}</td>
+            <td>{{ entry[0].needsPower }}</td>
+            <td>{{ entry[0].hasDisplay }}</td>
+            <td>{{ entry[0].hasDanger }}</td>
+            <td>{{ entry[0].setup }}</td>
+            <td>{{ entry[0].projectDescription }}</td>
+            <td>{{ entry[0].email }}</td>
+            <td>{{ entry[0].shirtsSmall }}</td>
+            <td>{{ entry[0].shirtsMedium }}</td>
+            <td>{{ entry[0].shirtsLarge }}</td>
+            <td>{{ entry[0].shirtsXL }}</td>
+            <td>{{ entry[0].shirtsXXL }}</td>
+            <td>{{ entry[0].shirtsXXXL }}</td>
+            <td>{{ entry[0].setupTime }}</td>
+       </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+  
+    </body>
+</html>

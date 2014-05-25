@@ -1,0 +1,84 @@
+PART ZERO: THE MANUAL
+
+This is a brief overview, presented in plain English, of what's going on in the Capstone Expo app. It is not a coding tutorial, nor is it a guide on how to improve the app. I don't have time to write those, nor do I want to. This is intended to help someone with at least rudimentary coding skills understand the architecture of the app so that he or she can start developing it and improving it a bit faster.
+
+I, the writer of this manual, your humble servant, am willing to answer any questions you might have after reading this guide. However, since I will have graduated by the time you're reading this, I will have zero obligation whatsoever to help you. Therefore, you should feel free to send me emails, and if I don't think you've read this manual or done a few Google searches beforehand, I will feel free to make fun of you and ignore your emails entirely. My email is DavidGSharpe7@gmail.com
+
+PART HALF: SUPER QUICK HIGH LEVEL OVERVIEW
+
+The app is essentially composed of two websites. One website, the "form", simply lets teams register for the Expo and saves their information into a Redis database. It also provides a few views that allow admins to see all the submissions. The other website reads from the aforementioned database and does nifty things like listing all the teams, displaying a map of the McCamish pavillion, et cetera. In our code repository, we have divided these two sites into folders called "form" and "website". I know that's a bit confusing but it made sense at the time - form is the form, website is what visitors see on the day of the expo. Shared between these two folders are the README.md , which is just a super quick-start guide to deploying the app and also shows up on the front page of Bitbucket or Github automatically. There's also this file. Most importantly, redisDB.py is shared by these folders, since it contains all the functions necessary to access the database and manipulate it as needed. The redisDB.py files inside the website and form folders are simply symbolic links which point to the "actual" file in the top level of the repo. 
+
+
+PART ONE: THE DATABASE
+
+We are using a database called Redis. Calling Redis a "database" is a bit generous - it's probably better understood as a key-value store. In Redis, you don't create tables with primary keys or use SQL. Instead, you set pairs of keys and values. Our app gets fancy - it uses hashes, which are essentially collections of key-value pairs.
+
+Redis has two interesting properties. One, it's incredibly easy to understand and use, especially to anyone who's not familiar with SQL. The API fits on one page. Go check it out for yourself - they even have interactive demos on their website where you can try out real REDIS queries. http://redis.io/commands
+
+The other interesting property of Redis is that it's fast. FAST. 100% of the data is stored in RAM - it only uses the disk to push a backup dump every few minutes. It's orders of magnitude faster than anything else. At the scale this app will be used, that probably doesn't matter, but hey, now you know.
+
+Our form creates two types of keys in the database. The first is called numSubmissions, and it's a simple integer which - you guessed it - increments by one every time there's a submission. The other type of key represents each individual team's submission in the database. We create keys called "submission001", "submission002", et cetera, all the way up to "submission999". If you have more than 1000 submissions, sorry, our app doesn't support that. Go code support for another digit. 
+
+The "numSubmissions" key is a standard, vanilla REDIS key. If you use the redis-cli tool (in the server terminal, just run "redis-cli" without quotes of course) to manually manipulate the database, you can retrieve it with "GET numSubmissions", and you can set it with "SET numSubmissions 25" . It doesn't get much simpler than that. The "submission###" keys are more complicated, however. As previously mentioned, they're actually "hashes", which are collections of key-value pairs. Within each submission are keys like "name1Major" and "needsPower". You can see a list of every key and value within a hash by using "HGETALL submission001". You can see a particular key with "HGET submission001 projectMajor", and likewise, you can create a new key inside the hash or overwrite an existing one with "HSET submission001 newKeyType whateverValue".
+
+Example: If you wanted to manually create submission #7 and store the team name as "CoolTeam" and the project name as "SweetProject", you could run redis-cli and type the following:
+1. HSET submission007 teamName CoolTeam
+(note that this line actually creates the submission007 key since it didn't previously exist AND sets the hash value of "teamName" to be equal to "CoolTeam") 
+2. HSET submission007 projectName SweetProject
+
+You could then retrieve all of submission #7's data with:
+HGETALL submission007
+
+Or you could retrieve specific values with:
+HGET submission007 projectName
+Which would return SweetProject.
+
+That's the gist of how our database works. Go read the Redis API I linked above, as well as our code in RedisDB.py, to understand it even better. I've also made a visual diagram of the database layout which should be included with this documentation.
+
+PART TWO: THE FRAMEWORK
+
+Our app is written in Flask. Flask is a web framework written in Python. When you run our app, you're running a web server which operates by the rules we define in routes.py. Each function (with a few exceptions) in routes.py handles a particular URL path. Here's a walkthrough of what happens when someone tries to open expo.gatech.edu/tips :
+
+1. The user tries to open expo.gatech.edu/tips in his browser. His computer does a DNS lookup and thus makes its way to our server, sending an HTTP request for /tips on port 80. Because the server has its own web server software (apache) that is using port 80, our app can't run on port 80. Instead, our app is actually running on port 5002. We've set the server's Apache configuration to redirect any requests for the domain "expo.gatech.edu" to get rerouted to localhost:5002 . 
+2. Our python program gets the request forwarded to it by Apache. It sees that the request is for /tips, so it enters the tips() function. The tips function is very simple: it calls a built-in Flask function called render_template and returns the result. render_template mostly just grabs tips.html from inside the "templates" folder and spits it back out.
+3. The python server sends this returned result to the requester (the user). Done.
+
+Now, if all our app did was return static html, there'd be no need for python. As you'll see in routes.py, most calls to render_template include variables. Flask includes support for an HTML templating language called Jinja2. Hence, if we want to pass dynamic content to a page, all we have to do is add that variable as a parameter into the call to render_template. Say we wanted to pass a randomly-generated list of first names to our web page every time the page is loaded. Here's how that works:
+
+1. A user navigates to ourwebsite.com/arbitrarypage, which means their request is handled by the arbitrarypage() function in routes.py
+2. We use Python to generate our random list however we want to generate it. We save this list in a variable called ourNamesList
+3. We have an HTML template inside the templates folder called randomNames.html . Hence, we end our arbitrarypage() function with render_template('randomNames.html', ourNamesList)
+4. When render_template executes, it grabs randomNames.html and checks to see if there's any dynamic content it needs to build in real time. In this case, there is. Here's what the randomNames.html might look like:
+<html>
+<head></head><body>
+{% for x in ourNamesList %}
+<p>{{ entry }}</p>
+<% endfor %}
+</body></html>
+
+As you've probably figured out, all the stuff inside brackets is Jinja2 magic. We create a for loop that iterates over each name in ourNamesList, and for each iteration, it inserts a <p>RandomName</p> into the document. Jinja2 can access any variable that you put in as a parameter in render_template. 
+
+You can also use Jinja2 for other things as well. For example, you can have your HTML templates inherit from other HTML templates. In our app, we keep the vast majority of our styling and page layout inside layout.html, and we create blocks in strategic places by doing something like {% block stickStuffInHere %}{% endblock %}, and the inheriting templates would start with 
+{% extends "layout.html" %}
+{% block stickStuffInHere %} 
+bla bla bla bla html junk
+{% endblock %}
+
+Jinja2 also has the ability to insert links dynamically - I believe the syntax is something like <a href="{{ url_for('otherpage.html') }}"></a> .
+
+You can also do if statements and various other spiffy things. I suggest that you read over everything inside the templates folder of our form - it's pretty simple and will give you a good understanding of how this system works when you move over to our website, which is more complex.
+
+ 
+PART THREE: THE MAP
+
+If you've understood all of the above, you're ready to start messing around with pretty much everything in our app except for the map. Our map is written in a Javascript library called D3. To be perfectly honest with you, the map is sufficiently complex to where you probably need someone with lots of Javascript experience to mess with it. Fortunately, most of the map code is commented and clearly written, so if you really try you ought to be able to understand it. Of course, someone who's already familiar with D3 would be preferable. I would do my best to give you an intro to how it works, but unfortunately, your author is not himself familiar with D3. I will therefore just make a few comments:
+
+1. If it's not absolutely necessary to change the layout of the tables next year, ask the organizers if they can stay in the same layout as this year. Moving the tables around might be a bit of a pain. If you do have to move them, you should know that they are placed with polar coordinates.
+2. There's not a good way for Javascript to access Redis. Hence, we wrote an extremely simple script which dumps basic information about each team and table to a TSV (tab separated values) file. If you don't change the map layout next year, you should be able to simply run DBtoTSV.py. It will create a new tables.tsv file in the same directory - move it to static/data/tables.tsv to overwrite the previous version, and tada - clicking on tables will give you proper information about next year's teams. The attribute set in the tsv output file is {table, team, project, submission} which respectively represents table section and number, team name, project name, and "submission"+submission number which is used as the key for the corresponding entry in the database.
+3. If you do at least have to move some tables around or otherwise move stuff on the map without altering major functionality, most of what you're going to want to modify is inside /static/data. This includes the coordinates of all the tables and the coordinates of the polygons defining the stadium components.
+
+Documentation for the XML which defines table locations in the map can be found in map.xsd, which is an XML schema definition complete with comments.
+
+PART FOUR: THE USER INTERFACE
+
+We wrote separate documents about this, detailing the design both from our perspective and from a user's perspective. Go check those out. 

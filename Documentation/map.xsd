@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation>
+			The code that analyzes xml files in this structure is in static/js/map.js, in the analyzeXML function.
+			From the xml, analyzeXML creates SVG elements in the map using D3. 
+			You can make changes to analyzeXML to change how the XML is analyzed and how the SVG elements are formed,
+			as long as any changes to the actual schema (adding attributes, elements, etc.) are fixed in this file.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="map">
+		<xs:annotation>
+			<xs:documentation>
+				Defines all polygons, text, and stadium sections to be created in D3
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+
+				<xs:element name="polygon" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Defines a polygon as a series of points.
+							The SVG polygon will be filled with a color with no stroke/border
+							The color attribute should be defined as an HTML readable color
+							(the same goes for any color attributes in other elements).
+						</xs:documentation>
+					</xs:annotation>				
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="point" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines a single point as an (x,y) coordinate.
+										Adjacent point elements are connected in the polygon.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:attribute name="x" type="xs:decimal"/>
+									<xs:attribute name="y" type="xs:decimal"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="color" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="text" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Defines the character string and location for an SVG text.
+							The location is defined by (x,y) coordinates.
+							The styling for these text is controlled in static/css/index.css
+							through the .mapStadiumText class and by inheritance from #gStadium
+						</xs:documentation>
+					</xs:annotation>					
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="x" type="xs:integer"/>
+								<xs:attribute name="y" type="xs:integer"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="sectionArc" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Defines an arc that acts as a section of the stadium which forms an arc
+							(technically an annular sector according to D3 documentation, but the D3 arc function is used to draw it).
+							The section includes any text, labeled tables, outdoor areas, and other small details.
+							For the sectionArc attributes:
+								color defines the stroke/border color; background fill is automatically white;
+								innerRadius, outerRadius, startAngle, and endAngle are the variables required to use the d3 arc function;
+								expandable, if true, allows the section to be expandable by clicking on it, which
+								hides all other parts of the map, rotates and zooms in on the section for optimal viewability
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element name="sectionText" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines the character string and location for an SVG text.
+										The location is defined by (x,y) coordinates.
+										This text will rotate with the section upon expansion.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="x" type="xs:decimal"/>
+											<xs:attribute name="y" type="xs:decimal"/>
+											<xs:attribute name="font-size" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="sectionArcExtension" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines a seamless extension of the section beyond the initial outer radius.
+										startAngle and endAngle defines which part of the section extends.
+										dRadius defines how far the extension extends.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:attribute name="startAngle" type="xs:decimal"/>
+									<xs:attribute name="endAngle" type="xs:decimal"/>
+									<xs:attribute name="dRadius" type="xs:decimal"/>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="sectionArcOutdoor" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines an arc area of the section that is meant to be perceived as outside.
+										The attributes define how this arc is drawn, similarly to sectionArc.
+										This area will have no stroke/border.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:attribute name="startAngle" type="xs:decimal"/>
+									<xs:attribute name="endAngle" type="xs:decimal"/>
+									<xs:attribute name="innerRadius" type="xs:decimal"/>
+									<xs:attribute name="outerRadius" type="xs:decimal"/>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="sectionDoor" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines a gray overlay to the stroke/border of the section that
+										is meant to be perceived as a door area.
+										The radius should be equal to the sectionArc outerRadius;
+										plus if the door is located on a sectionArcExtension, add the value
+										of the sectionArcExtension dRadius to radius.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:attribute name="startAngle" type="xs:decimal"/>
+									<xs:attribute name="endAngle" type="xs:decimal"/>
+									<xs:attribute name="radius" type="xs:decimal"/>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="sectionTextArc" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines the character string and location for an SVG text.
+										The location is defined by polar coordinates, but the text
+										is also rotated so that the bottom of the text faces the center of the map.
+										This text will rotate with the section upon expansion.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="angle" type="xs:decimal"/>
+											<xs:attribute name="radius" type="xs:decimal"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="stadiumSection" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										If the section is expandable, defines an arc+text label
+										under the innerRadius of the section that only appears upon expansion.
+										This label is meant to represent a stadium section, which assists navigation.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="startAngle" type="xs:decimal"/>
+											<xs:attribute name="endAngle" type="xs:decimal"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="tableArc" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines a table in the section which is drawn as an SVG rect and text.
+										The location of the table is defined in polar coordinates, but the table
+										is also rotated so that the bottom of the table faces the center of the map.
+										Also, upon expansion, the table text rotates counter to the rotation of the section
+										so that the text is always the right way up.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="angle" type="xs:decimal"/>
+											<xs:attribute name="radius" type="xs:decimal"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+						<xs:attribute name="color" type="xs:string"/>
+						<xs:attribute name="innerRadius" type="xs:decimal"/>
+						<xs:attribute name="outerRadius" type="xs:decimal"/>
+						<xs:attribute name="startAngle" type="xs:decimal"/>
+						<xs:attribute name="endAngle" type="xs:decimal"/>
+						<xs:attribute name="expandable" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="sectionRect" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Defines a rect that acts as a section of the stadium.
+							The section includes only text and labeled tables.
+							For the sectionRect attributes:
+								color defines the stroke/border color; background fill is automatically white;
+								x, y, width, and height define the location and size of the rectangle.
+								expandable serves the same purpose as expandable in sectionArc
+						</xs:documentation>
+					</xs:annotation>					
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element name="sectionText" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines the character string and location for an SVG text.
+										The location is defined by (x,y) coordinates.
+										This text will rotate with the section upon expansion.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="x" type="xs:decimal"/>
+											<xs:attribute name="y" type="xs:decimal"/>
+											<xs:attribute name="font-size" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="tableRect" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										Defines a table in the section which is drawn as an SVG rect and text.
+										The location of the table is defined in (x,y) coordinates, but uses dx and dy
+										which is added to the sectionText x and y to position the table.
+										As with sectionArc, table text rotates counter to section rotation.
+									</xs:documentation>
+								</xs:annotation>								
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="dx" type="xs:decimal"/>
+											<xs:attribute name="dy" type="xs:decimal"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+						<xs:attribute name="color" type="xs:string"/>
+						<xs:attribute name="x" type="xs:decimal"/>
+						<xs:attribute name="y" type="xs:decimal"/>
+						<xs:attribute name="width" type="xs:decimal"/>
+						<xs:attribute name="height" type="xs:decimal"/>
+						<xs:attribute name="expandable" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

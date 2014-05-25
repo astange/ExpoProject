@@ -1,0 +1,437 @@
+body {
+  /*padding-top: 20px;
+  padding-bottom: 60px;*/
+  background-color:#070719;
+}
+
+#ExpoAlert{
+  width:60%; 
+  margin-left: auto; 
+  margin-right:auto;
+  display:none;
+}
+
+/*Make a content div for each individual page later*/
+#content{
+  width: 95%;
+  height:auto;
+  /*height: 600px;*/
+  margin: 0 auto;
+  background-color: white;
+  border-color:#EEB211;
+  border-style: solid;
+  border-width: 15px;   
+}
+
+/* Custom container */
+.container {
+  /*width:100%;*/
+  width:auto;
+  height:auto;
+}
+
+/*Input Images as icons*/
+#home{
+  background-size: cover,contain;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  margin: 80px 0;
+  text-align: center;
+}
+.jumbotron h1 {
+  font-size: 100px;
+  line-height: 1;
+}
+.jumbotron .lead {
+  font-size: 24px;
+  line-height: 1.25;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+/* Supporting marketing content */
+.marketing {
+  margin: 60px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+
+/* Customize the navbar links to be fill the entire space of the .navbar */
+.navbar .navbar-inner {
+  padding: 0;
+}
+.navbar .nav {
+  margin: 0;
+  display: table;
+  width: 100%;
+}
+.navbar .nav li {
+  display: table-cell;
+  width: 1%;
+  float: none !important;
+}
+.navbar .nav li a {
+  font-weight: bold;
+  text-align: center;
+  border-left: 1px solid rgba(255,255,255,.75);
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+.navbar .nav li:first-child a {
+  border-left: 0;
+  border-radius: 3px 0 0 3px;
+}
+.navbar .nav li:last-child a {
+  border-right: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+
+/* Menu Icons */
+
+input[class=icon]{  
+  margin: 1% auto;
+  /*padding:20px 0px;*/
+}
+
+input[class=icon]:active{
+  background-color: #c3c3c3;
+}
+
+/* Email module for menu navigation */
+.modal.fade{
+  pointer-events:none;
+}
+
+.modal.fade.in{
+  pointer-events:auto;
+}
+
+
+
+/* Georgia Tech top left corner logo */
+.gtlogo{
+  margin-left: 5%;
+  margin-bottom: 2%;
+  width:25%;
+  min-width:300px;
+}
+
+
+/* navbar */
+.navbar{
+  margin-top:40px;
+  margin-left:40px;
+  margin-right:40px;
+}
+
+#homeButton{
+  width: 0.05%;
+  white-space:nowrap;
+}
+
+.navTitle{
+  font-size:2em;
+  color: #070719;
+  font-weight: bold;
+  top: 0.1em;
+}
+
+#Search{
+  width:0.05%;
+  white-space:nowrap;
+}
+
+/*Map*/
+#MapContainer{
+  width:90%;
+  height:auto;
+  margin:0px auto;
+  /*margin-bottom:2%;*/
+  
+}
+
+#MapSVG{
+  text-anchor:middle;
+}
+
+#gStadium{
+  font-size:40px;
+  fill:#D8D6CD;
+}
+
+/*Map Text*/
+
+.mapStadiumText, .mapTableText{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.mapTableRect{
+  fill: white;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+#gMap{
+  font-size: 10px;
+}
+
+.gSection{
+  margin:auto;
+}
+
+.sectionStadiumStrips{
+  opacity:0;
+}
+
+.sectionStadiumStrips > text{
+  font-size:30px;
+}
+
+/* Map Details on Demand */
+.detailsTitleText{
+  font-size:24px;
+  text-anchor:middle;
+}
+
+.detailsBodyText{
+  font-size:20px;
+  text-anchor:start;
+  fill:#00A;
+}
+
+
+/* Tips Accordion */
+#divTips{
+  margin: 0px auto;
+  width: 90%;
+  height: auto;
+}
+
+#divTips .ui-accordion-content{
+    background-color: #f3f3f3;
+    color: #777;
+    line-height: 20pt;
+}
+
+#divTips .ui-accordion-content > * {
+  margin: 0;
+  padding: 1% 30px;
+  font-size:14pt;
+}
+
+#divTips .ui-accordion-header {
+    background-color: #f2bc00;
+  margin: 5px 0;
+    padding: 10px;
+}
+
+.ulTips > li{
+  line-height: 2em;
+}
+
+/* + in tips accordion*/
+.ui-accordion-header[aria-selected=true] > .plusTips{
+  display:none;
+}
+.ui-accordion-header[aria-selected=false] > .plusTips{
+  display:inline;
+}
+
+/* - in tips accordion */
+.ui-accordion-header[aria-selected=true] > .minusTips{
+  display:inline;
+}
+.ui-accordion-header[aria-selected=false] > .minusTips{
+  display:none;
+}
+
+/*Projects Table*/
+
+#Tablecontainer{
+  width:90%;
+  height: auto;
+  /*padding-left:35px;*/
+  /*padding-right:50px;*/
+  /*padding-bottom: 100px;*/
+/*  overflow:auto;
+*/  margin: 0px auto;
+}
+
+.list-group-item{
+  color:black;
+  list-style-type: none;
+}
+
+#Team{
+  text-align: left;
+}
+
+.panel.panel-default{
+  border:1px solid transparent;
+  border-color: #ddd;
+  border-radius:4px;
+}
+
+
+/*Contact Us Button*/
+#contactButton{
+  float:left; 
+  font-size:14pt;
+  margin-top:5px;
+}
+
+#closeButton{
+  margin-right:3%;
+  float:left;
+  display: block;
+  -webkit-border-radius: 3px; 
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border:1px solid #d8d8d8; 
+  text-align: center; 
+  color: #000000; 
+  background-color: #f4f4f4;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -moz-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -ms-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -o-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
+}
+
+
+/*Contact Us form*/
+form input {
+  min-height: 25px;
+}
+form input#name,
+form input#email{
+  background-color: #fafafa;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  padding: 5px;
+  font-size: 14px;
+  height:29px;
+}
+ 
+form textarea#message {
+  background-color: #fafafa;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 1.1em;
+}
+
+form input#send {
+  float:right;
+  display: block;
+  -webkit-border-radius: 3px; 
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border:1px solid #d8d8d8; 
+  text-align: center; 
+  color: #000000; 
+  background-color: #f4f4f4;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -moz-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -ms-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -o-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
+}
+
+
+/*Copyright footer*/
+.copyright{
+  display:inline;
+  float:right;
+  font-size:14pt;
+  margin-left: 3%;
+  padding-right:3%;
+  color:white;
+}
+
+.btn{
+  float:left;
+  margin-left:3%;
+}
+
+/*Schedule*/
+#Schedulecontainer{
+  margin: 0px auto;
+  width: 90%;
+  height: auto;
+
+}
+
+/*Seelio embedded*/
+
+#seelio-embedded{
+  margin: 0px auto;
+  width: 90%;
+  height: auto;
+}
+
+.seelio-embed-pagination-wrapper{
+  height: 35px !important;
+}
+
+/*Social*/
+
+#Socialcontainer{
+}
+
+  /*Twitter*/
+
+  #twitter-widget-0{
+    width: 90%;
+    height: 450px;
+    display:block;
+    margin: 0px auto;
+
+  }
+
+/*Conditions for devices that are less than 1024px*/
+@media only screen and (max-device-width: 1023px) and (max-device-height: 1023px){ 
+
+  .detailsTitleText{
+    font-size:14px;
+  }
+
+  .detailsBodyText{
+    font-size:12px;
+  }
+  #divTips .ui-accordion-content > * {
+    font-size:12pt;
+  }
+  #divTips .ui-accordion-header {
+    font-size:14pt;
+  }
+  #content{
+    width:100%;
+  }
+  #contactButton{
+    font-size:10pt;
+  }
+  .copyright{
+    font-size:10pt;
+  }
+  .seelio-embed-gallery-column {
+    width: 100% !important;
+  }
+  
+}

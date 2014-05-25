@@ -1,0 +1,228 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #444;
+  background: white;
+}
+ 
+/*
+ * Create dark grey header with a white logo
+ */
+  
+header {
+  background-color: #2B2B2B;
+  height: 35px;
+  width: 100%;
+  opacity: .9;
+  margin-bottom: 10px;
+}
+ 
+header h1.logo {
+  /*margin: 0;*/
+  margin-top: 8px;
+  /*font-size: 1.7em;*/
+  font-size: 1.1em;
+  color: #fff;
+  text-transform: uppercase;
+  float: left;
+  padding-left: 10px;
+}
+ 
+header h1.logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+ 
+/*
+ * Center the body content
+ */
+  
+.container { /*ALL containers*/
+  width: 940px;
+  margin: 0 auto;
+}
+ 
+#capstone { /*Specifc element so using id*/
+}
+#main{
+  width: 940px;
+  margin: 0 auto;
+  background-color: #eee;
+}
+#jumbo { /*specific jumbo*/
+  
+     /* padding: 10px 0 30px 0; */
+     background-color: #eeeeee;
+     -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+     border-radius: 6px;
+     /* height: 900px; */
+}
+ 
+h2 {
+  font-size: 2em;
+  margin-top: 40px;
+  text-align: left;
+  letter-spacing: -2px;
+  padding-top: 25px;
+  padding-left: 10px;
+}
+ 
+h3 {
+  font-size: 1.3em;
+  font-weight: 100;
+  margin-top: 30px;
+  text-align: left;
+  letter-spacing: -1px;
+  color: #888;
+  padding-left: 10px;
+}
+
+h4 {
+  text-align: center;
+}
+
+/*
+ * Display navigation links inline
+ */
+ 
+.menu {
+  float: left;
+  margin-top: 8px;
+}
+ 
+.menu li {
+  display: inline;
+}
+ 
+.menu li + li {
+  margin-left: 35px;
+}
+ 
+.menu li a {
+  color: #999;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+form label {
+  font-size: 1.2em;
+  font-weight: bold;
+  display: block;
+  padding: 10px 0;
+}
+
+form input#teamName,
+form input#teamProjectName,
+form input#teamMemberCount,
+form input#teamMemberNames,
+form input#teamProjectMajor, 
+form input#teamSection,
+form input#teamSponsor,
+form input#teamNeedsPower,
+form input#teamHasDisplay,
+form input#teamHasDanger,
+form input#teamSetup,
+form input#teamEmail{
+  width: 400px;
+  -webkit-border-radius: 3px;  
+     -moz-border-radius: 3px;  
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  padding: 5px;
+  height: 18px;
+}
+
+table input{
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 5px;
+  height: 18px;
+}
+
+table#entryTable{
+  table-layout:auto;
+  font-size: 11px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table#entryTable td{
+  border: 1px solid black;
+}
+
+select{
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+form textarea#teamProjectDescription {
+  width: 850px;
+  height: 100px;
+  /*background-color: #fafafa;*/
+  -webkit-border-radius: 3px;  
+     -moz-border-radius: 3px;  
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  margin-bottom: 10px;
+  padding: 5px;
+  /*font-size: 1.1em;*/
+  font-family: inherit; /*To override textarea built-in*/
+}
+
+/*SUBMIT BUTTON*/
+form input#submit {
+  display: block;
+  -webkit-border-radius: 3px; 
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border:1px solid #d8d8d8;
+  padding: 10px; 
+  font-weight:bold; 
+  text-align: center; 
+  color: #000000; 
+  background-color: #f4f4f4;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -moz-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -ms-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -o-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
+
+  /* Font styles */
+  text-decoration: none;
+  text-shadow: 0 1px rgba(255,255,255,0.7);
+  text-transform: uppercase;
+
+}
+
+form input#submit:hover{
+  cursor: pointer;
+  border:1px solid #c1c1c1; 
+  background-color: #dbdbdb;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbdbdb), color-stop(100%, #cccccc));
+  background-image: -webkit-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -moz-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -ms-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -o-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: linear-gradient(top, #dbdbdb, #cccccc);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#dbdbdb, endColorstr=#cccccc);
+}
+
+/* Message flashing */
+.flash {
+  background-color: #FBB0B0;
+  padding: 0px;
+  width: 940px;
+}
+.goodflash {
+    background-color: #B0FBB0;
+    padding:0px;
+    width: 940px;
+}

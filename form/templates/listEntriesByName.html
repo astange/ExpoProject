@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Capstone Design Expo Signup Form</title>
+        <strong><link rel="stylesheet" href="/registration{{ url_for('static', filename='css/main.css') }}"></strong>
+    </head>
+    <body>
+        <div class="container">
+            <div id="capstone">
+                    <img src="/registration{{ url_for('static', filename='images/CapstoneDesignExpo.jpg') }}" width="654" height="76"/>
+            </div> 
+            <header>
+                <div class="container">
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="{{ url_for('home') }}">Sign Up for the Expo</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+          </div>
+            
+  <h2>List of Entries</h2>
+  <table id="entryTable" summary="List of Entries">
+      <thead>
+        <tr>
+	  <th>Name</th>
+	  <th>Major</th>
+          <th>Team Name</th>
+          <th>Project Name</th>
+          <th>Project Major</th>
+          <th>Section</th>
+        </tr>
+      </thead>
+    <tbody>
+            {% for entry in entries %}            
+        <tr>
+            <td>{{ entry.name }}</td>
+            <td>{{ entry.major }}</td>
+            <td>{{ entry.teamName }}</td>
+	    <td>{{ entry.projectName }}</td>
+            <td>{{ entry.projectMajor }}</td>
+            <td>{{ entry.section }}</td>
+       </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+  
+    </body>
+</html>

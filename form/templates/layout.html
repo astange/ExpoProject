@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Capstone Design Expo Signup Form</title>
+        <strong><link rel="stylesheet" href="/registration{{ url_for('static', filename='css/main.css') }}"></strong>
+    </head>
+    <body>
+        <div class="container">
+            <div id="capstone">
+                    <img src="/registration{{ url_for('static', filename='images/CapstoneDesignExpo.jpg') }}" width="654" height="76"/>
+            </div> 
+            <header>
+                <div class="container">
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="/registration{{ url_for('home') }}">Sign Up for the Expo</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            <div id="main">
+                {% block content %}
+                {% endblock %}
+            </div>
+    </body>
+</html>
