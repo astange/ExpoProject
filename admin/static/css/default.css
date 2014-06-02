@@ -1,0 +1,37 @@
+
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+body, html { font-size: 100%; padding: 0; margin: 0;}
+
+
+
+
+
+
+/* Main Content */
+
+
+#reds{
+	line-height: 40px;
+	font-size:200%;
+	font-weight: bold;
+
+}
+
+.column {
+	float: left;
+	padding: 0 0 2em 0;
+	width:100%;
+	min-width:80%;
+	min-height: 60px;
+	position: relative;
+	background: #fefcea; /* Old browsers */
+	background: -moz-linear-gradient(top, #eeb211 0%, #fefcea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeb211), color-stop(100%,#fefcea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #eeb211 0%,#fefcea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #eeb211 0%,#fefcea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #eeb211 0%,#fefcea 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #eeb211 0%,#fefcea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeb211', endColorstr='#fefcea',GradientType=0 ); /* IE6-9 */
+}
+

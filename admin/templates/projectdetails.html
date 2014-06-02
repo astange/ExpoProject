@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="Tablecontainer">
+  <h4 id="Team"> Team Name: {{ submission.teamName }} </h4>
+  <h4 id="Team"> Table: {{ submission.table }}<a href="{{ url_for('map') }}"> [Go to expo map]</a></h4>
+  <h4 id="Team"> Project Major: {{ submission.projectMajor }}</h4>
+  {% if submission.sponsor %}<h4 id="Team"> Sponsor: {{ submission.sponsor }}</h4> {% endif %}
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Team Members (Majors):</h4>
+    </div>
+    <div class="panel-body"><ul><li>
+      {{ submission.name1 }} ({{ submission.name1Major }}) </li>
+      {% if submission.name2 %}<li>{{ submission.name2 }} ({{ submission.name2Major }})</li>{% endif %}
+      {% if submission.name3 %}<li>{{ submission.name3 }} ({{ submission.name3Major }})</li>{% endif %}
+      {% if submission.name4 %}<li>{{ submission.name4 }} ({{ submission.name4Major }})</li>{% endif %}
+      {% if submission.name5 %}<li>{{ submission.name5 }} ({{ submission.name5Major }})</li>{% endif %}
+      {% if submission.name6 %}<li>{{ submission.name6 }} ({{ submission.name6Major }})</li>{% endif %}
+      {% if submission.name7 %}<li>{{ submission.name7 }} ({{ submission.name7Major }})</li>{% endif %}
+      {% if submission.name8 %}<li>{{ submission.name8 }} ({{ submission.name8Major }})</li>{% endif %}
+      {% if submission.name9 %}<li>{{ submission.name9 }} ({{ submission.name9Major }})</li>{% endif %}
+      {% if submission.name10 %}<li>{{ submission.name10 }} ({{ submission.name10Major }})</li>{% endif %}</ul>
+    </div>
+  </div>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Project Description</h4>
+    </div>
+    <div class="panel-body">
+      {{ submission.projectDescription }}
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="panel panel-default">
+    {% if submission.seelio %}
+    <div class="panel-heading">
+      <h4 class="panel-title">Seelio Profile</h4>
+    </div>
+    <div id="seelio-embedded"></div>
+    <div id="seelio-embedded"></div><script type='text/javascript' >seelio.embedWork("#seelio-embedded","{{ submission.seelio }}", {width:'90%',cover_resolution:'xl'})</script>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
