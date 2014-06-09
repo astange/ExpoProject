@@ -15,9 +15,9 @@ This guide assumes you're on Linux. If you're not, you may be able to do the sam
     pip install Flask flask-wtf flask-mail redis
 
 3. Clone this repo, rename its folder to "app", and move it inside /flaskapp.
-4. With your virtualenv activated (cd into /flaskapp and then type ". bin/activate", which should cause you to see (flaskapp) in front of your terminal line), run "screen" and then  "python app/form/routes.py". (you might need to activate the flaskapp again in the screen for it to work)
-5. Disconnect from the screen by pressing Control+A, then pressing D. Run the site the same way - "screen" and then  "python app/website/routes.py", then disconnect from that screen the same way. Repeat with "screen" and then "python app/admin/routes.py".
-6. Navigate to localhost:5001 if you're running the form, localhost:5002 for the website, localhost:5003 for the admin page, and have fun. You can use redis-cli to check out the entries the form is creating in the database.
+4. With your virtualenv activated (cd into /flaskapp and then type ". bin/activate", which should cause you to see (flaskapp) in front of your terminal line), run "screen python /app/form/routes.py".
+5. Disconnect from the screen by pressing Control+A, then pressing D. Run the site the same way - "screen python /app/website/routes.py", then disconnect from that screen the same way.
+6. Navigate to localhost:5001 if you're running the form, localhost:5002 for the website, and have fun. You can use redis-cli to check out the entries the form is creating in the database.
 
 See Documentation/Developer Manual.txt for more detailed explanations of how this app is written.
  .
