@@ -4,6 +4,7 @@ from teamForm import teamForm
 from flask_wtf.csrf import CsrfProtect
 import os
 from redisDB import *
+from mail import *
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -45,6 +46,7 @@ def home():
                 "There was an error in the data you submitted. Please check all the fields and try again.")
             return render_template('home.html', form=teamFormInstance)
         else:
+            sendConfirmation(app)
             theDatabase.saveToDB(teamFormInstance)
             return render_template('success.html')
 
