@@ -18,6 +18,7 @@
 	<script src="{{ url_for('static', filename='js/seelio.js') }}"/></script>
 	<script src="{{ url_for('static', filename='js/tips.js') }}"/></script>
 
+
 	<link rel="shortcut icon" href="../favicon.ico"/> 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/component.css') }}" />
@@ -42,17 +43,17 @@
 		$(x).modal('show');
 	}
 	</script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+
 	<script src="{{ url_for('static', filename='js/jquery.contenthover.js') }}"/></script>
 	<script>
 		$(function(){
 			$("#logo").contenthover({
-    overlay_width:300,
-    overlay_height:50,
-    effect:'fade',
-    overlay_x_position:'right',
-    overlay_y_position:'center',
-    overlay_opacity:0.8
+			    overlay_width:300,
+			    overlay_height:50,
+			    effect:'fade',
+			    overlay_x_position:'right',
+			    overlay_y_position:'center',
+			    overlay_opacity:0.8
 			});
 		});
 	</script>
@@ -66,13 +67,33 @@
   ga('send', 'pageview');
 
 </script>
+
+	 <script>
+		$(function() {
+			$( "#uploadForm" ).dialog({
+				autoOpen: false,
+				position: { my: "top", at: "top", of: "#content"},
+				modal: true
+			});
+				$( "#uploadButton" ).click(function() {
+				$( "#uploadForm" ).dialog( "open" );
+			});
+		});
+	</script>
+	<script>
+	function uploadImage(){
+	alert("I need to make this functional still")
+	}
+	</script>
 	<style>
 	.contenthover { padding:20px 20px 10px 20px; }
 	.contenthover, .contenthover h3, contenthover a { color:#fff; }
 	.contenthover h3, .contenthover p { margin:0 0 10px 0; line-height:1.4em; padding:0; }
 	.contenthover a.mybutton { display:block; float:left; padding:5px 10px; background:#3c9632; color:#fff; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
 	.contenthover a.mybutton:hover { background:#34742d }
+	.mybutton2 { display:block; float:left; padding:5px 10px; background:#3c9632; color:#fff; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
 	</style>
+
 </head>
 <!-- Here we do a special block for the index page because it doesn't have the nested container boxes that all other pages do.-->
 {% if pageName == "Index" %}
@@ -89,9 +110,15 @@
 		<div id="logo"><p><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo" id="logo" /></a>
 <font color = "white">Admin</font></p></div>
 
-<div class="contenthover">
-	<p><a href="#" class="mybutton">Click to upload new picture</a></p>
-</div>
+		<div class="contenthover">
+			<p><a href="#" id="uploadButton" class="mybutton">Click to upload new picture</a></p>
+		</div>
+		<div id="uploadForm" class="uploadForm" title="Upload Image" onsubmit="uploadImage()">
+			<form>
+				<input type="file" accept="image/*">
+				<input type="submit" value="Submit">
+			</form>
+		</div>
 		<div class="alert alert-danger" id="ExpoAlert"><strong>Alert!</strong> Due to the rain the expo will follow the rain map.</div>
 		<div id="content">
 			<div class="container">
@@ -103,7 +130,8 @@
 					{% elif pageName == "Projects" %}
 
 					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
-					<span id="reds">{{ pageName }}</span>
+					<span id="reds">{{ pageName }}
+					<button type="button" class="button">Add a new team</button></span>
 					<div id="sb-search" class="sb-search">
 						<form>
 							<input class="sb-search-input" placeholder="Search by team, project, major, table#, sponsor, etc." type="text" value="" name="search" id="searchText">
@@ -182,5 +210,6 @@
 		<p class="copyright">Created by <a href="/projectdetails/submission001">Team Drop Tables</a><br/> Copyright © 2014 | <a href="https://docs.google.com/forms/d/1l6kaRSpwP1Dowm6nTmSxeB49ao8he_Jc7JgDoEIn6eI/viewform" target="_blank">Feedback</a></p>
 		<br>
 		<br>
+
 	</body>
 </html>

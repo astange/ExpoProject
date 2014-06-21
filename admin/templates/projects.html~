@@ -18,7 +18,7 @@
         <td>{{ entry[0].projectName }}</td>  
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
         <td>{{ entry[0].table }}</td> 
-	<td><div class="deleteButton"></div></td>
+	<td><div class="deleteButton"><div></td>
         <!-- <td>{{ entry[0].projectMajor }}</td> -->  
         <td><i class="icon-chevron-right"></i></td>
       </tr>  
