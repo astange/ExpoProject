@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, redirect
 from redisDB import *
 from functools import wraps
 from flask_mail import Mail, Message
 from emailForm import emailForm
 from flask_wtf.csrf import CsrfProtect
+import flask
 import sys
 import os
+import shutil
 reload(sys)
 sys.setdefaultencoding('utf-8')
 app = Flask(__name__)
@@ -14,6 +16,7 @@ app = Flask(__name__)
 #no need to initialize it twice, and it has to be initialized after setting
 #its config in the main method.
 theDatabase = RedisDB()
+theDatabase.init()
 mail = None 
 
 # These next three functions can be used to password-protect pages.
@@ -82,10 +85,22 @@ def projects():
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
 
-@app.route('/seeliogallery')
-def seeliogallery():
-    return render_template('seeliogallery.html', pageName="Seelio", emailForm=emailForm())
+@app.route('/semesters')
+def semesters():
+    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters())
 
+@app.route('/semesters/<newSemester>')
+def addsemester(newSemester):
+	#semester = theDatabase.getCurrentSemester()
+	#curDir = os.getcwd()
+	#website = os.path.join(curDir,"app/website")
+	#oldSemPath = os.path.join(curDir,"app/" + semester)
+	#try:
+	#	shutil.copytree(website,oldSemPath)
+	#except OSError as exc: 
+	#	shutil.copy(website,oldSemPath)
+	theDatabase.setCurrentSemester(newSemester)
+	return redirect(flask.url_for('semesters'))
 
 @app.route('/tips')
 def tips():

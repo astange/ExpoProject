@@ -3,7 +3,12 @@
 
   <body onload="check()" onresize="check()">
     <!-- /container -->
-    <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo"></a><font color = "white"> ADMIN</font>
+    div id="logo"><p><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo" id="logo" /></a>
+<font color = "white">Admin</font></p></div>
+
+<div class="contenthover">
+	<p><a href="#" class="mybutton">Click to upload new picture</a></p>
+</div>
     <div class="alert alert-danger" id="ExpoAlert"><strong>Alert!</strong> Due to the rain the expo will follow the rain map.</div>
     <div id="content" style="height:auto;">
       <div class="container">

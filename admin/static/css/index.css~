@@ -446,7 +446,10 @@ background-color:rgb(100,100,100);
  background-image:url('/static/img/edit.png') ;
  width: 30px;
  height: 30px;
- position: relative;
+    padding: 0 5px 10px 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .addButton{

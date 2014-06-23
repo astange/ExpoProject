@@ -3,7 +3,12 @@
 
   <body onload="check()" onresize="check()">
     <!-- /container -->
-    <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo"></a>
+    <div id="logo"><p><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo" id="logo" /></a>
+<font color = "white">Admin</font></p></div>
+
+<div class="contenthover">
+	<p><a href="#" class="mybutton">Click to upload new picture</a></p>
+</div>
     <div class="alert alert-danger" id="ExpoAlert"><strong>Alert!</strong> Due to the rain the expo will follow the rain map.</div>
     <div id="content" style="height:auto;">
       <div class="container">
@@ -12,7 +17,7 @@
 			<input type="image" class="icon" id="map"  onclick="location.href='{{ url_for('map') }}'"/>
 			<input type="image" class="icon" id="tips" onclick="location.href='{{ url_for('tips') }}'"/>
       <input type="image" class="icon" id="events" onclick="location.href='{{ url_for('schedule') }}'"/>
-			<input type="image" class="icon" id="seelio" onclick="location.href='{{ url_for('seeliogallery') }}'"/>
+			<input type="image" class="icon" id="seelio" onclick="location.href='{{ url_for('semesters') }}'"/>
 			<input type="image" class="icon" id="social" onclick="location.href='{{ url_for('social') }}'"/>		
 		</div>
       </div>

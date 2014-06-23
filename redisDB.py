@@ -12,22 +12,26 @@ class RedisDB:
     # If we're just starting the database and numSubmissions doesn't exist,
     # create it and set to 0
     def init(self):
+    	self.dbc.setnx('currentSemester', 'Spring2014')
         self.dbc.setnx('numSubmissions', '0')
 
-    def saveToDB(self, form):
+    def saveToDB(self, form, semester=None):
         self.init()
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        
         # Save the event in the database as a hash
         self.dbc.incr('numSubmissions')
         numSubmissions = int(self.dbc.get('numSubmissions'))
         if numSubmissions < 10:
-            submission = "submission00" + str(numSubmissions)
+            submission = semester + "submission00" + str(numSubmissions)
         elif numSubmissions < 100:
-            submission = "submission0" + str(numSubmissions)
+            submission = semester + "submission0" + str(numSubmissions)
         else:
-            submission = "submission" + str(numSubmissions)
+            submission = semester +"submission" + str(numSubmissions)
         # We use this function to handle saving information of a varying
         # number of team members.
-        info = self.compileTeamMemberData(form, submission)
+        info = self.compileTeamMemberData(form, submission, semester)
 
         self.dbc.hset(submission, 'teamName', form.teamName.data)
         self.dbc.hset(submission, 'projectName', form.teamProjectName.data)
@@ -53,7 +57,10 @@ class RedisDB:
     # Takes the form data and figures out the list of names, majors, and shirt sizes
     # based on the number of team members
 
-    def compileTeamMemberData(self, form, submission):
+    def compileTeamMemberData(self, form, submission, semester=None):
+        if(semester == None):
+            semester = self.getCurrentSemester()
+    
         numMembers = int(form.teamMemberCount.data)
         info = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0,
                 "XXXL": 0, "names": "", "majors": ""}
@@ -101,17 +108,21 @@ class RedisDB:
 
         return info
 
-    def getAllEntries(self):
+    def getAllEntries(self, semester=None):
         self.init()
-        listOfEntries = self.dbc.keys("submission*")
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        listOfEntries = self.dbc.keys(semester + "submission*")
         listOfEntries.sort()
         entryList = []
         for x in listOfEntries:
             entryList.append(self.dbc.hgetall(x))
         return sorted(entryList, key=lambda k: k['projectName'])
 
-    def getOneSubmission(self, submissionNum):
-        submission = self.dbc.hgetall(submissionNum)
+    def getOneSubmission(self, submissionNum, semester=None):
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        submission = self.dbc.hgetall(semester + submissionNum)
         for x in range(1, 11):
             whichOne = "name" + `x`+"Major"
             if whichOne not in submission:
@@ -120,18 +131,22 @@ class RedisDB:
         submission['projectMajor'] = self.MajorDict.get(submission['projectMajor'])
         return submission
 
-    def getAllEntriesWithSubmissionNums(self):
+    def getAllEntriesWithSubmissionNums(self, semester=None):
         self.init()
-        listOfEntries = self.dbc.keys("submission*")
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        listOfEntries = self.dbc.keys(semester + "submission*")
         listOfEntries.sort()
         entryList = []
         for x in listOfEntries:
             entryList.append([self.dbc.hgetall(x), x])
         return sorted(entryList, key=lambda k: k[0]['projectName'])
 
-    def getAllNames(self):
+    def getAllNames(self, semester=None):
         self.init()
-        listOfEntries = self.dbc.keys("submission*")
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        listOfEntries = self.dbc.keys(semester + "submission*")
         listOfEntries.sort()
         entryList = []
         for x in listOfEntries:
@@ -150,9 +165,9 @@ class RedisDB:
                     entryList.append(nameEntry)
         return entryList
 
-    def search(self, string):
+    def search(self, string, semester=None):
         self.init()
-        entryList = self.getAllEntriesWithSubmissionNums()
+        entryList = self.getAllEntriesWithSubmissionNums(semester)
         newEntryList = []
         searchTerms = string.lower().split()
         for x in entryList:
@@ -174,3 +189,23 @@ class RedisDB:
             if(addIt == True):
                 newEntryList.append(x)
         return sorted(newEntryList, key=lambda k: k[0]['projectName'])
+    
+    def getCurrentSemester(self):
+        self.init()
+        return self.dbc.get('currentSemester')
+        
+    def setCurrentSemester(self, newSemester):
+        if(self.dbc.sismember('semesterSet', self.getCurrentSemester()) == 0):
+            self.dbc.sadd('semesterSet', self.getCurrentSemester())
+        self.dbc.set('currentSemester', newSemester)
+        if(self.dbc.sismember('semesterSet', newSemester) == 0):
+            self.dbc.sadd('semesterSet', newSemester)
+        
+    def getAllSemesters(self):
+        return self.dbc.smembers('semesterSet')
+        
+  #  def removeSemester(self, semester):
+  #      if(semester != getCurrentSemester()):
+  #          self.dbc.srem('semesterSet', semester)
+  #  
+  #      return 0
