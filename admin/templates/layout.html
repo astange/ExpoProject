@@ -73,10 +73,178 @@
 			$( "#uploadForm" ).dialog({
 				autoOpen: false,
 				position: { my: "top", at: "top", of: "#content"},
-				modal: true
 			});
 				$( "#uploadButton" ).click(function() {
 				$( "#uploadForm" ).dialog( "open" );
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#addJTipForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addJTip"},
+			});
+				$( "#addJTip" ).click(function() {
+				$( "#addJTipForm" ).dialog( "open" );
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#addSTipForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addSTip"},
+			});
+				$( "#addSTip" ).click(function() {
+				$( "#addSTipForm" ).dialog( "open" );
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#addVTipForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addVTip"},
+			});
+				$( "#addVTip" ).click(function() {
+				$( "#addVTipForm" ).dialog( "open" );
+			});
+		});
+	</script>
+
+	 <script>
+		$(function() {
+			$( "#EditVForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addVTip"},
+			});
+				$( ".editVButton" ).click(function(event) {
+				$( "#EditVForm" ).dialog( "open" );
+				var name = "vtip"+event.target.id;
+				document.getElementById("editVTip").value = document.getElementById(name).innerHTML;
+				document.getElementById("vKey").value = event.target.id;
+			});
+		});
+	</script>
+	
+	 <script>
+		$(function() {
+			$( "#EditJForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addJTip"},
+			});
+				$( ".editJButton" ).click(function(event) {
+				$( "#EditJForm" ).dialog( "open" );
+				var name = "jtip"+event.target.id;
+				document.getElementById("editJTip").value = document.getElementById(name).innerHTML;
+				document.getElementById("jKey").value = event.target.id;
+			});
+		});
+	</script>
+
+	 <script>
+		$(function() {
+			$( "#EditSForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addSTip"},
+			});
+				$( ".editSButton" ).click(function(event) {
+				$( "#EditSForm" ).dialog( "open" );
+				var name = "stip"+event.target.id;
+				document.getElementById("editSTip").value = document.getElementById(name).innerHTML;
+				document.getElementById("sKey").value = event.target.id;
+			});
+		});
+	</script>
+
+	 <script>
+		$(function() {
+			$( "#EditSchForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#editSchButton"},
+			});
+				$( ".editSchButton" ).click(function(event) {
+				$( "#EditSchForm" ).dialog( "open" );
+				var name = "schedule";
+				document.getElementById("editSchTip").value = document.getElementById(name).innerHTML;
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#EditBusSchForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#editBusSchButton"},
+			});
+				$( ".editBusSchButton" ).click(function(event) {
+				$( "#EditBusSchForm" ).dialog( "open" );
+				var name = "busSchedule";
+				document.getElementById("editBusSchTip").value = document.getElementById(name).innerHTML;
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#EditSchEndForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#editSchEndButton"},
+			});
+				$( ".editSchEndButton" ).click(function(event) {
+				$( "#EditSchEndForm" ).dialog( "open" );
+				var name = "schEnds";
+				document.getElementById("editEndSchTip").value = document.getElementById(name).innerHTML;
+			});
+		});
+	</script>
+	 <script>
+		$(function() {
+			$( "#DeleteJForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addJTip"},
+			});
+			$( ".deleteJTip" ).click(function(event) {
+				$( "#DeleteJForm" ).dialog( "open" );
+				var name = "jtip"+(event.target.id).substr(6);
+				document.getElementById("jKeyD").value = (event.target.id).substr(6);
+				var message =  document.getElementById(name).innerHTML;
+				document.getElementById("jLabel").innerHTML ="Are you sure you want to delete: <br>" + message;
+				
+			});
+		});
+	</script>
+
+
+	 <script>
+		$(function() {
+			$( "#DeleteSForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addSTip"},
+			});
+			$( ".deleteSTip" ).click(function(event) {
+				$( "#DeleteSForm" ).dialog( "open" );
+				var name = "stip"+(event.target.id).substr(6);
+				document.getElementById("sKeyD").value = (event.target.id).substr(6);
+				var message =  document.getElementById(name).innerHTML;
+				document.getElementById("sLabel").innerHTML ="Are you sure you want to delete: <br>" + message;
+				
+			});
+		});
+	</script>
+
+	 <script>
+		$(function() {
+			$( "#DeleteVForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#addVTip"},
+			});
+			$( ".deleteVTip" ).click(function(event) {
+				$( "#DeleteVForm" ).dialog( "open" );
+				var name = "vtip"+(event.target.id).substr(6);
+				document.getElementById("vKeyD").value = (event.target.id).substr(6);
+				var message =  document.getElementById(name).innerHTML;
+				document.getElementById("vLabel").innerHTML ="Are you sure you want to delete: <br>" + message;
+				
 			});
 		});
 	</script>
@@ -103,7 +271,7 @@
 	{% if pageName == "Expo Map" %}
 	<body onload="loadMap();">
 	{% elif pageName=="Tips" %}
-	<body onload="$('#divTips').accordion({collapsible: true, active: false}); populateTips();">
+	<body onload="$('#divTips').accordion({collapsible: true, active: false});">
 	{% else %}
 	<body>
 	{% endif %}

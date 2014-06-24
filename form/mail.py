@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
-import configparser
+import ConfigParser
 from settings import APP_CONFIG
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ _bodyTemplateFile = ""
 
 
 # Parse the Config File
-config = configparser.ConfigParser(allow_no_value = True)
+config = ConfigParser.ConfigParser(allow_no_value = True)
 fileName = os.path.join(APP_CONFIG, 'mail.cfg')
 config.read(fileName)
 configSet = False

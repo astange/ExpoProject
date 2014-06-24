@@ -65,9 +65,16 @@ def projectdetails(submissionNum):
     return render_template('projectdetails.html', submission=theDatabase.getOneSubmission(submissionNum), pageName="Project Details", emailForm=emailForm())
 
 
-@app.route('/schedule')
+@app.route('/schedule', methods=['GET','POST'])
 def schedule():
-    return render_template('schedule.html', pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
+    if(request.method=='POST'):
+        if(request.form['type']=="Sch"):
+            theDatabase.editSchedule(request.form['editSchTip'])
+        elif(request.form['type']=="busSch"):
+            theDatabase.editBusSchedule(request.form['editBusSchTip'])
+        elif(request.form['type']=="endSch"):
+            theDatabase.editSchEnd(request.form['editEndSchTip'])
+    return render_template('schedule.html', schedule=theDatabase.getSchedule(), busSchedule=theDatabase.getBusSchedule(), schEnd=theDatabase.getSchEnd(), pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
 
 
 @app.route('/social')
@@ -78,7 +85,6 @@ def social():
 @app.route('/map')
 def map():
     return render_template('map.html', pageName="Expo Map", emailForm=emailForm())
-
 
 @app.route('/projects')
 def projects():
@@ -102,9 +108,28 @@ def addsemester(newSemester):
 	theDatabase.setCurrentSemester(newSemester)
 	return redirect(flask.url_for('semesters'))
 
-@app.route('/tips')
+@app.route('/tips', methods=['GET', 'POST'])
 def tips():
-    return render_template('tips.html', pageName="Tips", emailForm=emailForm())
+    if(request.method=='POST'):
+	if(request.form['type']=="J"):
+	        theDatabase.addJudTip(request.form['newTip'])
+	elif(request.form['type']=="V"):
+		theDatabase.addVisTip(request.form['newTip'])
+	elif(request.form['type']=="S"):
+		theDatabase.addStuTip(request.form['newTip'])
+	elif(request.form['type']=="VE"):
+		theDatabase.editVTip(request.form['editVTip'],request.form['vKey'])
+	elif(request.form['type']=="SE"):
+		theDatabase.editSTip(request.form['editSTip'],request.form['sKey'])
+	elif(request.form['type']=="JE"):
+		theDatabase.editJTip(request.form['editJTip'],request.form['jKey'])
+	elif(request.form['type']=="JD"):
+		theDatabase.delJTip(request.form['jKey'])
+	elif(request.form['type']=="SD"):
+		theDatabase.delSTip(request.form['sKey'])
+	elif(request.form['type']=="VD"):
+		theDatabase.delVTip(request.form['vKey'])
+    return render_template('tips.html', vTips = theDatabase.getAllVTips(),sTips = theDatabase.getAllSTips(), jTips = theDatabase.getAllJTips(), pageName="Tips", emailForm=emailForm())
 
 #This takes the search string passed in the URL, uses that to search
 #the database, and then passes the results to projects.html the same
