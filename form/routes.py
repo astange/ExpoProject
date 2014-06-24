@@ -46,7 +46,7 @@ def home():
                 "There was an error in the data you submitted. Please check all the fields and try again.")
             return render_template('home.html', form=teamFormInstance)
         else:
-            sendConfirmation(app)
+            sendConfirmation(app, teamFormInstance.teamEmail.data)
             theDatabase.saveToDB(teamFormInstance)
             return render_template('success.html')
 
