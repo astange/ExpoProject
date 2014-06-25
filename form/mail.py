@@ -36,13 +36,19 @@ config.read(fileName)
 configSet = False
 
 
-def sendConfirmation(app, teamEmail):
+def sendConfirmation(app, teamEmail, html = None):
     if not configSet :
         setConfigOptions(app)
     mail = Mail(app)
     msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=[teamEmail], bcc=[_mailDefaultSender])
     msg.body = getEmailTemplate()
+    msg.html = html
     mail.send(msg)
+
+def getTemplatePath(app):
+    if configSet == False:
+        setConfigOptions(app)
+    return _bodyTemplateFile
 
 
 def getEmailTemplate():

@@ -50,7 +50,7 @@ def home():
             key = theDatabase.saveToDB(formDict)
             dbData = theDatabase.getAllDataForSubmission(key)
             if dbData == formDict:
-                sendConfirmation(app, teamFormInstance.teamEmail.data)
+                sendConfirmation(app, teamFormInstance.teamEmail.data, teamFormInstance.CreateEmailBodyHTML(getTemplatePath(app)))
             else:
                 flash("There was an error submitting the form. Please Try again. If you experience more issues please contact " + config.get("MailServer","MAIL_DEFAULT_SENDER"))
                 return render_template('home.html', form=teamFormInstance)

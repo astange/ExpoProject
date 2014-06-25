@@ -111,7 +111,7 @@ class teamForm(Form):
 
 
 
-    def convertToDictionary(self):
+    def convertToDictionary(self, shirts=True):
         formDict = {}
         formDict['teamName'] = self.teamName.data.encode('utf-8')
         formDict['projectName'] = self.teamProjectName.data.encode('utf-8')
@@ -126,8 +126,98 @@ class teamForm(Form):
         formDict['projectDescription'] = self.teamProjectDescription.data.encode('utf-8')
         formDict['email'] = self.teamEmail.data.encode('utf-8')
         formDict['setupTime'] = self.teamSetupTime.data.encode('utf-8')
-        formDict.update(self.compileTeamMemberData())
+        if shirts:
+            formDict.update(self.compileTeamMemberData())
         return formDict
+
+
+    def CreateTeamTableHTML(self, fileName):
+        try:
+            file = open(fileName,"r")
+        except IOError as e :
+            print "I/O error({0}): {1} : Tried to open file ""{2}""".format(e.errno, e.strerror, fileName)
+            return ""
+
+        formDict = self.convertToDictionary(shirts=True)
+        tableStart = False
+        tableHTML = ""
+
+        line = file.readline()
+        while line != "":
+            if line.find("#$TEAM_INFO$") != -1:
+                tableStart = True
+                tableHTML = "<Table border=\"5\" width=\"600\"><tr align=\"center\"><th COLSPAN=\"2\"><H3>Team Information</H3></th></tr>"
+            elif tableStart:
+                if line.find("#$END$") != -1:
+                    tableHTML += "</Table>"
+                    break
+                else:
+                    k, v, trash = line.split("$",2)
+                    if formDict.has_key(k):
+                        tableHTML += "<tr><th width=\"30%\" align=\"left\"><b>" + v + "</b></th><th align=\"left\">" + formDict[k] + "</th></tr>"
+            line = file.readline()
+        return tableHTML
+
+
+    def CreateMemberTableHTML(self, filename):
+        formDict = self.convertToDictionary()
+        tableHTML = ""
+        memberDict = {}
+
+        for key, value in formDict.iteritems():
+            if key.find("name") == 0:
+                if key.find("Major") == -1:
+                    memberDict["Name" + key[4]] = value
+                else:
+                    memberDict["Major" + key[4]] = value
+
+        tableHTML = "<Table border=\"5\" width=\"600\"><tr align=\"center\"><th COLSPAN=\"2\"><H3>Team Member Information</H3></th></tr>"
+        tableHTML += "<tr><th><b><i>Name</i></b></th><th><b><i>Major</i></b></th></tr>"
+        for i in range(0,len(memberDict)/2):
+            nameKey = "Name" + str(i+1)
+            majorKey = "Major" + str(i+1)
+            tableHTML += "<tr><th>" + memberDict[nameKey] + "</th><th>" + memberDict[majorKey] + "</th></tr>"
+        tableHTML += "</Table>"
+
+        return tableHTML
+
+
+    def CreateEmailBodyHTML(self, fileName):
+        try:
+            file = open(fileName,"r")
+        except IOError as e :
+            print "I/O error({0}): {1} : Tried to open file ""{2}""".format(e.errno, e.strerror, fileName)
+            return ""
+
+        bodyHTML = ""
+        insideTable = False
+        line = file.readline()
+        while line != "":
+            if line.find("#$TEAM_INFO$") != -1:
+                bodyHTML += self.CreateTeamTableHTML(fileName)
+                insideTable = True
+            elif line.find("$MEMBER_INFO$") != -1:
+                bodyHTML += self.CreateMemberTableHTML(fileName)
+                insideTable = True
+            elif line.find("#$END$") != -1:
+                insideTable = False
+            elif not insideTable:
+                strings = line.split("/n")
+                for s in strings:
+                    bodyHTML += "<p>" + s + "</p>"
+            line = file.readline()
+        return bodyHTML
+
+
+    def AddSpaces(self, string):
+        returnStr = string[0].capitalize()
+        for i in range(1,len(string)):
+            if string[i].isupper():
+                returnStr += " " + string[i]
+            else:
+                returnStr += string[i]
+        return returnStr
+
 
 
 
