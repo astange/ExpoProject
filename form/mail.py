@@ -1,9 +1,12 @@
 import os
+
 from flask import Flask
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
 import configparser
+
 from settings import APP_CONFIG
+
 
 app = Flask(__name__)
 
