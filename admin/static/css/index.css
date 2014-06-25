@@ -435,3 +435,30 @@ form input#send {
   }
   
 }
+
+.ui-dialog{
+background-color:rgb(100,100,100);
+}
+
+.editButton{
+ background-image:url('/static/img/edit.png') ;
+ width: 30px;
+ height: 30px;
+ position: relative;
+}
+
+.addButton{
+ background-image:url('/static/img/add.png') ;
+ width: 30px;
+ height: 30px;
+ position: relative;
+
+}
+
+.deleteButton{
+ background-image:url('/static/img/delete.png') ;
+ width: 30px;
+ height: 30px;
+ position: relative;
+
+}

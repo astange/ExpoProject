@@ -25,6 +25,9 @@ class teamForm(Form):
     setupChoices = [('tableTop', 'Table top setup (tables are 6\' x 3\')'), ('laptop', 'Laptop only (not provided)'), ('floor', 'Floor setup (area is 8\'x8\')'), (
         'large', 'Large demonstration area (these will be outside)'), ('vehicle', 'A vehicle is involved (these projects will be outside)')]
 
+    tfs = [TextField("A","a"), TextField("B","b")]
+
+
     teamName = TextField("Team Name", [InputRequired("Please enter a team name.")])
     teamMemberCount = SelectField("Number of Team Members", choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10')])
     teamProjectMajor = SelectField("Project Major", choices=majorChoices)

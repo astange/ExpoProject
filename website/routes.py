@@ -64,7 +64,7 @@ def projectdetails(submissionNum):
 
 @app.route('/schedule')
 def schedule():
-    return render_template('schedule.html', pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
+    return render_template('schedule.html', schedule=theDatabase.getSchedule(), busSchedule=theDatabase.getBusSchedule(), schEnd=theDatabase.getSchEnd(), pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
 
 
 @app.route('/social')
@@ -89,7 +89,7 @@ def seeliogallery():
 
 @app.route('/tips')
 def tips():
-    return render_template('tips.html', pageName="Tips", emailForm=emailForm())
+    return render_template('tips.html', vTips = theDatabase.getAllVTips(),sTips = theDatabase.getAllSTips(), jTips = theDatabase.getAllJTips(), pageName="Tips", emailForm=emailForm())
 
 #This takes the search string passed in the URL, uses that to search
 #the database, and then passes the results to projects.html the same

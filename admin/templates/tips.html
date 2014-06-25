@@ -2,10 +2,123 @@
 {% block container %}
 		<div id="divTips">
 			<h3><p class="plusTips">+ </p><p class="minusTips">- </p>Tips for Judges</h3>
-			<div id="divJudges"><ul class="ulTips" id="tipsJudges"></ul></div>
-			<h3><p class="plusTips">+ </p><p class="minusTips">- </p>Tips for Students</h3>
-			<div id="divStudents"><ul class="ulTips" id="tipsStudents"></ul></div>
-			<h3><p class="plusTips">+ </p><p class="minusTips">- </p>Tips for Visitors</h3>
-			<div id="divVisitors"><ul class="ulTips" id="tipsVisitors"></ul></div>
+			<div id="divJudges">
+				 <p><button type="button" class="button" id="addJTip">Add a new tip</button></p>
+				<div id="addJTipForm" class="addJTipForm" title="Add Judge Tip" >
+					<form name="jTipForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "J">
+						<textarea rows="7" cols="100" name="newTip" required></textarea>
+						<input type="submit" value="Add">
+					</form>
+				</div>
+			
+			<ul class="ulTips" id="tipsJudges">
+
+			{% for jtip in jTips %}
+				<li> <div class="editButton editJButton" id="{{jtip[1]}}" style="float:left"></div>
+				<div class="deleteButton deleteJTip" id="delete{{jtip[1]}}" style="float:left"></div><div id="jtip{{jtip[1]}}">{{jtip[0]|safe}}</div>
+				</li>
+
+			{% endfor %}
+			</ul>
+				<div id="EditJForm" class="EditJForm" title="Edit Judge Tip" >
+					<form name="jTipEditForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "JE">
+						<input type="hidden" id = "jKey" name="jKey" value="">
+						<textarea rows="7" cols="100" name="editJTip" id="editJTip" required></textarea>
+						<input type="submit" value="Edit">
+					</form>
+				</div>
+				<div id="DeleteJForm" class="DeleteJForm" title="Delete Judge Tip" >
+					<form name="jTipDeleteForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "JD">
+						<input type="hidden" id = "jKeyD" name="jKey" value="">
+						<p id="jLabel"></p>
+						<input type="submit" value="Delete">
+					</form>
+				</div>
+
+
+				<br><br></div>
+			<h3><p class="plusTips">+ </p><p class="minusTips">- </p>Tips for Students  </h3>
+			<div id="divStudents">
+				 <p><button type="button" class="button" id="addSTip">Add a new tip</button></p>
+				<div id="addSTipForm" class="addSTipForm" title="Add Student Tip" >
+					<form name="sTipForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "S">
+						<textarea rows="7" cols="100" name="newTip" required></textarea>
+						<input type="submit" value="Add">
+					</form>
+				</div>
+
+			<ul class="ulTips" id="tipsStudents">
+			{% for stip in sTips %}
+				<li > <div class="editButton editSButton" id="{{stip[1]}}" style="float:left">
+
+				</div><div class="deleteButton deleteSTip" id="delete{{stip[1]}}" style="float:left"></div><div id="stip{{stip[1]}}">{{stip[0]|safe}}</div>
+				</li>
+
+			{% endfor %}
+			</ul>
+				<div id="EditSForm" class="EditSForm" title="Edit Student Tip" >
+					<form name="sTipEditForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "SE">
+						<input type="hidden" id = "sKey" name="sKey" value="">
+						<textarea rows="7" cols="100" name="editSTip" id="editSTip" required></textarea>
+						<input type="submit" value="Edit">
+					</form>
+				</div>
+
+				<div id="DeleteSForm" class="DeleteSForm" title="Delete Student Tip" >
+					<form name="sTipDeleteForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "SD">
+						<input type="hidden" id = "sKeyD" name="sKey" value="">
+						<p id="sLabel"></p>
+						<input type="submit" value="Delete">
+					</form>
+				</div>
+
+			<br><br></div>
+			<h3><p class="plusTips">+ </p><p class="minusTips">- </p>Tips for Visitors </h3>
+			<div id="divVisitors">
+				<p><button type="button" class="button" id="addVTip">Add a new tip</button></p>
+				<div id="addVTipForm" class="addVTipForm" title="Add Visitor Tip" >
+					<form name="vTipForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "V">
+						<textarea rows="7" cols="100" name="newTip" required></textarea>
+						<input type="submit" value="Add">
+					</form>
+				
+				</div>
+			<ul class="ulTips" id="tipsVisitors">
+
+			{% for vtip in vTips %}
+				<li > <div class="editButton editVButton" id="{{vtip[1]}}" style="float:left">
+
+				
+				</div><div class="deleteButton deleteVTip" id="delete{{vtip[1]}}" style="float:left"></div><div id="vtip{{vtip[1]}}">{{vtip[0]|safe}}</div>
+				</li>
+
+			{% endfor %}
+			</ul>
+				<div id="EditVForm" class="EditVForm" title="Edit Visitor Tip" >
+					<form name="vTipEditForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "VE">
+						<input type="hidden" id = "vKey" name="vKey" value="">
+						<textarea rows="7" cols="100" name="editVTip" id="editVTip" required></textarea>
+						<input type="submit" value="Edit">
+					</form>
+				</div>
+
+				<div id="DeleteVForm" class="DeleteVForm" title="Delete Visitor Tip" >
+					<form name="vTipDeleteForm" action="{{ url_for('tips') }}" method=post>
+						<input type="hidden" name="type" value = "VD">
+						<input type="hidden" id = "vKeyD" name="vKey" value="">
+						<p id="vLabel"></p>
+						<input type="submit" value="Delete">
+					</form>
+				</div>
+
+				<br><br></div>
 		</div>
 {% endblock %}

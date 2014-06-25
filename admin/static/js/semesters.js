@@ -23,8 +23,8 @@ function validateForm() {
 	}
 
 	var year = document.forms["semesterInput"]["year"].value;	
-	
-    if (year == null || year == "" || year.length < 4 || year.length > 4) {
+	var patt = new RegExp("[0-9][0-9][0-9][0-9]");
+    if (year == null || year == "" || year.length < 4 || year.length > 4 || !patt.test(year)) {
         alert("Year must be filled out and in the form YYYY");
         return false;
     }
