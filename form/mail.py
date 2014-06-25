@@ -40,7 +40,7 @@ def sendConfirmation(app, teamEmail):
     if not configSet :
         setConfigOptions(app)
     mail = Mail(app)
-    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=[teamEmail], bcc=_mailDefaultSender)
+    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=[teamEmail], bcc=[_mailDefaultSender])
     msg.body = getEmailTemplate()
     mail.send(msg)
 
