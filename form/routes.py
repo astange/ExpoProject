@@ -46,8 +46,15 @@ def home():
                 "There was an error in the data you submitted. Please check all the fields and try again.")
             return render_template('home.html', form=teamFormInstance)
         else:
-            sendConfirmation(app, teamFormInstance.teamEmail.data)
-            theDatabase.saveToDB(teamFormInstance)
+            formDict = teamFormInstance.convertToDictionary()
+            key = theDatabase.saveToDB(formDict)
+            dbData = theDatabase.getAllDataForSubmission(key)
+            if dbData == formDict:
+                sendConfirmation(app, teamFormInstance.teamEmail.data)
+            else:
+                flash("There was an error submitting the form. Please Try again. If you experience more issues please contact " + config.get("MailServer","MAIL_DEFAULT_SENDER"))
+                return render_template('home.html', form=teamFormInstance)
+
             return render_template('success.html')
 
 

@@ -22,6 +22,7 @@ _mailMaxEmails = None
 
 # Confirmation Email
 _subject = ""
+_adminSubject = ""
 _bodyTemplateFile = ""
 
 
@@ -36,10 +37,12 @@ def sendConfirmation(app, teamEmail):
     if not configSet :
         setConfigOptions(app)
     mail = Mail(app)
-    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=["gtexpotest@gmail.com"])
-    msg.subject = _subject
+    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=[teamEmail])
+    msg2 = Message(subject=_adminSubject, sender=_mailDefaultSender, recipients=[_mailDefaultSender])
     msg.body = getEmailTemplate()
+    msg2.body = getEmailTemplate()
     mail.send(msg)
+    mail.send(msg2)
 
 
 def getEmailTemplate():
@@ -109,4 +112,7 @@ def setConfigOptions(app) :
         _bodyTemplateFile = os.path.join(APP_CONFIG, tmp)
     if config.has_option("ConfirmationEmail","CONFIRM_SUBJECT") :
         global _subject
-        _subject = config.get("ConfirmationEmail","CONFIRM_SUBJECT").decode('utf-8')
+        _subject = config.get("ConfirmationEmail","CONFIRM_SUBJECT").encode('utf-8')
+    if config.has_option("ConfirmationEmail", "CONFIRM_SUBJECT_ADMIN") :
+        global _adminSubject
+        _adminSubject = config.get("ConfirmationEmail", "CONFIRM_SUBJECT_ADMIN")
