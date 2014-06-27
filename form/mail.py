@@ -1,9 +1,12 @@
 import os
+
 from flask import Flask
 from flask.ext.mail import Mail
 from flask.ext.mail import Message
 import configparser
+
 from settings import APP_CONFIG
+
 
 app = Flask(__name__)
 
@@ -22,6 +25,7 @@ _mailMaxEmails = None
 
 # Confirmation Email
 _subject = ""
+_adminSubject = ""
 _bodyTemplateFile = ""
 
 
@@ -32,14 +36,19 @@ config.read(fileName)
 configSet = False
 
 
-def sendConfirmation(app, teamEmail):
+def sendConfirmation(app, teamEmail, html = None):
     if not configSet :
         setConfigOptions(app)
     mail = Mail(app)
-    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=["gtexpotest@gmail.com"])
-    msg.subject = _subject
+    msg = Message(subject=_subject, sender=_mailDefaultSender, recipients=[teamEmail], bcc=[_mailDefaultSender])
     msg.body = getEmailTemplate()
+    msg.html = html
     mail.send(msg)
+
+def getTemplatePath(app):
+    if configSet == False:
+        setConfigOptions(app)
+    return _bodyTemplateFile
 
 
 def getEmailTemplate():
@@ -109,4 +118,7 @@ def setConfigOptions(app) :
         _bodyTemplateFile = os.path.join(APP_CONFIG, tmp)
     if config.has_option("ConfirmationEmail","CONFIRM_SUBJECT") :
         global _subject
-        _subject = config.get("ConfirmationEmail","CONFIRM_SUBJECT").decode('utf-8')
+        _subject = config.get("ConfirmationEmail","CONFIRM_SUBJECT").encode('utf-8')
+    if config.has_option("ConfirmationEmail", "CONFIRM_SUBJECT_ADMIN") :
+        global _adminSubject
+        _adminSubject = config.get("ConfirmationEmail", "CONFIRM_SUBJECT_ADMIN")

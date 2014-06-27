@@ -197,6 +197,19 @@
 			});
 		});
 	</script>
+	<script>
+		$(function(){
+			$( "#EditProjForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#editProjButton"},
+			});
+				$( ".editProjButton" ).click(function(event) {
+				$( "#EditProjForm" ).dialog( "open" );
+				var name = "proj";
+				document.getElementById("editProj").value = document.getElementById(name).innerHTML;
+			});
+		});
+	</script>
 	 <script>
 		$(function() {
 			$( "#DeleteJForm" ).dialog({

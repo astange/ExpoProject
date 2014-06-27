@@ -1,0 +1,32 @@
+Hello,
+
+Test Message for registration confirmation. This is created using a text document as a template. The admin can change the layout of this email by changing the template.
+
+Thanks,
+
+Team 7
+
+#$TEAM_INFO$ - Do not Delete this section
+teamName$Team Name$
+projectName$Project Name$
+email$eMail$
+projectMajor$Project Major$
+section$Section$
+sponsor$Sponsor$
+memberCount$Number of Teammates$
+needsPower$Needs Power$
+hasDisplay$Has Display$
+hasDanger$Has Danger$
+setup$Setup$
+projectDescription$Project Description$
+setupTime$Setup Time$
+S$Shirts(S)$
+M$Shirts(M)$
+L$Shirts(L)$
+XL$Shirts(XL)$
+XXL$Shirts(XXL)$
+XXXL$Shirts(XXXL)$
+#$END$
+
+#$MEMBER_INFO$
+#$END$

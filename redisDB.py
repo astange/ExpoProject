@@ -21,7 +21,7 @@ class RedisDB:
         self.dbc.setnx('busSchedule', ' <tr> <td>5:30pm</td> <td>Bus will begin running from MRDC building to take visitors from Invention Studio tour to McCamish Pavilion</td> </tr> <tr> <td>6:00pm</td> <td>Bus is open to the public - route will run every 15 minutes from MRDC to McCamish Pavilion with no other stops along the way</td> </tr> <tr> <td>9:00pm</td> <td>Bus closes to the public</td> </tr>')
         self.dbc.setnx('schEnd','<a href="http://www.capstone.gatech.edu/wp-content/uploads/2014/03/Capstone-Design-Expo-Spring-2014.pdf" target="_blank">Click here</a> for a downloadable copy of the Expo, GT Invention Studio tour, and parking information.')
 
-    def saveToDB(self, form, semester=None):
+    def saveToDB(self, formDict, semester=None):
         self.init()
         if(semester == None):
             semester = self.getCurrentSemester()
@@ -37,82 +37,11 @@ class RedisDB:
             submission = semester +"submission" + str(numSubmissions)
         # We use this function to handle saving information of a varying
         # number of team members.
-        info = self.compileTeamMemberData(form, submission, semester)
+        for key, value in formDict.iteritems():
+            self.dbc.hset(submission,key,value)
+        return submission
 
-        self.dbc.hset(submission, 'teamName', form.teamName.data)
-        self.dbc.hset(submission, 'projectName', form.teamProjectName.data)
-        self.dbc.hset(submission, 'memberCount', form.teamMemberCount.data)
-        self.dbc.hset(submission, 'projectMajor', form.teamProjectMajor.data)
-        self.dbc.hset(submission, 'section', form.teamSection.data)
-        self.dbc.hset(submission, 'sponsor', form.teamSponsor.data)
-        self.dbc.hset(submission, 'needsPower', form.teamNeedsPower.data)
-        self.dbc.hset(submission, 'hasDisplay', form.teamHasDisplay.data)
-        self.dbc.hset(submission, 'hasDanger', form.teamHasDanger.data)
-        self.dbc.hset(submission, 'setup', form.teamSetup.data)
-        self.dbc.hset(
-            submission, 'projectDescription', form.teamProjectDescription.data)
-        self.dbc.hset(submission, 'email', form.teamEmail.data)
-        self.dbc.hset(submission, 'shirtsSmall', info["S"])
-        self.dbc.hset(submission, 'shirtsMedium', info["M"])
-        self.dbc.hset(submission, 'shirtsLarge', info["L"])
-        self.dbc.hset(submission, 'shirtsXL', info["XL"])
-        self.dbc.hset(submission, 'shirtsXXL', info["XXL"])
-        self.dbc.hset(submission, 'shirtsXXXL', info["XXXL"])
-        self.dbc.hset(submission, 'setupTime', form.teamSetupTime.data)
 
-    # Takes the form data and figures out the list of names, majors, and shirt sizes
-    # based on the number of team members
-
-    def compileTeamMemberData(self, form, submission, semester=None):
-        if(semester == None):
-            semester = self.getCurrentSemester()
-    
-        numMembers = int(form.teamMemberCount.data)
-        info = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0,
-                "XXXL": 0, "names": "", "majors": ""}
-
-        if numMembers > 0:
-            info[form.TMShirt1.data] += 1
-            self.dbc.hset(submission, 'name1', form.TMName1.data)
-            self.dbc.hset(submission, 'name1Major', form.TMMajor1.data)
-        if numMembers > 1:
-            info[form.TMShirt2.data] += 1
-            self.dbc.hset(submission, 'name2', form.TMName2.data)
-            self.dbc.hset(submission, 'name2Major', form.TMMajor2.data)
-        if numMembers > 2:
-            info[form.TMShirt3.data] += 1
-            self.dbc.hset(submission, 'name3', form.TMName3.data)
-            self.dbc.hset(submission, 'name3Major', form.TMMajor3.data)
-        if numMembers > 3:
-            info[form.TMShirt4.data] += 1
-            self.dbc.hset(submission, 'name4', form.TMName4.data)
-            self.dbc.hset(submission, 'name4Major', form.TMMajor4.data)
-        if numMembers > 4:
-            info[form.TMShirt5.data] += 1
-            self.dbc.hset(submission, 'name5', form.TMName5.data)
-            self.dbc.hset(submission, 'name5Major', form.TMMajor5.data)
-        if numMembers > 5:
-            info[form.TMShirt6.data] += 1
-            self.dbc.hset(submission, 'name6', form.TMName6.data)
-            self.dbc.hset(submission, 'name6Major', form.TMMajor6.data)
-        if numMembers > 6:
-            info[form.TMShirt7.data] += 1
-            self.dbc.hset(submission, 'name7', form.TMName7.data)
-            self.dbc.hset(submission, 'name7Major', form.TMMajor7.data)
-        if numMembers > 7:
-            info[form.TMShirt8.data] += 1
-            self.dbc.hset(submission, 'name8', form.TMName8.data)
-            self.dbc.hset(submission, 'name8Major', form.TMMajor8.data)
-        if numMembers > 8:
-            info[form.TMShirt9.data] += 1
-            self.dbc.hset(submission, 'name9', form.TMName9.data)
-            self.dbc.hset(submission, 'name9Major', form.TMMajor9.data)
-        if numMembers > 9:
-            info[form.TMShirt10.data] += 1
-            self.dbc.hset(submission, 'name10', form.TMName10.data)
-            self.dbc.hset(submission, 'name10Major', form.TMMajor10.data)
-
-        return info
 
     def getAllEntries(self, semester=None):
         self.init()
@@ -124,6 +53,9 @@ class RedisDB:
         for x in listOfEntries:
             entryList.append(self.dbc.hgetall(x))
         return sorted(entryList, key=lambda k: k['projectName'])
+
+    def getAllDataForSubmission(self, submissionNum):
+        return self.dbc.hgetall(submissionNum)
 
     def getOneSubmission(self, submissionNum, semester=None):
         if(semester == None):

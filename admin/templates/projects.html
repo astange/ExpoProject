@@ -5,6 +5,8 @@
     <table class="table table-striped table-hover" >  
       <thead>  
         <tr>  
+          <th>Edit</th>
+          <th>Delete</th>
           <th>Project Name</th>  
           <!-- <th>Project Description</th>   -->
           <th>Table</th>  
@@ -15,6 +17,17 @@
        {% for entry in entries %}
 
        <tr class='clickableRow' href='/projectdetails/{{ entry[1] }}'>  
+        <td><div id="editProjButton" class="editButton editProjButton"></div>
+          <div id="EditProjForm" class="EditProjForm" title="Edit Project Team Info" >
+          <form name="projEditForm" action="{{ url_for('projects') }}" method=post>
+            <input type="hidden" name="type" value = "proj">
+            <textarea rows="7" cols="100" name="editProj" id="editProj" required></textarea>
+            <input type="submit" value="Edit">
+          </form>
+          </div>
+        </td>
+        <td><div id="delete{{entry[0]}}" class="deleteButton deleteProj"></div>
+        </td>
         <td>{{ entry[0].projectName }}</td>  
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
         <td>{{ entry[0].table }}</td> 

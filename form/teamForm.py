@@ -109,3 +109,176 @@ class teamForm(Form):
 
     submit = SubmitField("Submit")
 
+
+
+    def convertToDictionary(self, shirts=True):
+        formDict = {}
+        formDict['teamName'] = self.teamName.data.encode('utf-8')
+        formDict['projectName'] = self.teamProjectName.data.encode('utf-8')
+        formDict['memberCount'] = self.teamMemberCount.data.encode('utf-8')
+        formDict['projectMajor'] = self.teamProjectMajor.data.encode('utf-8')
+        formDict['section'] = self.teamSection.data.encode('utf-8')
+        formDict['sponsor'] = self.teamSponsor.data.encode('utf-8')
+        formDict['needsPower'] = self.teamNeedsPower.data.encode('utf-8')
+        formDict['hasDisplay'] = self.teamHasDisplay.data.encode('utf-8')
+        formDict['hasDanger'] = self.teamHasDanger.data.encode('utf-8')
+        formDict['setup'] = self.teamSetup.data.encode('utf-8')
+        formDict['projectDescription'] = self.teamProjectDescription.data.encode('utf-8')
+        formDict['email'] = self.teamEmail.data.encode('utf-8')
+        formDict['setupTime'] = self.teamSetupTime.data.encode('utf-8')
+        if shirts:
+            formDict.update(self.compileTeamMemberData())
+        return formDict
+
+
+    def CreateTeamTableHTML(self, fileName):
+        try:
+            file = open(fileName,"r")
+        except IOError as e :
+            print "I/O error({0}): {1} : Tried to open file ""{2}""".format(e.errno, e.strerror, fileName)
+            return ""
+
+        formDict = self.convertToDictionary(shirts=True)
+        tableStart = False
+        tableHTML = ""
+
+        line = file.readline()
+        while line != "":
+            if line.find("#$TEAM_INFO$") != -1:
+                tableStart = True
+                tableHTML = "<Table border=\"5\" width=\"600\"><tr align=\"center\"><th COLSPAN=\"2\"><H3>Team Information</H3></th></tr>"
+            elif tableStart:
+                if line.find("#$END$") != -1:
+                    tableHTML += "</Table>"
+                    break
+                else:
+                    k, v, trash = line.split("$",2)
+                    if formDict.has_key(k):
+                        tableHTML += "<tr><th width=\"30%\" align=\"left\"><b>" + v + "</b></th><th align=\"left\">" + formDict[k] + "</th></tr>"
+            line = file.readline()
+        return tableHTML
+
+
+    def CreateMemberTableHTML(self, filename):
+        formDict = self.convertToDictionary()
+        tableHTML = ""
+        memberDict = {}
+
+        for key, value in formDict.iteritems():
+            if key.find("name") == 0:
+                if key.find("Major") == -1:
+                    memberDict["Name" + key[4]] = value
+                else:
+                    memberDict["Major" + key[4]] = value
+
+        tableHTML = "<Table border=\"5\" width=\"600\"><tr align=\"center\"><th COLSPAN=\"2\"><H3>Team Member Information</H3></th></tr>"
+        tableHTML += "<tr><th><b><i>Name</i></b></th><th><b><i>Major</i></b></th></tr>"
+        for i in range(0,len(memberDict)/2):
+            nameKey = "Name" + str(i+1)
+            majorKey = "Major" + str(i+1)
+            tableHTML += "<tr><th>" + memberDict[nameKey] + "</th><th>" + memberDict[majorKey] + "</th></tr>"
+        tableHTML += "</Table>"
+
+        return tableHTML
+
+
+    def CreateEmailBodyHTML(self, fileName):
+        try:
+            file = open(fileName,"r")
+        except IOError as e :
+            print "I/O error({0}): {1} : Tried to open file ""{2}""".format(e.errno, e.strerror, fileName)
+            return ""
+
+        bodyHTML = ""
+        insideTable = False
+        line = file.readline()
+        while line != "":
+            if line.find("#$TEAM_INFO$") != -1:
+                bodyHTML += self.CreateTeamTableHTML(fileName)
+                insideTable = True
+            elif line.find("$MEMBER_INFO$") != -1:
+                bodyHTML += self.CreateMemberTableHTML(fileName)
+                insideTable = True
+            elif line.find("#$END$") != -1:
+                insideTable = False
+            elif not insideTable:
+                strings = line.split("/n")
+                for s in strings:
+                    bodyHTML += "<p>" + s + "</p>"
+            line = file.readline()
+        return bodyHTML
+
+
+    def AddSpaces(self, string):
+        returnStr = string[0].capitalize()
+        for i in range(1,len(string)):
+            if string[i].isupper():
+                returnStr += " " + string[i]
+            else:
+                returnStr += string[i]
+        return returnStr
+
+
+
+
+    # Takes the form data and figures out the list of names, majors, and shirt sizes
+    # based on the number of team members
+
+    def compileTeamMemberData(self):
+
+        numMembers = int(self.teamMemberCount.data)
+        info = {}
+        shirts = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0,
+                "XXXL": 0}
+
+        if numMembers > 0:
+            shirts[self.TMShirt1.data] += 1
+            info['name1'] = self.TMName1.data.encode('utf-8')
+            info['name1Major'] = self.TMMajor1.data.encode('utf-8')
+        if numMembers > 1:
+            shirts[self.TMShirt2.data] += 1
+            info['name2'] = self.TMName2.data.encode('utf-8')
+            info['name2Major'] = self.TMMajor2.data.encode('utf-8')
+        if numMembers > 2:
+            shirts[self.TMShirt3.data] += 1
+            info['name3'] = self.TMName3.data.encode('utf-8')
+            info['name3Major'] = self.TMMajor3.data.encode('utf-8')
+        if numMembers > 3:
+            shirts[self.TMShirt4.data] += 1
+            info['name4'] = self.TMName4.data.encode('utf-8')
+            info['name4Major'] = self.TMMajor4.data.encode('utf-8')
+        if numMembers > 4:
+            shirts[self.TMShirt5.data] += 1
+            info['name5'] = self.TMName5.data.encode('utf-8')
+            info['name5Major'] = self.TMMajor5.data.encode('utf-8')
+        if numMembers > 5:
+            shirts[self.TMShirt6.data] += 1
+            info['name6'] = self.TMName6.data.encode('utf-8')
+            info['name6Major'] = self.TMMajor6.data.encode('utf-8')
+        if numMembers > 6:
+            shirts[self.TMShirt7.data] += 1
+            info['name7'] = self.TMName7.data.encode('utf-8')
+            info['name7Major'] = self.TMMajor7.data.encode('utf-8')
+        if numMembers > 7:
+            shirts[self.TMShirt8.data] += 1
+            info['name8'] = self.TMName8.data.encode('utf-8')
+            info['name8Major'] = self.TMMajor8.data.encode('utf-8')
+        if numMembers > 8:
+            shirts[self.TMShirt9.data] += 1
+            info['name9'] = self.TMName9.data.encode('utf-8')
+            info['name9Major'] = self.TMMajor9.data.encode('utf-8')
+        if numMembers > 9:
+            shirts[self.TMShirt10.data] += 1
+            info['name10'] = self.TMName10.data.encode('utf-8')
+            info['name10Major'] = self.TMMajor10.data.encode('utf-8')
+
+
+        info["S"] = str(shirts["S"])
+        info["M"] = str(shirts["M"])
+        info["L"] = str(shirts["L"])
+        info["XL"] = str(shirts["XL"])
+        info["XXL"] = str(shirts["XXL"])
+        info["XXXL"] = str(shirts["XXXL"])
+
+        return info
+
