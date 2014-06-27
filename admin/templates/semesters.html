@@ -1,3 +1,43 @@
 {% extends "layout.html" %}
 {% block content %}
+					<div id="create-sem" class="create-sem">
+						<form name="semesterInput">
+						    Create a new Semester:<br><br>
+							Select Semester: 
+							<input type="radio" name="sem" id="sem_Spring" value="Spring"> Spring
+							<input type="radio" name="sem" id="sem_Summer" value="Summer"> Summer
+							<input type="radio" name="sem" id="sem_Fall" value="Fall"> Fall <br>
+							Input Year:
+							 <input type="text" name="year"> <br>
+							Input new Seelio Key:
+							<input type="text" name="sKey">
+						    <input type="button" value="Submit" onclick="return validateForm();">
+						</form>
+					</div>
+					<div id="change-sem">
+					    <form name="chgSem">
+                            If you would like to view old semester's data, then change the current semester here and look at the main page.<br>
+                            <select id="changeSem">
+                            {% for entry in entries %}
+                                {% if entry != currentSemester %}
+                                <option value="{{ entry }}"> {{ entry }} </option>
+                                {% else %}
+                                <option value="{{ entry }}" selected="selected">Current: {{ entry }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                            <input type="button" value="Change" onclick="changeSemesters();">
+                        </form>
+                    </div>
+                    <form name="delete-sem">
+                        If you would like to delete old semester's data, then select the semester here and press delete. You cannot delete the current semester. NOTE!: You cannot delete the current semester.<br>
+                        <select id="delSem">
+                        {% for entry in entries %}
+                            {% if entry != currentSemester %}
+                            <option value="{{ entry }}"> {{ entry }} </option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                        <input type="button" value="Delete" onclick="deleteSemester();">
+                    </form>
 {% endblock %}

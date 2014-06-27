@@ -13,6 +13,7 @@ class RedisDB:
     # create it and set to 0
     def init(self):
         self.dbc.setnx('currentSemester', 'Spring2014')
+        self.dbc.setnx(self.dbc.get('currentSemester') + 'seelioKey','52f3dfc042ae849b5e000097')
         self.dbc.setnx('numVTips', '0')
         self.dbc.setnx('numSTips', '0')
         self.dbc.setnx('numJTips', '0')
@@ -57,10 +58,8 @@ class RedisDB:
     def getAllDataForSubmission(self, submissionNum):
         return self.dbc.hgetall(submissionNum)
 
-    def getOneSubmission(self, submissionNum, semester=None):
-        if(semester == None):
-            semester = self.getCurrentSemester()
-        submission = self.dbc.hgetall(semester + submissionNum)
+    def getOneSubmission(self, submissionNum):
+        submission = self.dbc.hgetall(submissionNum)
         for x in range(1, 11):
             whichOne = "name" + `x`+"Major"
             if whichOne not in submission:
@@ -142,11 +141,14 @@ class RedisDB:
     def getAllSemesters(self):
         return self.dbc.smembers('semesterSet')
         
-  #  def removeSemester(self, semester):
-  #      if(semester != getCurrentSemester()):
-  #          self.dbc.srem('semesterSet', semester)
-  #  
-  #      return 0
+    def removeSemester(self, semester):
+        if(semester != self.getCurrentSemester()):
+            keys = self.dbc.keys(semester + '*')
+            for x in keys:
+                self.dbc.delete(x);
+            self.dbc.srem('semesterSet', semester)
+            return True;
+        return False;
 
 #in order to make the webpage edittable, we will store certain text information here so it can easily be editted.
 
@@ -243,3 +245,13 @@ class RedisDB:
 
     def getBusSchedule(self):
         return self.dbc.get("busSchedule")
+        
+    def getCurrentSeelioKey(self, semester = None):
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        return self.dbc.get(semester + 'seelioKey')
+        
+    def setCurrentSeelioKey(self, newKey, semester = None):
+        if(semester == None):
+            semester = self.getCurrentSemester()
+        self.dbc.set('seelioKey', newKey)
