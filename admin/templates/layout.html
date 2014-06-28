@@ -199,6 +199,21 @@
 	</script>
 	<script>
 		$(function(){
+			$( "#DeleteProjForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#deleteProjButton"},
+			});
+				$( ".deleteProjButton" ).click(function(event) {
+				$( "#DeleteProjForm" ).dialog( "open" );
+				var name = "proj"+(event.target.id).substr(6);
+				document.getElementById("delProj").value = (event.target.id).substr(6);
+				var message = document.getElementById(name).innerHTML;
+				document.getElementById("pLabel").innerHTML = "Are you sure you want to delete: <br>" + message;
+			});
+		});
+	</script>
+	<script>
+		$(function(){
 			$( "#EditProjForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#editProjButton"},

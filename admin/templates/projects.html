@@ -17,16 +17,25 @@
        {% for entry in entries %}
 
        <tr class='clickableRow' href='/projectdetails/{{ entry[1] }}'>  
-        <td><div id="editProjButton" class="editButton editProjButton"></div>
+        <td><div id="{{entry[0]}}" class="editButton editProjButton"></div>
           <div id="EditProjForm" class="EditProjForm" title="Edit Project Team Info" >
           <form name="projEditForm" action="{{ url_for('projects') }}" method=post>
-            <input type="hidden" name="type" value = "proj">
+            <input type="hidden" name="type" value = "EP">
             <textarea rows="7" cols="100" name="editProj" id="editProj" required></textarea>
             <input type="submit" value="Edit">
           </form>
           </div>
         </td>
-        <td><div id="delete{{entry[0]}}" class="deleteButton deleteProj"></div>
+        <td><div id="delete{{entry[0]}}" class="deleteButton deleteProjButton"></div>
+          <td><div id="deleteProjButton" class="deleteButton deleteProjButton"></div>
+          <div id="DeleteProjForm" class="DeleteProjForm" title="Delete Project Team Info" >
+          <form name="projDelForm" action="{{ url_for('projects') }}" method=post>
+            <input type="hidden" name="type" value = "DP">
+            <input type="hidden" id = "delProj" name="del" value="">
+            <p id="pLabel"></p>
+            <input type="submit" value="Delete">
+          </form>
+          </div>
         </td>
         <td>{{ entry[0].projectName }}</td>  
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
