@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, redirect, url_for
 from redisDB import *
 from functools import wraps
 from flask_mail import Mail, Message
 from emailForm import emailForm
 from flask_wtf.csrf import CsrfProtect
+import flask
 import sys
 import os
 reload(sys)
@@ -52,15 +53,14 @@ def index():
         msg.body = "Name: " + theEmailForm.name.data + "\n Email:" + \
             theEmailForm.email.data + "\n\n" + theEmailForm.message.data
         mail.send(msg)
-    return render_template('index.html', pageName="Index", emailForm=emailForm())
-
+    return render_template('index.html', pageName="Index", emailForm=emailForm(), semester = theDatabase.getCurrentSemester())
+    
 #This looks at the submission number parameter passed in the URL, and
 #retrieves that entry from the database. It then passes that entry's information
 #to the projectdetails page.
 @app.route('/projectdetails/<submissionNum>')
 def projectdetails(submissionNum):
-    return render_template('projectdetails.html', submission=theDatabase.getOneSubmission(submissionNum), pageName="Project Details", emailForm=emailForm())
-
+    return render_template('projectdetails.html', submission=theDatabase.getOneSubmission(submissionNum), pageName="Project Details", emailForm=emailForm()) 
 
 @app.route('/schedule')
 def schedule():
@@ -79,18 +79,24 @@ def map():
 
 @app.route('/projects')
 def projects():
-    return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
-
+    return redirect(url_for('projects') + "/" + theDatabase.getCurrentSemester())
+    
+@app.route('/projects/<semester>')
+def projectsSem(semester):
+    return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(semester), pageName="Projects", emailForm=emailForm())
 
 @app.route('/seeliogallery')
 def seeliogallery():
-    return render_template('seeliogallery.html', pageName="Seelio", emailForm=emailForm())
+    return redirect(url_for('seeliogallery') + "/" + theDatabase.getCurrentSemester())
 
+@app.route('/seeliogallery/<semester>')
+def seeliogallerySem(semester):
+    return render_template('seeliogallery.html', pageName="Seelio", emailForm=emailForm(), sKey=theDatabase.getCurrentSeelioKey(semester))
 
 @app.route('/tips')
 def tips():
     return render_template('tips.html', vTips = theDatabase.getAllVTips(),sTips = theDatabase.getAllSTips(), jTips = theDatabase.getAllJTips(), pageName="Tips", emailForm=emailForm())
-
+    
 #This takes the search string passed in the URL, uses that to search
 #the database, and then passes the results to projects.html the same
 #way that /projects does. 
