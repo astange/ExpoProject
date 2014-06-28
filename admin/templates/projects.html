@@ -27,7 +27,6 @@
           </div>
         </td>
         <td><div id="delete{{entry[0]}}" class="deleteButton deleteProjButton"></div>
-          <td><div id="deleteProjButton" class="deleteButton deleteProjButton"></div>
           <div id="DeleteProjForm" class="DeleteProjForm" title="Delete Project Team Info" >
           <form name="projDelForm" action="{{ url_for('projects') }}" method=post>
             <input type="hidden" name="type" value = "DP">
@@ -40,7 +39,6 @@
         <td>{{ entry[0].projectName }}</td>  
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
         <td>{{ entry[0].table }}</td> 
-	<td><div class="deleteButton"></div></td>
         <!-- <td>{{ entry[0].projectMajor }}</td> -->  
         <td><i class="icon-chevron-right"></i></td>
       </tr>  
