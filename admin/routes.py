@@ -89,10 +89,10 @@ def map():
 @app.route('/projects')
 def projects():
     if(request.method=='POST'):
-    if(request.form['type']=="EP"):
-        theDatabase.editProj(request.form['projInfo'])
-    elif(request.form['type']=="DP"):
-        theDatabase.delProj(request.form['projKey'])
+        if(request.form['type']=="EP"):
+            theDatabase.editProj(request.form['projInfo'])
+        elif(request.form['type']=="DP"):
+            theDatabase.delProj(request.form['projKey'])
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
 
