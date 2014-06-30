@@ -89,29 +89,32 @@ def map():
 @app.route('/projects')
 def projects():
     if(request.method=='POST'):
-    if(request.form['type']=="EP"):
-        theDatabase.editProj(request.form['projInfo'])
-    elif(request.form['type']=="DP"):
-        theDatabase.delProj(request.form['projKey'])
+        if(request.form['type']=="EP"):
+            theDatabase.editProj(request.form['projInfo'])
+        elif(request.form['type']=="DP"):
+            theDatabase.delProj(request.form['projKey'])
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
 
 @app.route('/semesters')
 def semesters():
-    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters())
+    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester())
 
-@app.route('/semesters/<newSemester>')
-def addsemester(newSemester):
-	#semester = theDatabase.getCurrentSemester()
-	#curDir = os.getcwd()
-	#website = os.path.join(curDir,"app/website")
-	#oldSemPath = os.path.join(curDir,"app/" + semester)
-	#try:
-	#	shutil.copytree(website,oldSemPath)
-	#except OSError as exc: 
-	#	shutil.copy(website,oldSemPath)
+@app.route('/semesters/<newSemester>/<newKey>')
+def addsemesterWithKey(newSemester, newKey):
 	theDatabase.setCurrentSemester(newSemester)
+	theDatabase.setCurrentSeelioKey(newKey, newSemester)
 	return redirect(flask.url_for('semesters'))
+	
+@app.route('/semesters/<newSemester>')
+def addSemester(newSemester):
+    theDatabase.setCurrentSemester(newSemester)
+    return redirect(flask.url_for('semesters'))
+	
+@app.route('/semesters/delete/<semester>')
+def removeSemester(semester):
+    theDatabase.removeSemester(semester)        
+    return redirect(flask.url_for('semesters'))
 
 @app.route('/tips', methods=['GET', 'POST'])
 def tips():
