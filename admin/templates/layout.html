@@ -321,13 +321,13 @@
 				<div class="main clearfix">
 				<div class="column">
 					{% if pageName == "Project Details" %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ submission.projectName }}</span>
 					{% elif pageName == "Projects" %}
 
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ pageName }}
-					<button type="button" class="button">Add a new team</button></span>
+					<button type="button" class="button" onclick="location.href='{{ url_for('../../form/templates/home.html') }}'">Add a new team</button></span>
 					<div id="sb-search" class="sb-search">
 						<form>
 							<input class="sb-search-input" placeholder="Search by team, project, major, table#, sponsor, etc." type="text" value="" name="search" id="searchText">
@@ -336,10 +336,10 @@
 						</form>
 					</div>
 					{% elif pageName == "Search Results" %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ searchTitle }}</span>
 					{% else %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ pageName }}</span>
 					{% endif %} 
 					
