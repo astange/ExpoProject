@@ -19,6 +19,7 @@ def check_auth(username, password):
     return username == 'expospring2014' and password == 'haveaniceday'
 
 
+
 def authenticate():
     return Response(
         'Your username or password was wrong.', 401,
