@@ -245,6 +245,10 @@ class RedisDB:
 
     def getBusSchedule(self):
         return self.dbc.get("busSchedule")
+
+
+    def delProj(self,key):
+        self.dbc.delete(key)
         
     def getCurrentSeelioKey(self, semester = None):
         if(semester == None):
@@ -255,3 +259,5 @@ class RedisDB:
         if(semester == None):
             semester = self.getCurrentSemester()
         self.dbc.set('seelioKey', newKey)
+    def setTableNum(self, subNum,tableNum):
+        self.dbc.hset(subNum, "table",tableNum)

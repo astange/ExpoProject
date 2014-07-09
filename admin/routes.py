@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, Response, redirect
+from flask import Flask, render_template, request, Response, redirect, url_for
+from werkzeug.utils import secure_filename
 from redisDB import *
 from functools import wraps
 from flask_mail import Mail, Message
@@ -8,9 +9,15 @@ import flask
 import sys
 import os
 import shutil
+import csv
+import StringIO
+import string
 reload(sys)
 sys.setdefaultencoding('utf-8')
 app = Flask(__name__)
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/data')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Initialize our global variables. Mail needs to be global so it's here, but
 #no need to initialize it twice, and it has to be initialized after setting
@@ -49,12 +56,21 @@ def requires_auth(f):
 def index():
     theEmailForm = emailForm(request.form)
     if(request.method == 'POST'):
-        msg = Message(
-            'expo.gatech.edu Contact Form', recipients=['capstone@gatech.edu'])
-        msg.add_recipient("davidgsharpe7@gmail.com")
-        msg.body = "Name: " + theEmailForm.name.data + "\n Email:" + \
-            theEmailForm.email.data + "\n\n" + theEmailForm.message.data
-        mail.send(msg)
+        if(request.form['type']=="img"):
+            files=request.files['file']
+            filename = secure_filename(files.filename)
+            files.save(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)),'static/img'),'GT_logo.png'))
+            src = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)),'static/img'),'GT_logo.png')
+            dst = os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'website/static/img'),'GT_logo.png')
+            shutil.copyfile(src,dst)
+#the previous line will need to be calibrated on deploy
+        else:
+            msg = Message(
+                'expo.gatech.edu Contact Form', recipients=['capstone@gatech.edu'])
+            msg.add_recipient("davidgsharpe7@gmail.com")
+            msg.body = "Name: " + theEmailForm.name.data + "\n Email:" + \
+                theEmailForm.email.data + "\n\n" + theEmailForm.message.data
+            mail.send(msg)
     return render_template('index.html', pageName="Index", emailForm=emailForm())
 
 #This looks at the submission number parameter passed in the URL, and
@@ -86,8 +102,15 @@ def social():
 def map():
     return render_template('map.html', pageName="Expo Map", emailForm=emailForm())
 
-@app.route('/projects')
+@app.route('/projects', methods=['GET','POST'])
 def projects():
+    tablesTable()
+    if(request.method=='POST'):
+        if(request.form['type']=="DP"):
+            theDatabase.delProj(request.form['projKey'])
+        elif(request.form['type']=="tables"):
+            files=request.files['file']
+            processTables(files)
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
 
@@ -140,6 +163,29 @@ def tips():
 @app.route('/search/<searchString>')
 def search(searchString):
     return render_template('projects.html', entries=theDatabase.search(searchString), pageName="Search Results", searchTitle="Search Results for: " + "\""+searchString +"\"", emailForm=emailForm())
+
+def tablesTable():
+    tableFile = open(os.path.join(UPLOAD_FOLDER,"tables.csv"),'w')
+    tableFile.write("ID,Project Name, Table Number\n")
+    for entry in theDatabase.getAllEntriesWithSubmissionNums():
+        if "table" in entry[0].keys():
+            tableFile.write(str(entry[1]) + "," + entry[0]["projectName"]+ "," + entry[0]["table"] + "\n")
+        else:
+            tableFile.write(str(entry[1]) + "," + entry[0]["projectName"]+ "," + "\n")
+    tableFile.close()
+
+def processTables(csvFile):
+    csvFile.save(os.path.join(UPLOAD_FOLDER,"upTables.csv"))
+    csvfile = open(os.path.join(UPLOAD_FOLDER,"upTables.csv"), "r")
+    csvfile.seek(0)
+    firstRow = True
+    for row in csvfile:
+        if firstRow ==True:
+            firstRow = False
+            continue
+        curRow = string.split(row,',')
+        print str(curRow[0]) + "  " + str(curRow[2])
+        theDatabase.setTableNum(curRow[0],curRow[2].strip())
 
 
 if __name__ == '__main__':

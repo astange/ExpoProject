@@ -4,8 +4,7 @@
   <div class="table-responsive">
     <table class="table table-striped table-hover" >  
       <thead>  
-        <tr>  
-          <th>Edit</th>
+        <tr> 
           <th>Delete</th>
           <th>Project Name</th>  
           <!-- <th>Project Description</th>   -->
@@ -16,28 +15,35 @@
       <tbody>  
        {% for entry in entries %}
 
-       <tr class='clickableRow' href='/projectdetails/{{ entry[1] }}'>  
-        <td><div id="editProjButton" class="editButton editProjButton"></div>
-          <div id="EditProjForm" class="EditProjForm" title="Edit Project Team Info" >
-          <form name="projEditForm" action="{{ url_for('projects') }}" method=post>
-            <input type="hidden" name="type" value = "proj">
-            <textarea rows="7" cols="100" name="editProj" id="editProj" required></textarea>
-            <input type="submit" value="Edit">
-          </form>
-          </div>
+       <tr> 
+        <td><div id="{{entry[1]}}" class="deleteButton deleteProjButton"></div>
+
         </td>
-        <td><div id="delete{{entry[0]}}" class="deleteButton deleteProj"></div>
-        </td>
-        <td>{{ entry[0].projectName }}</td>  
+        <td id="name{{entry[1]}}"class='clickableRow' href='/projectdetails/{{ entry[1] }}'>{{ entry[0].projectName }}</td>  
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
-        <td>{{ entry[0].table }}</td> 
-	<td><div class="deleteButton"></div></td>
+        <td class='clickableRow' href='/projectdetails/{{ entry[1] }}'>{{ entry[0].table }}</td> 
         <!-- <td>{{ entry[0].projectMajor }}</td> -->  
-        <td><i class="icon-chevron-right"></i></td>
+        <td class='clickableRow' href='/projectdetails/{{ entry[1] }}'><i class="icon-chevron-right"></i></td>
       </tr>  
       {% endfor %}
     </tbody>  
-  </table>  
+  </table>
+ <form method="get" action="{{url_for('static',filename='data/tables.csv')}}">
+<button type="submit">Download Tables.csv</button>
+</form>
+ <form method=post action="{{ url_for('projects') }}" enctype=multipart/form-data>
+<input type="hidden" name="type" value="tables">
+<input type=file name="file">
+<button type="submit">Upload Tables.csv</button>
+</form>
+          <div id="DeleteProjForm" class="DeleteProjForm" title="Delete Project Team Info" >
+          <form name="projDelForm" action="{{ url_for('projects') }}" method=post>
+            <input type="hidden" name="type" value = "DP">
+            <input type="hidden" id = "delKey" name="projKey" value="">
+            <p id="pLabel"></p>
+            <input type="submit" value="Delete">
+          </form>
+          </div>
 </div>
 </div>
 {% endblock %}

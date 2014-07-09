@@ -199,14 +199,16 @@
 	</script>
 	<script>
 		$(function(){
-			$( "#EditProjForm" ).dialog({
+			$( "#DeleteProjForm" ).dialog({
 				autoOpen: false,
-				position: { my: "left", at: "right", of:"#editProjButton"},
+				position: { my: "top", at: "top", of:"#content"},
 			});
-				$( ".editProjButton" ).click(function(event) {
-				$( "#EditProjForm" ).dialog( "open" );
-				var name = "proj";
-				document.getElementById("editProj").value = document.getElementById(name).innerHTML;
+				$( ".deleteProjButton" ).click(function(event) {
+				$( "#DeleteProjForm" ).dialog( "open" );
+				var name = "name"+(event.target.id);
+				document.getElementById("delKey").value = (event.target.id);
+				var message = document.getElementById(name).innerHTML;
+				document.getElementById("pLabel").innerHTML = "Are you sure you want to delete: <br>" + message;
 			});
 		});
 	</script>
@@ -261,11 +263,6 @@
 			});
 		});
 	</script>
-	<script>
-	function uploadImage(){
-	alert("I need to make this functional still")
-	}
-	</script>
 	<style>
 	.contenthover { padding:20px 20px 10px 20px; }
 	.contenthover, .contenthover h3, contenthover a { color:#fff; }
@@ -291,26 +288,17 @@
 		<div id="logo"><p><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/GT_logo.png') }}" class="gtlogo" id="logo" /></a>
 <font color = "white">Admin</font></p></div>
 
-		<div class="contenthover">
-			<p><a href="#" id="uploadButton" class="mybutton">Click to upload new picture</a></p>
-		</div>
-		<div id="uploadForm" class="uploadForm" title="Upload Image" onsubmit="uploadImage()">
-			<form>
-				<input type="file" accept="image/*">
-				<input type="submit" value="Submit">
-			</form>
-		</div>
 		<div class="alert alert-danger" id="ExpoAlert"><strong>Alert!</strong> Due to the rain the expo will follow the rain map.</div>
 		<div id="content">
 			<div class="container">
 				<div class="main clearfix">
 				<div class="column">
 					{% if pageName == "Project Details" %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ submission.projectName }}</span>
 					{% elif pageName == "Projects" %}
 
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ pageName }}
 					<button type="button" class="button">Add a new team</button></span>
 					<div id="sb-search" class="sb-search">
@@ -356,6 +344,7 @@
 					</div>
 					<div class="modal-body">
 						<form action="{{ url_for('index') }}" method=post>
+						<input type="hidden" name="type" value="contact">
 						{{ emailForm.csrf_token }}
       					Name: <br>{{ emailForm.name }}<br>
       					Email: <br>{{ emailForm.email }}<br>
