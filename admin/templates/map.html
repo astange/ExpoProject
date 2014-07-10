@@ -8,18 +8,13 @@
 	                    </label>
 	                  </p>
                       <p>
-                        <button type="button" id="use-image" name="image" value="useImage">
-                            <code>Image...</code>    
-                        </button> 
+                        <code>Add Image...</code>  
+                        <input type="file" id="use-image" name="image" value="useImage">
+                        </input> 
                       </p>
                       <p>
                         <button type="button" id="draw-table" name="table" value="drawTable">
-                            <code>Table</code>    
-                        </button> 
-                      </p>
-                      <p>
-                        <button type="button" id="free-draw"name="Polyline" value="drawPolyline">
-                            <code>Free Draw (Maybe have this?)</code>    
+                            <code>Add Table</code>    
                         </button> 
                       </p>
                       <p>
@@ -28,22 +23,22 @@
                         </button> 
                       </p>
                       <p>
-                        <button type="button" name="Save" value="save">
+                        <button type="button" id="save" name="Save" value="save">
                             <code>Save</code>    
                         </button> 
                       </p>
                       <p>
-                        <button type="button" name="Load" value="load">
+                        <button type="button" id="load" name="Load" value="load">
                             <code>Load</code>    
                         </button> 
                       </p>
                       <p>
-                        <button type="button" name="MoveBack" value="back">
+                        <button type="button" id="move-back"name="MoveBack" value="back">
                             <code>Move Selected Object back</code>    
                         </button> 
                       </p>
                       <p>
-                        <button type="button" name="MoveForward" value="front">
+                        <button type="button" id="move-forward" name="MoveForward" value="front">
                             <code>Move Selected Object to Front</code>    
                         </button> 
                       </p>
@@ -63,20 +58,105 @@
                     <div style="width: 500px; height: 400px; position: relative;">
 	                <canvas id="canvas" width="500" height="400" style="border:1px solid #000000; float=left;"></canvas>
 	                </div>
+	                
+	                
                     <script id="main">(function(){
                         var canvas = new fabric.Canvas('canvas');
-                        canvas.add(new fabric.Circle({radius:30, fill: '#f55', top:100, left:100}));
+                        
+                        document.onkeydown = onKeyDownHandler;
+                        
+                        function onKeyDownHandler(event){
+                            var key;
+                            if(window.event){
+                                key = window.event.keyCode;
+                            }
+                            else{
+                                key = event.keyCode;
+                            }
+                            
+                            if(key == 46 || 8){
+                                canvas.remove(canvas.getActiveObject());
+                         
+                            }
+                        }
+                        
+                        var Table = fabric.util.createClass(fabric.IText, {
+                        
+                            type: 'Table',
+                            
+                            initialize: function(options) {
+                                options || (options = { });
+                                this.callSuper('initialize',options);
+                            },
+                
+                            _render: function(ctx) {
+                                this.callSuper('_render',ctx);
+                                ctx.rect(-this.width/2, -this.height/2, this.width, this.height);
+                                ctx.stroke();
+                            }
+                        
+                        });
                         
                         canvas.selectionColor = 'rgba(0,255,0,0.3)';
                         canvas.selectionBorderColor = 'red';
                         canvas.selectionLineWidth = 5;
                         
-                        function observeChecked(property) {
-                            document.getElementById(property).onclick = function() {
-                                canvas.item(0)[property] = this.checked;
-                                canvas.renderAll();  
-                            };
-                        }
+                        document.getElementById('use-image').onchange = function handleImage(e) {
+                            var reader = new FileReader();
+                            reader.onload = function(event){
+                                var imgObj = new Image();
+                                imgObj.src = event.target.result;
+                                imgObj.onload = function(){
+                                    var image = new fabric.Image(imgObj);
+                                    image.set({
+                                        left:10,
+                                        top:10,
+                                    });
+                                
+                                    canvas.add(image);
+                                }
+                            }
+                            reader.readAsDataURL(e.target.files[0]);
+                        }; 
+                        
+                        document.getElementById('draw-table').onclick = function() {
+                            canvas.add(new Table('Tap and Type', {
+                                fontFamily: 'arial black',
+                                left: 50,
+                                top: 50, 
+                            }));
+                        }; 
+                        
+                        
+                        document.getElementById('reset').onclick = function() {
+                            var r = confirm("Are you sure you would like to reset?\nWarning! This WILL delete all information and make your data unrecoverable.");
+                            if(r == false) return false;
+                            canvas.forEachObject(function(obj){
+                                canvas.remove(obj);
+                            });
+                        };
+                        
+                        document.getElementById('save').onclick = function() {
+                            var output = JSON.stringify(canvas.toDatalessJSON());
+                            //#TODO save output to disk
+                            console.log(output);
+                        }; 
+                                               
+                        document.getElementById('load').onclick = function() {
+                            //#TODO load output from disk
+                            var input = "";
+                            canvas.loadFromJSON(input);
+                        
+                        };                        
+
+                        document.getElementById('move-forward').onclick = function() {
+                            canvas.getActiveObject().bringToFront();
+                        };
+                        
+                        document.getElementById('move-back').onclick = function() {
+                            canvas.getActiveObject().sendToBack();
+                        };
+                        
                         document.getElementById('NormalMap').onclick = function() {
                             document.getElementById('RainMap').checked = !this.checked; 
                         };
@@ -84,14 +164,6 @@
                             document.getElementById('NormalMap').checked = !this.checked; 
                         };
                         
-                        document.getElementById('reset').onclick = function() {
-                            var r = confirm("Are you sure you would like to reset?\nWarning! This WILL delete all information and make your data unrecoverable.");
-                            if(r == false) return false;
-                            var objects = canvas.getObjects();
-                            for(var i = 0; i < objects.length; i++){
-                                canvas.remove(objects[i]);
-                            }
-                        };
                         })();
                     </script>
                    </div>
