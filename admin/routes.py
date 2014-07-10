@@ -146,6 +146,27 @@ def tips():
 def search(searchString):
     return render_template('projects.html', entries=theDatabase.search(searchString), pageName="Search Results", searchTitle="Search Results for: " + "\""+searchString +"\"", emailForm=emailForm())
 
+@app.route('/../../form/templates/home', methods=['GET', 'POST'])
+def home():
+    teamFormInstance = teamForm(request.form)
+    if request.method == 'GET':
+        return render_template('home.html', form=teamFormInstance)
+    elif request.method == 'POST':
+        if teamFormInstance.validate() == False:
+            flash(
+                "There was an error in the data you submitted. Please check all the fields and try again.")
+            return render_template('home.html', form=teamFormInstance)
+        else:
+            formDict = teamFormInstance.convertToDictionary()
+            key = theDatabase.saveToDB(formDict)
+            dbData = theDatabase.getAllDataForSubmission(key)
+            if dbData == formDict:
+                sendConfirmation(app, teamFormInstance.teamEmail.data, teamFormInstance.CreateEmailBodyHTML(getTemplatePath(app)))
+            else:
+                flash("There was an error submitting the form. Please Try again. If you experience more issues please contact " + config.get("MailServer","MAIL_DEFAULT_SENDER"))
+                return render_template('home.html', form=teamFormInstance)
+
+            return render_template('success.html')
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(24)
