@@ -146,7 +146,7 @@ def tips():
 def search(searchString):
     return render_template('projects.html', entries=theDatabase.search(searchString), pageName="Search Results", searchTitle="Search Results for: " + "\""+searchString +"\"", emailForm=emailForm())
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/addteam', methods=['GET', 'POST'])
 def home():
     teamFormInstance = teamForm(request.form)
     if request.method == 'GET':

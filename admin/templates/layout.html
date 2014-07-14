@@ -214,14 +214,14 @@
 	</script>
 	<script>
 		$(function(){
-			$( "#EditProjForm" ).dialog({
+			$( "#MarkProjForm" ).dialog({
 				autoOpen: false,
-				position: { my: "left", at: "right", of:"#editProjButton"},
+				position: { my: "left", at: "right", of:"#markProjButton"},
 			});
-				$( ".editProjButton" ).click(function(event) {
-				$( "#EditProjForm" ).dialog( "open" );
+				$( ".markProjButton" ).click(function(event) {
+				$( "#MarkProjForm" ).dialog( "open" );
 				var name = "proj";
-				document.getElementById("editProj").value = document.getElementById(name).innerHTML;
+				document.getElementById("markProj").value = document.getElementById(name).innerHTML;
 			});
 		});
 	</script>
@@ -327,7 +327,13 @@
 
 					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ pageName }}
-					<button type="button" class="button" onclick="location.href='{{ url_for('../../form/templates/home.html') }}'">Add a new team</button></span>
+					<form type="submit" value="Add a new team" action="expo.gatech.edu/registration" method="POST">
+						<input type="hidden" name="type" value="">
+					</form></span>
+					<!-->
+						<button type="button" class="button" onclick="location.href='{{url_for(home)}}'">Add a new team</button</span>
+					</!-->
+					
 					<div id="sb-search" class="sb-search">
 						<form>
 							<input class="sb-search-input" placeholder="Search by team, project, major, table#, sponsor, etc." type="text" value="" name="search" id="searchText">
