@@ -440,19 +440,15 @@ form input#send {
 background-color:rgb(100,100,100);
 }
 
-.ui-dialog .ui-dialog-titlebar{
+.ui-dialog.form-dialog{
 background-color: #EEB211;
+height: 600;
+width: 600;
 }
 
-.form-dialog.ui-dialog-titlebar{
-color: #EEB211;
+.ui-dialog.form-dialog.ui-dialog-titlebar{
+color: rgb(100,100,100);
 }
-
-.form-dialog.ui-dialog-content{
-color: #AAFF00;
-}
-
-
 
 .editButton{
  background-image:url('/static/img/edit.png') ;
