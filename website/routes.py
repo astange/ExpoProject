@@ -80,10 +80,18 @@ def map():
 @app.route('/projects')
 def projects():
     return redirect(url_for('projects') + "/" + theDatabase.getCurrentSemester())
-    
+
 @app.route('/projects/<semester>')
 def projectsSem(semester):
-    return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(semester), pageName="Projects", emailForm=emailForm())
+    cooks = request.cookies.get("favs")
+    if cooks is not None:
+        favUCooks = cooks.split(",")
+        favCooks = []
+        for a in favUCooks:
+            favCooks.append(str(a))
+
+        return render_template('projects.html', favs = favCooks, entries=theDatabase.getAllEntriesWithSubmissionNums(semester), pageName="Projects", emailForm=emailForm())
+    return render_template('projects.html', favs = [], entries=theDatabase.getAllEntriesWithSubmissionNums(semester), pageName="Projects", emailForm=emailForm())
 
 @app.route('/seeliogallery')
 def seeliogallery():

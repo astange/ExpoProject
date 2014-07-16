@@ -209,6 +209,7 @@ def home():
 
             return render_template('../form/templates/success.html')
 
+
 if __name__ == '__main__':
     app.secret_key = os.urandom(24)
     app.config.update(
