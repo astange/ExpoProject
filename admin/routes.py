@@ -185,7 +185,7 @@ def processTables(csvFile):
             continue
         curRow = string.split(row,',')
         print str(curRow[0]) + "  " + str(curRow[2])
-        theDatabase.setTableNum(curRow[0],curRow[2])
+        theDatabase.setTableNum(curRow[0],curRow[2].strip())
 
 
 if __name__ == '__main__':

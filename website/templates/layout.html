@@ -33,6 +33,51 @@
 		window.location= "/search/"+encodeURIComponent(searchtext);
 	}
 	</script>
+	<script type="text/javascript">
+	function favoriteFunc(elementID){
+        var eleStr = document.getElementById(elementID).id
+        var classType = document.getElementById(elementID).className
+        var cookStr = ""
+        var ca = document.cookie.split(';');
+        for (var i = 0; i<ca.length; i++){
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf("favs") != -1) cookStr = c.substring(5,c.length);
+        }
+		if ( classType=="favoriteOff"){
+			document.getElementById(elementID).className = "favoriteOn";
+                        cookStr = cookStr + ","+ elementID;
+                        if (cookStr.charAt(0)==',') cookStr = cookStr.substring(1);
+                        document.cookie = "favs="+cookStr+";";
+			document.getElementById(elementID).src = "{{url_for('static', filename="img/favicon.ico")}}"
+		}
+		else{
+			document.getElementById(elementID).className = "favoriteOff";
+
+                        cookA = cookStr.split(',');
+			for (var i = 0; i<cookA.length; i++){
+				var temp = cookA[i];
+				if(temp.trim() == elementID.trim()){
+					cookA.splice(i,1);
+					i--;
+				}
+			}
+			if(cookA.length ==0){
+				document.cookie = "favs=;expires = Thu,01 Jan 1970 00:00:00 GMT";
+			document.getElementById(elementID).src = "{{url_for('static', filename="img/favOff.ico")}}"
+				return;
+			}
+			newStr = ""
+			for (var i = 0; i<cookA.length;i++){
+				newStr = newStr+"," + cookA[i]
+			}
+                        if (newStr.charAt(0)==',') cookStr = newStr.substring(1);
+                        document.cookie = "favs="+cookStr+";";
+			document.getElementById(elementID).src = "{{url_for('static', filename="img/favOff.ico")}}"
+		}
+	}
+	</script>
+
 	<!--Temporarily here for testing-->
 	<script type="text/javascript">
 	function thankContact(x){
@@ -61,6 +106,8 @@
 	<body onload="loadMap();">
 	{% elif pageName=="Tips" %}
 	<body onload="$('#divTips').accordion({collapsible: true, active: false}); populateTips();">
+	{% elif pageName=="Projects" %}
+	<body onload = "favSetUp();">
 	{% else %}
 	<body>
 	{% endif %}
@@ -155,5 +202,7 @@
 		<p class="copyright">Created by <a href="/projectdetails/submission001">Team Drop Tables</a><br/> Copyright © 2014 | <a href="https://docs.google.com/forms/d/1l6kaRSpwP1Dowm6nTmSxeB49ao8he_Jc7JgDoEIn6eI/viewform" target="_blank">Feedback</a></p>
 		<br>
 		<br>
+
+
 	</body>
 </html>
