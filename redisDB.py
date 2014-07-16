@@ -246,7 +246,6 @@ class RedisDB:
     def getBusSchedule(self):
         return self.dbc.get("busSchedule")
 
-
     def delProj(self,key):
         self.dbc.delete(key)
         

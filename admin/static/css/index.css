@@ -440,6 +440,12 @@ form input#send {
 background-color:rgb(100,100,100);
 }
 
+.ui-dialog.form-dialog{
+background-color: #EEB211;
+height: 600;
+width: 600;
+}
+
 .editButton{
  background-image:url('/static/img/edit.png') ;
  width: 30px;

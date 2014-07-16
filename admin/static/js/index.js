@@ -9,7 +9,7 @@ function check(){
 		document.getElementById("map").src = "/static/img/Map_m.png";
 		document.getElementById("tips").src = "/static/img/Tips_m.png";
 		document.getElementById("events").src = "/static/img/Schedule_m.png";
-		document.getElementById("seelio").src = "/static/img/Seelio_m.png";
+		document.getElementById("semester").src = "/static/img/Semester_m.png";
 		document.getElementById("social").src = "/static/img/Social_m.png";
 		console.log(content.offsetWidth);
 		$("#icons").css("margin","0%");
@@ -25,7 +25,7 @@ function check(){
 		document.getElementById("map").src = "/static/img/Map.png";
 		document.getElementById("tips").src = "/static/img/Tips.png";
 		document.getElementById("events").src = "/static/img/Schedule.png";
-		document.getElementById("seelio").src = "/static/img/Seelio.png";
+		document.getElementById("semester").src = "/static/img/Semester.png";
 		document.getElementById("social").src = "/static/img/Social.png";
 		if (vertical){
 			$(".icon").css("width","90%");

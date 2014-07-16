@@ -84,6 +84,7 @@
 			$( "#addJTipForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addJTip"},
+				dialogClass: "form-dialog"
 			});
 				$( "#addJTip" ).click(function() {
 				$( "#addJTipForm" ).dialog( "open" );
@@ -95,6 +96,7 @@
 			$( "#addSTipForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addSTip"},
+				dialogClass: "form-dialog"
 			});
 				$( "#addSTip" ).click(function() {
 				$( "#addSTipForm" ).dialog( "open" );
@@ -106,6 +108,7 @@
 			$( "#addVTipForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addVTip"},
+				dialogClass: "form-dialog"
 			});
 				$( "#addVTip" ).click(function() {
 				$( "#addVTipForm" ).dialog( "open" );
@@ -118,6 +121,7 @@
 			$( "#EditVForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addVTip"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editVButton" ).click(function(event) {
 				$( "#EditVForm" ).dialog( "open" );
@@ -133,6 +137,7 @@
 			$( "#EditJForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addJTip"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editJButton" ).click(function(event) {
 				$( "#EditJForm" ).dialog( "open" );
@@ -148,6 +153,7 @@
 			$( "#EditSForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addSTip"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editSButton" ).click(function(event) {
 				$( "#EditSForm" ).dialog( "open" );
@@ -163,6 +169,7 @@
 			$( "#EditSchForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#editSchButton"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editSchButton" ).click(function(event) {
 				$( "#EditSchForm" ).dialog( "open" );
@@ -176,6 +183,7 @@
 			$( "#EditBusSchForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#editBusSchButton"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editBusSchButton" ).click(function(event) {
 				$( "#EditBusSchForm" ).dialog( "open" );
@@ -189,6 +197,7 @@
 			$( "#EditSchEndForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#editSchEndButton"},
+				dialogClass: "form-dialog"
 			});
 				$( ".editSchEndButton" ).click(function(event) {
 				$( "#EditSchEndForm" ).dialog( "open" );
@@ -212,11 +221,27 @@
 			});
 		});
 	</script>
-	 <script>
+
+	<script>
+		$(function(){
+			$( "#MarkProjForm" ).dialog({
+				autoOpen: false,
+				position: { my: "left", at: "right", of:"#markProjButton"},
+			});
+				$( ".markProjButton" ).click(function(event) {
+				$( "#MarkProjForm" ).dialog( "open" );
+				var name = "proj";
+				document.getElementById("markProj").value = document.getElementById(name).innerHTML;
+			});
+		});
+	</script>
+
+	<script>
 		$(function() {
 			$( "#DeleteJForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addJTip"},
+				dialogClass: "form-dialog"
 			});
 			$( ".deleteJTip" ).click(function(event) {
 				$( "#DeleteJForm" ).dialog( "open" );
@@ -229,12 +254,12 @@
 		});
 	</script>
 
-
 	 <script>
 		$(function() {
 			$( "#DeleteSForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addSTip"},
+				dialogClass: "form-dialog"
 			});
 			$( ".deleteSTip" ).click(function(event) {
 				$( "#DeleteSForm" ).dialog( "open" );
@@ -252,6 +277,7 @@
 			$( "#DeleteVForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addVTip"},
+				dialogClass: "form-dialog"
 			});
 			$( ".deleteVTip" ).click(function(event) {
 				$( "#DeleteVForm" ).dialog( "open" );
@@ -297,10 +323,13 @@
 					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ submission.projectName }}</span>
 					{% elif pageName == "Projects" %}
-
 					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ pageName }}
-					<button type="button" class="button">Add a new team</button></span>
+					<form type="submit" value="Add a new team" action="expo.gatech.edu/registration" method="POST">
+						<input type="hidden" name="type" value="">
+					</form></span>
+					<!--button type="button" class="button" onclick="location.href='{{url_for(home)}}'">Add a new team</button</span>-->
+					
 					<div id="sb-search" class="sb-search">
 						<form>
 							<input class="sb-search-input" placeholder="Search by team, project, major, table#, sponsor, etc." type="text" value="" name="search" id="searchText">
@@ -309,10 +338,10 @@
 						</form>
 					</div>
 					{% elif pageName == "Search Results" %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ searchTitle }}</span>
 					{% else %}
-					<button type="button" class="button" onclick="location.href='javascript:history.back()'">Back</button>
+					<button type="button" class="button" onclick="location.href='{{ url_for('index') }}'">Back</button>
 					<span id="reds">{{ pageName }}</span>
 					{% endif %} 
 					

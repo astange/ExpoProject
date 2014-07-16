@@ -4,7 +4,8 @@
   <div class="table-responsive">
     <table class="table table-striped table-hover" >  
       <thead>  
-        <tr> 
+        <tr>  
+          <th>Favorite</th>
           <th>Delete</th>
           <th>Project Name</th>  
           <!-- <th>Project Description</th>   -->
@@ -14,12 +15,13 @@
       </thead>  
       <tbody>  
        {% for entry in entries %}
-
        <tr> 
+        <td><div id="{{entry[1]}}" class="markButton markProjButton"></div>
+        </td>
         <td><div id="{{entry[1]}}" class="deleteButton deleteProjButton"></div>
-
         </td>
         <td id="name{{entry[1]}}"class='clickableRow' href='/projectdetails/{{ entry[1] }}'>{{ entry[0].projectName }}</td>  
+
         <!-- <td>{{ entry[0].projectDescription }}</td> --> 
         <td class='clickableRow' href='/projectdetails/{{ entry[1] }}'>{{ entry[0].table }}</td> 
         <!-- <td>{{ entry[0].projectMajor }}</td> -->  
@@ -44,6 +46,4 @@
             <input type="submit" value="Delete">
           </form>
           </div>
-</div>
-</div>
 {% endblock %}
