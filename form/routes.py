@@ -39,7 +39,10 @@ def requires_auth(f):
 def home():
     teamFormInstance = teamForm(request.form)
     if request.method == 'GET':
-        return render_template('home.html', form=teamFormInstance)
+        if theDatabase.getRegistrationStatus() == "open":
+            return render_template('home.html', form=teamFormInstance)
+        else:
+            return render_template('closed.html')
     elif request.method == 'POST':
         if teamFormInstance.validate() == False:
             flash(

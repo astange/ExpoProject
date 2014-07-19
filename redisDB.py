@@ -12,6 +12,7 @@ class RedisDB:
     # If we're just starting the database and numSubmissions doesn't exist,
     # create it and set to 0
     def init(self):
+        self.dbc.setnx('registration', 'open')
         self.dbc.setnx('currentSemester', 'Spring2014')
         self.dbc.setnx(self.dbc.get('currentSemester') + 'seelioKey','52f3dfc042ae849b5e000097')
         self.dbc.setnx('numVTips', '0')
@@ -153,52 +154,52 @@ class RedisDB:
 #in order to make the webpage edittable, we will store certain text information here so it can easily be editted.
 
     def addVisTip(self, tip):
-		self.dbc.incr('numVTips')
-		numVTips = int(self.dbc.get('numVTips'))
-		name = 'VTips'+str(numVTips)
-		self.dbc.hset(name, "tip", tip) 
-		self.dbc.hset(name, "num", str(numVTips)) 
+        self.dbc.incr('numVTips')
+        numVTips = int(self.dbc.get('numVTips'))
+        name = 'VTips'+str(numVTips)
+        self.dbc.hset(name, "tip", tip) 
+        self.dbc.hset(name, "num", str(numVTips)) 
 
     def addJudTip(self, tip):
 
-		self.dbc.incr('numJTips')
-		numJTips = int(self.dbc.get('numJTips'))
-		name = 'JTips'+str(numJTips)
-		self.dbc.hset(name, "tip",tip) 
-		self.dbc.hset(name, "num", str(numJTips)) 
+        self.dbc.incr('numJTips')
+        numJTips = int(self.dbc.get('numJTips'))
+        name = 'JTips'+str(numJTips)
+        self.dbc.hset(name, "tip",tip) 
+        self.dbc.hset(name, "num", str(numJTips)) 
 
 
     def addStuTip(self, tip):
 
-		self.dbc.incr('numSTips')
-		numSTips = int(self.dbc.get('numSTips'))
-		name = 'STips'+str(numSTips)
-		self.dbc.hset(name, "tip", tip) 
-		self.dbc.hset(name, "num", str(numSTips)) 
+        self.dbc.incr('numSTips')
+        numSTips = int(self.dbc.get('numSTips'))
+        name = 'STips'+str(numSTips)
+        self.dbc.hset(name, "tip", tip) 
+        self.dbc.hset(name, "num", str(numSTips)) 
 
     def getAllVTips(self):
-		keys = self.dbc.keys('VTips*')
-		vTips = [];
-		for x in keys:
-			vTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
-		return vTips
+        keys = self.dbc.keys('VTips*')
+        vTips = [];
+        for x in keys:
+            vTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
+        return vTips
 
 
     def getAllSTips(self):
-		keys = self.dbc.keys('STips*')
-		sTips = [];
-		for x in keys:
-			sTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
-		return sTips
+        keys = self.dbc.keys('STips*')
+        sTips = [];
+        for x in keys:
+            sTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
+        return sTips
 
 
 
     def getAllJTips(self):
-		keys = self.dbc.keys('JTips*')
-		jTips = [];
-		for x in keys:
-			jTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
-		return jTips
+        keys = self.dbc.keys('JTips*')
+        jTips = [];
+        for x in keys:
+            jTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
+        return jTips
 
     def editVTip(self,newTip,numKey):
         name = "VTips"+numKey
@@ -222,9 +223,9 @@ class RedisDB:
         self.dbc.delete("STips"+key)
 
     def deleteAllTips(self):
-		keys = self.dbc.keys('VTips*')+self.dbc.keys('JTips*')+self.dbc.keys('STips*')
-		for x in keys:
-			self.dbc.delete(x);
+        keys = self.dbc.keys('VTips*')+self.dbc.keys('JTips*')+self.dbc.keys('STips*')
+        for x in keys:
+            self.dbc.delete(x);
 
 
     def editSchedule(self, text):
@@ -260,3 +261,22 @@ class RedisDB:
         self.dbc.set('seelioKey', newKey)
     def setTableNum(self, subNum,tableNum):
         self.dbc.hset(subNum, "table",tableNum)
+        
+    def toggleRegistration(self):
+        current = self.dbc.get("registration")
+        if current == "open":
+            self.dbc.set("registration", "closed")
+            return "closed"
+        else:
+            self.dbc.set("registration", "open")
+            return "open"
+        
+    def getRegistrationStatus(self):
+        return self.dbc.get("registration")
+    
+    def getRegistrationButton(self):
+        current = self.getRegistrationStatus()
+        if current == "open":
+            return "Close Registration"
+        else:
+            return "Open Registration"

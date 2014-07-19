@@ -54,3 +54,7 @@ function validateForm() {
 	}
 	document.location.href = "semesters/" + semester + year + "/" + sKey;
 }
+
+function toggleRegistration() {
+	document.location.href = "semesters/registration";
+}

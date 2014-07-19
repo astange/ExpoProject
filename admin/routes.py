@@ -12,6 +12,7 @@ import shutil
 import csv
 import StringIO
 import string
+from flask_wtf.csrf import CsrfProtect
 reload(sys)
 sys.setdefaultencoding('utf-8')
 app = Flask(__name__)
@@ -32,6 +33,7 @@ mail = None
 
 def check_auth(username, password):
     return username == 'expospring2014' and password == 'haveaniceday'
+
 
 
 def authenticate():
@@ -116,19 +118,24 @@ def projects():
 
 @app.route('/semesters')
 def semesters():
-    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester())
+    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester(), registration = theDatabase.getRegistrationButton())
+
+@app.route('/semesters/registration')
+def toggleRegistration():
+    theDatabase.toggleRegistration();
+    return redirect(flask.url_for('semesters'));
 
 @app.route('/semesters/<newSemester>/<newKey>')
 def addsemesterWithKey(newSemester, newKey):
-	theDatabase.setCurrentSemester(newSemester)
-	theDatabase.setCurrentSeelioKey(newKey, newSemester)
-	return redirect(flask.url_for('semesters'))
-	
+    theDatabase.setCurrentSemester(newSemester)
+    theDatabase.setCurrentSeelioKey(newKey, newSemester)
+    return redirect(flask.url_for('semesters'))
+    
 @app.route('/semesters/<newSemester>')
 def addSemester(newSemester):
     theDatabase.setCurrentSemester(newSemester)
     return redirect(flask.url_for('semesters'))
-	
+    
 @app.route('/semesters/delete/<semester>')
 def removeSemester(semester):
     theDatabase.removeSemester(semester)        
@@ -137,24 +144,24 @@ def removeSemester(semester):
 @app.route('/tips', methods=['GET', 'POST'])
 def tips():
     if(request.method=='POST'):
-	if(request.form['type']=="J"):
-	        theDatabase.addJudTip(request.form['newTip'])
-	elif(request.form['type']=="V"):
-		theDatabase.addVisTip(request.form['newTip'])
-	elif(request.form['type']=="S"):
-		theDatabase.addStuTip(request.form['newTip'])
-	elif(request.form['type']=="VE"):
-		theDatabase.editVTip(request.form['editVTip'],request.form['vKey'])
-	elif(request.form['type']=="SE"):
-		theDatabase.editSTip(request.form['editSTip'],request.form['sKey'])
-	elif(request.form['type']=="JE"):
-		theDatabase.editJTip(request.form['editJTip'],request.form['jKey'])
-	elif(request.form['type']=="JD"):
-		theDatabase.delJTip(request.form['jKey'])
-	elif(request.form['type']=="SD"):
-		theDatabase.delSTip(request.form['sKey'])
-	elif(request.form['type']=="VD"):
-		theDatabase.delVTip(request.form['vKey'])
+        if(request.form['type']=="J"):
+                theDatabase.addJudTip(request.form['newTip'])
+        elif(request.form['type']=="V"):
+            theDatabase.addVisTip(request.form['newTip'])
+        elif(request.form['type']=="S"):
+            theDatabase.addStuTip(request.form['newTip'])
+        elif(request.form['type']=="VE"):
+            theDatabase.editVTip(request.form['editVTip'],request.form['vKey'])
+        elif(request.form['type']=="SE"):
+            theDatabase.editSTip(request.form['editSTip'],request.form['sKey'])
+        elif(request.form['type']=="JE"):
+            theDatabase.editJTip(request.form['editJTip'],request.form['jKey'])
+        elif(request.form['type']=="JD"):
+            theDatabase.delJTip(request.form['jKey'])
+        elif(request.form['type']=="SD"):
+            theDatabase.delSTip(request.form['sKey'])
+        elif(request.form['type']=="VD"):
+            theDatabase.delVTip(request.form['vKey'])
     return render_template('tips.html', vTips = theDatabase.getAllVTips(),sTips = theDatabase.getAllSTips(), jTips = theDatabase.getAllJTips(), pageName="Tips", emailForm=emailForm())
 
 #This takes the search string passed in the URL, uses that to search
