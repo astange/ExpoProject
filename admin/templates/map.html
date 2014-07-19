@@ -65,11 +65,25 @@
                     <div id="canvasDiv" style="width: 500px; height: 400px; position: relative;">
 	                   <canvas id="canvas" width="500" height="400" style="border:1px solid #000000; float=left;"></canvas>
 	                </div>
+                    <p id="normalMapSerialized" style="display:none">
+                        {{ normalSerialized }}
+                    </p>
+                    <p id="rainMapSerialized" style="display:none">
+                        {{ rainSerialized }}
+                    </p>
+                    <p id="whichMap" style="display:none">
+                        {{ whichMap}}
+                    </p>
 	                
 	                
                     <script id="main">(function(){
                         var canvas = new fabric.Canvas('canvas');
-                        
+                        var map = document.getElementById("whichMap").innherHTML;
+                        if (map == "rainMap")
+                            canvas.loadFromJSON(document.getElementById("rainMapSerialized").innerHTML);
+                        else if (map == "normalMap")
+                            canvas.loadFromJSON(document.getElementById("normalMapSerialized").innerHTML);
+
                         document.onkeydown = onKeyDownHandler;
                         
                         function onKeyDownHandler(event){
@@ -86,13 +100,18 @@
                             }
                         }
                         
-                        var Table = fabric.util.createClass(fabric.IText, {
+                        fabric.Table = fabric.util.createClass(fabric.IText, {
                         
-                            type: 'Table',
+                            type: 'table',
                             
                             initialize: function(options) {
                                 options || (options = { });
                                 this.callSuper('initialize',options);
+                            },
+
+                            toObject: function() {
+                                return fabric.util.object.extend(this.callSuper('toObject'), {
+                                });
                             },
                 
                             _render: function(ctx) {
@@ -102,6 +121,10 @@
                             }
                         
                         });
+
+                            fabric.Table.fromObject = function(object, callback) {
+                        return new fabric.Table(object.text, object);
+                        };
                         
                         canvas.selectionColor = 'rgba(0,255,0,0.3)';
                         canvas.selectionBorderColor = 'red';
@@ -151,7 +174,7 @@
                         document.getElementById('draw-table').onclick = function() {
                             var tn = $('#tableNumber').val();
 
-                            canvas.add(new Table(tn, {
+                            canvas.add(new fabric.Table(tn, {
                                 fontFamily: 'arial black',
                                 left: 50,
                                 top: 50, 
@@ -160,7 +183,7 @@
                         
                         
                         document.getElementById('reset').onclick = function() {
-                            var r = confirm("Are you sure you would like to reset?\nWarning! This WILL delete all information and make your data unrecoverable.");
+                            var r = confirm("Are you sure you would like to reset?\nWarning! This WILL delete all unsaved changes and make your data unrecoverable.");
                             if(r == false) return false;
                             canvas.forEachObject(function(obj){
                                 canvas.remove(obj);
@@ -168,16 +191,33 @@
                         };
                         
                         document.getElementById('save').onclick = function() {
-                            var output = JSON.stringify(canvas.toDatalessJSON());
-                            //#TODO save output to disk
-                            console.log(output);
+                            var mapType = "normalMap";
+                            if (document.getElementById("RainMap").checked)
+                                mapType = "rainMap";
+                            var r = confirm("Are you sure you want to overwrite the currently saved " + mapType + "?");
+                            if (!r)
+                                return false;
+                            var serialized = JSON.stringify(canvas);
+                            if (mapType == "normalMap")
+                                document.getElementById("normalMapSerialized").innerHTML = serialized;
+                            else
+                                document.getElementById("rainMapSerialized").innerHTML = serialized;
+                            console.log(serialized);
+                            document.location.href = "map/" + mapType + "/" + serialized;
                         }; 
                                                
                         document.getElementById('load').onclick = function() {
-                            //#TODO load output from disk
-                            var input = "";
-                            canvas.loadFromJSON(input);
-                        
+                            var mapType = "NormalMap";
+                            var serialized = document.getElementById("normalMapSerialized").innerHTML;
+                            if (document.getElementById("RainMap").checked) {
+                                mapType = "RainMap";
+                                serialized = document.getElementById("rainMapSerialized").innerHTML;
+                            }
+                            var r = confirm("Are you sure you want to load the " + mapType + "? All unsaved changes will be lost!");
+                            if (!r)
+                                return false;
+                            canvas.loadFromJSON(serialized);
+                            canvas.renderAll();
                         };                        
 
                         document.getElementById('move-forward').onclick = function() {

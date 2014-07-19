@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, redirect, url_for
+from flask import Flask, render_template, request, Response, redirect, url_for, make_response
 from werkzeug.utils import secure_filename
 from redisDB import *
 from functools import wraps
@@ -102,7 +102,7 @@ def social():
 
 @app.route('/map')
 def map():
-    return render_template('map.html', pageName="Expo Map", emailForm=emailForm())
+    return render_template('map.html', pageName="Expo Map", emailForm=emailForm(), rainSerialized=theDatabase.getMapCanvas(map="rainMap"), normalSerialized=theDatabase.getMapCanvas(map="normalMap"))
 
 @app.route('/projects', methods=['GET','POST'])
 def projects():
@@ -141,11 +141,16 @@ def removeSemester(semester):
     theDatabase.removeSemester(semester)        
     return redirect(flask.url_for('semesters'))
 
+@app.route('/map/<mapType>/<serialized>')
+def saveMap(mapType, serialized):
+    theDatabase.setMapCanvas(mapSerialized = serialized, map = mapType)
+    return redirect(flask.url_for('map'))
+
 @app.route('/tips', methods=['GET', 'POST'])
 def tips():
     if(request.method=='POST'):
         if(request.form['type']=="J"):
-                theDatabase.addJudTip(request.form['newTip'])
+            theDatabase.addJudTip(request.form['newTip'])
         elif(request.form['type']=="V"):
             theDatabase.addVisTip(request.form['newTip'])
         elif(request.form['type']=="S"):

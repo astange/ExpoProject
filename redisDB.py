@@ -280,3 +280,15 @@ class RedisDB:
             return "Close Registration"
         else:
             return "Open Registration"
+
+    def getMapCanvas(self, map="normalMap"):
+        if map == "rainMap":
+            return self.dbc.get("rainMap")
+        else:
+            return self.dbc.get("normalMap")
+
+    def setMapCanvas(self, mapSerialized, map="normalMap"):
+        if map == "rainMap":
+            self.dbc.set("rainMap", mapSerialized)
+        else:
+            self.dbc.set("normalMap", mapSerialized)
