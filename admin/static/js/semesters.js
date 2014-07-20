@@ -58,3 +58,7 @@ function validateForm() {
 function toggleRegistration() {
 	document.location.href = "semesters/registration";
 }
+
+function logOut() {
+	document.location.href = "logout";
+}

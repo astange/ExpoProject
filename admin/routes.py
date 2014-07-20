@@ -34,13 +34,10 @@ mail = None
 def check_auth(username, password):
     return username == 'expospring2014' and password == 'haveaniceday'
 
-
-
 def authenticate():
     return Response(
         'Your username or password was wrong.', 401,
         {'WWW-Authenticate': 'Basic realm="Login Required"'})
-
 
 def requires_auth(f):
     @wraps(f)
@@ -55,6 +52,7 @@ def requires_auth(f):
 #POST is here because our email contact form, inherited by all pages, 
 #works by POSTing to the main page. 
 @app.route('/', methods=['GET', 'POST'])
+@requires_auth
 def index():
     theEmailForm = emailForm(request.form)
     if(request.method == 'POST'):
@@ -79,11 +77,12 @@ def index():
 #retrieves that entry from the database. It then passes that entry's information
 #to the projectdetails page.
 @app.route('/projectdetails/<submissionNum>')
+@requires_auth
 def projectdetails(submissionNum):
     return render_template('projectdetails.html', submission=theDatabase.getOneSubmission(submissionNum), pageName="Project Details", emailForm=emailForm())
 
-
 @app.route('/schedule', methods=['GET','POST'])
+@requires_auth
 def schedule():
     if(request.method=='POST'):
         if(request.form['type']=="Sch"):
@@ -94,17 +93,18 @@ def schedule():
             theDatabase.editSchEnd(request.form['editEndSchTip'])
     return render_template('schedule.html', schedule=theDatabase.getSchedule(), busSchedule=theDatabase.getBusSchedule(), schEnd=theDatabase.getSchEnd(), pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
 
-
 @app.route('/social')
+@requires_auth
 def social():
     return render_template('social.html', pageName="Social", emailForm=emailForm())
 
-
 @app.route('/map')
+@requires_auth
 def map():
     return render_template('map.html', pageName="Expo Map", emailForm=emailForm(), rainSerialized=theDatabase.getMapCanvas(map="rainMap"), normalSerialized=theDatabase.getMapCanvas(map="normalMap"))
 
 @app.route('/projects', methods=['GET','POST'])
+@requires_auth
 def projects():
     tablesTable()
     if(request.method=='POST'):
@@ -117,36 +117,43 @@ def projects():
 
 
 @app.route('/semesters')
+@requires_auth
 def semesters():
     return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester(), registration = theDatabase.getRegistrationButton())
 
 @app.route('/semesters/registration')
+@requires_auth
 def toggleRegistration():
     theDatabase.toggleRegistration();
     return redirect(flask.url_for('semesters'));
 
 @app.route('/semesters/<newSemester>/<newKey>')
+@requires_auth
 def addsemesterWithKey(newSemester, newKey):
     theDatabase.setCurrentSemester(newSemester)
     theDatabase.setCurrentSeelioKey(newKey, newSemester)
     return redirect(flask.url_for('semesters'))
-    
+        
 @app.route('/semesters/<newSemester>')
+@requires_auth
 def addSemester(newSemester):
     theDatabase.setCurrentSemester(newSemester)
     return redirect(flask.url_for('semesters'))
-    
+        
 @app.route('/semesters/delete/<semester>')
+@requires_auth
 def removeSemester(semester):
     theDatabase.removeSemester(semester)        
     return redirect(flask.url_for('semesters'))
 
 @app.route('/map/<mapType>/<serialized>')
+@requires_auth
 def saveMap(mapType, serialized):
     theDatabase.setMapCanvas(mapSerialized = serialized, map = mapType)
     return redirect(flask.url_for('map'))
 
 @app.route('/tips', methods=['GET', 'POST'])
+@requires_auth
 def tips():
     if(request.method=='POST'):
         if(request.form['type']=="J"):
@@ -173,6 +180,7 @@ def tips():
 #the database, and then passes the results to projects.html the same
 #way that /projects does. 
 @app.route('/search/<searchString>')
+@requires_auth
 def search(searchString):
     return render_template('projects.html', entries=theDatabase.search(searchString), pageName="Search Results", searchTitle="Search Results for: " + "\""+searchString +"\"", emailForm=emailForm())
 
@@ -200,6 +208,7 @@ def processTables(csvFile):
         theDatabase.setTableNum(curRow[0],curRow[2].strip())
 
 @app.route('/addteam', methods=['GET', 'POST'])
+@requires_auth
 def home():
     teamFormInstance = teamForm(request.form)
     if request.method == 'GET':
@@ -221,6 +230,11 @@ def home():
 
             return render_template('../form/templates/success.html')
 
+@app.route('/logout')
+def logOut():
+    return Response(
+        'You have logged out', 401,
+        {'WWW-Authenticate': 'Basic realm="You have successfully logged out. Click Cancel to continue browsing"'})
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(24)
