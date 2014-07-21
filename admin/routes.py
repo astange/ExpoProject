@@ -114,8 +114,11 @@ def projects():
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
 
-@app.route('/semesters')
+@app.route('/semesters', methods=['GET','POST'])
 def semesters():
+    if(request.method =='POST'):
+        files = request.files['file']
+        processSection(files)
     return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester())
 
 @app.route('/semesters/<newSemester>/<newKey>')
@@ -184,8 +187,22 @@ def processTables(csvFile):
             firstRow = False
             continue
         curRow = string.split(row,',')
-        print str(curRow[0]) + "  " + str(curRow[2])
         theDatabase.setTableNum(curRow[0],curRow[2].strip())
+
+def processSection(csvFile):
+    csvFile.save(os.path.join(UPLOAD_FOLDER,"upSections.csv"))
+    csvfile = open(os.path.join(UPLOAD_FOLDER,"upSections.csv"), "r")
+    csvfile.seek(0)
+    firstRow = True
+    theDatabase.removeAllSectionAMajor()
+    for row in csvfile:
+        if firstRow ==True:
+            firstRow = False
+            continue
+        curRow = string.split(row,',')
+        print str(curRow[0]) + "  "+ str(curRow[1])+" " + str(curRow[2])
+        theDatabase.addMajor(str(curRow[0]))
+        theDatabase.addSection(str(curRow[0])+" "+str(curRow[1])+"-"+str(curRow[2]).strip())
 
 @app.route('/addteam', methods=['GET', 'POST'])
 def home():

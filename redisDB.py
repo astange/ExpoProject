@@ -21,6 +21,11 @@ class RedisDB:
         self.dbc.setnx('schedule', ' <tr> <td>4:30pm</td> <td>Expo opens to the public</td> </tr> <tr> <td>5:00pm</td> <td>Optional tour of GT Invention Studio spaces at <a href="http://goo.gl/maps/K5vB3" target="_blank"> MRDC Building</a>, 2nd Floor Lobby near room 2211<br> <a href="http://www.capstone.gatech.edu/?page_id=2236#InventionStudioParking" target="_blank"> Invention Studio Tour Parking Information</a><br> A courtesy shuttle will take you to the Expo from MRDC and back</td> </tr> <tr> <td>5:30pm</td> <td>Expo judges preparation meeting at <a href="http://goo.gl/maps/xko7n" target="_blank">McCamish Pavilion</a><br> <a href="http://www.capstone.gatech.edu/?page_id=2236#McCamishPavilionParking" target="_blank">Expo Parking Information</a></td> </tr> <tr> <td>6:00pm</td> <td>Judging begins</td> </tr> <tr> <td>8:00pm</td> <td>Presentation of awards & prizes</td> </tr> <tr> <td>8:30pm</td> <td>Expo concludes</td> </tr> ')
         self.dbc.setnx('busSchedule', ' <tr> <td>5:30pm</td> <td>Bus will begin running from MRDC building to take visitors from Invention Studio tour to McCamish Pavilion</td> </tr> <tr> <td>6:00pm</td> <td>Bus is open to the public - route will run every 15 minutes from MRDC to McCamish Pavilion with no other stops along the way</td> </tr> <tr> <td>9:00pm</td> <td>Bus closes to the public</td> </tr>')
         self.dbc.setnx('schEnd','<a href="http://www.capstone.gatech.edu/wp-content/uploads/2014/03/Capstone-Design-Expo-Spring-2014.pdf" target="_blank">Click here</a> for a downloadable copy of the Expo, GT Invention Studio tour, and parking information.')
+        self.dbc.setnx('numMajors',1)
+        self.dbc.setnx('numSections',2)
+        self.dbc.setnx('Spring2014'+'majors0','Interdisciplinary')
+        self.dbc.setnx('Spring2014'+'sections0','Mixed')
+        self.dbc.setnx('Spring2014'+'sections1','Don\'t know')
 
     def saveToDB(self, formDict, semester=None):
         self.init()
@@ -132,6 +137,10 @@ class RedisDB:
         return self.dbc.get('currentSemester')
         
     def setCurrentSemester(self, newSemester):
+
+        self.dbc.setnx(newSemester+'majors0','Interdisciplinary')
+        self.dbc.setnx(newSemester+'sections0','Mixed')
+        self.dbc.setnx(newSemester+'sections1','Don\'t know')
         if(self.dbc.sismember('semesterSet', self.getCurrentSemester()) == 0):
             self.dbc.sadd('semesterSet', self.getCurrentSemester())
         self.dbc.set('currentSemester', newSemester)
@@ -260,3 +269,50 @@ class RedisDB:
         self.dbc.set('seelioKey', newKey)
     def setTableNum(self, subNum,tableNum):
         self.dbc.hset(subNum, "table",tableNum)
+
+    def getAllMajors(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        majorList = []
+        for x in keys:
+            majorList.append((self.dbc.get(x).lower(),self.dbc.get(x)))
+        return majorList
+    def getAllSections(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        majorList = []
+        for x in keys:
+            if (self.dbc.get(x) == 'Don\'t know'):
+                majorList.append(('unknown', 'Don\'t know'))
+            else:
+                majorList.append((self.dbc.get(x).lower().replace(" ",""),self.dbc.get(x)))
+        return majorList
+    def addMajor(self, major):
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        majorList = []
+        for x in keys:
+            majorList.append(self.dbc.get(x).lower())
+        print(major)
+        if (major.lower() not in majorList):
+                print(major+"True")
+		numMajors = int(self.dbc.get('numMajors'))
+		self.dbc.incr('numMajors')
+		name = self.getCurrentSemester()+'major'+str(numMajors)
+		self.dbc.set(name, major) 
+
+    def addSection(self, section):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        majorList = []
+        for x in keys:
+            majorList.append(self.dbc.get(x).lower())
+        if (section not in majorList):
+		numMajors = int(self.dbc.get('numSections'))
+		self.dbc.incr('numSections')
+		name = self.getCurrentSemester()+'section'+str(numMajors)
+		self.dbc.set(name, section) 
+
+    def removeAllSectionAMajor(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        for x in keys:
+            self.dbc.delete(x)
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        for x in keys:
+            self.dbc.delete(x)
