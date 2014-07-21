@@ -346,10 +346,6 @@
 					{% elif pageName == "Projects" %}
 					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ pageName }}</span>
-					<form action="http://localhost:5001" method="POST">
-						<input type="submit" value="Add a new team">
-					</form>
-					
 					<div id="sb-search" class="sb-search">
 						<form>
 							<input class="sb-search-input" placeholder="Search by team, project, major, table#, sponsor, etc." type="text" value="" name="search" id="searchText">
