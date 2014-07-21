@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
     <div>
 	                <div style="background: #f5f2f0; float:right">
 	                  <p>
@@ -78,11 +82,6 @@
 	                
                     <script id="main">(function(){
                         var canvas = new fabric.Canvas('canvas');
-                        var map = document.getElementById("whichMap").innherHTML;
-                        if (map == "rainMap")
-                            canvas.loadFromJSON(document.getElementById("rainMapSerialized").innerHTML);
-                        else if (map == "normalMap")
-                            canvas.loadFromJSON(document.getElementById("normalMapSerialized").innerHTML);
 
                         document.onkeydown = onKeyDownHandler;
                         
@@ -191,33 +190,36 @@
                         };
                         
                         document.getElementById('save').onclick = function() {
+                            var serialized = JSON.stringify(canvas);
                             var mapType = "normalMap";
                             if (document.getElementById("RainMap").checked)
                                 mapType = "rainMap";
                             var r = confirm("Are you sure you want to overwrite the currently saved " + mapType + "?");
                             if (!r)
                                 return false;
-                            var serialized = JSON.stringify(canvas);
+
                             if (mapType == "normalMap")
-                                document.getElementById("normalMapSerialized").innerHTML = serialized;
+                                $.post( $SCRIPT_ROOT + '/map', { normalMap: serialized }, "json" );
                             else
-                                document.getElementById("rainMapSerialized").innerHTML = serialized;
+                                $.post( $SCRIPT_ROOT + '/map', { rainMap: serialized } );
+                 
                             console.log(serialized);
-                            document.location.href = "map/" + mapType + "/" + serialized;
                         }; 
                                                
                         document.getElementById('load').onclick = function() {
                             var mapType = "NormalMap";
-                            var serialized = document.getElementById("normalMapSerialized").innerHTML;
-                            if (document.getElementById("RainMap").checked) {
+                            if (document.getElementById("RainMap").checked) 
                                 mapType = "RainMap";
-                                serialized = document.getElementById("rainMapSerialized").innerHTML;
-                            }
                             var r = confirm("Are you sure you want to load the " + mapType + "? All unsaved changes will be lost!");
+
                             if (!r)
                                 return false;
-                            canvas.loadFromJSON(serialized);
-                            canvas.renderAll();
+
+                            var serialized = ""
+                            if (mapType == "NormalMap")
+                                serialized = $.get( $SCRIPT_ROOT + '/map', { normalMap: "a" }, function(data) {canvas.loadFromJSON(data,canvas.renderAll.bind(canvas)); alert("Map Loaded");},"text" );
+                            else
+                                $.get( $SCRIPT_ROOT + '/map', { rainMap: "a" }, function(data) {canvas.loadFromJSON(data,canvas.renderAll.bind(canvas)); alert("Map Loaded");},"text" );
                         };                        
 
                         document.getElementById('move-forward').onclick = function() {

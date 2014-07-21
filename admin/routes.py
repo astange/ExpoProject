@@ -98,9 +98,23 @@ def schedule():
 def social():
     return render_template('social.html', pageName="Social", emailForm=emailForm())
 
-@app.route('/map')
-@requires_auth
+@app.route('/map', methods=['GET', 'POST'])
 def map():
+    if (request.method=='POST'):
+        if request.form.get('rainMap'):
+            theDatabase.setMapCanvas(request.form.get("rainMap"), "rainMap")
+        elif request.form.get("normalMap"):
+            theDatabase.setMapCanvas(request.form.get("normalMap"), "normalMap")
+    if (request.method=='GET'):
+        print("GET")
+        print(request.args.keys())
+        if request.args.get('rainMap'):
+            return Response(theDatabase.getMapCanvas("rainMap"), status=200)
+        elif request.args.get("normalMap"):
+            print(theDatabase.getMapCanvas("normalMap"))
+            return theDatabase.getMapCanvas("normalMap")
+            #return Response(theDatabase.getMapCanvas("normalMap"), status=200)
+    print("HERE")
     return render_template('map.html', pageName="Expo Map", emailForm=emailForm(), rainSerialized=theDatabase.getMapCanvas(map="rainMap"), normalSerialized=theDatabase.getMapCanvas(map="normalMap"))
 
 @app.route('/projects', methods=['GET','POST'])
