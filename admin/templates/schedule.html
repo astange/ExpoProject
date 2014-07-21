@@ -12,7 +12,7 @@
 	<div id="EditSchForm" class="EditSchForm" title="Edit Schedule" >
 		<form name="schEditForm" action="{{ url_for('schedule') }}" method=post>
 			<input type="hidden" name="type" value = "Sch">
-			<textarea rows="7" cols="100" name="editSchTip" id="editSchTip" required></textarea>
+			<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editSchTip" id="editSchTip" required></textarea>
 			<input type="submit" value="Edit">
 		</form>
 	</div>
@@ -27,7 +27,7 @@
 	<div id="EditBusSchForm" class="EditBusSchForm" title="Edit Bus Schedule" >
 		<form name="busSchEditForm" action="{{ url_for('schedule') }}" method=post>
 			<input type="hidden" name="type" value = "busSch">
-			<textarea rows="7" cols="100" name="editBusSchTip" id="editBusSchTip" required></textarea>
+			<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editBusSchTip" id="editBusSchTip" required></textarea>
 			<input type="submit" value="Edit">
 		</form>
 	</div>
@@ -38,7 +38,7 @@
 	<div id="EditSchEndForm" class="EditSchEndForm" title="Edit end of Schedule page Remarks" >
 		<form name="endSchEditForm" action="{{ url_for('schedule') }}" method=post>
 			<input type="hidden" name="type" value = "endSch">
-			<textarea rows="7" cols="100" name="editEndSchTip" id="editEndSchTip" required></textarea>
+			<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editEndSchTip" id="editEndSchTip" required></textarea>
 			<input type="submit" value="Edit">
 		</form>
 	</div>

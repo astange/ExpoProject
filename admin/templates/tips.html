@@ -25,7 +25,7 @@
 					<form name="jTipEditForm" action="{{ url_for('tips') }}" method=post>
 						<input type="hidden" name="type" value = "JE">
 						<input type="hidden" id = "jKey" name="jKey" value="">
-						<textarea rows="7" cols="100" name="editJTip" id="editJTip" required></textarea>
+						<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editJTip" id="editJTip" required></textarea>
 						<input type="submit" value="Edit">
 					</form>
 				</div>
@@ -46,7 +46,7 @@
 				<div id="addSTipForm" class="addSTipForm" title="Add Student Tip" >
 					<form name="sTipForm" action="{{ url_for('tips') }}" method=post>
 						<input type="hidden" name="type" value = "S">
-						<textarea rows="7" cols="100" name="newTip" required></textarea>
+						<textarea rows="7" cols="100" style="height:300px; width:500px;" name="newTip" required></textarea>
 						<input type="submit" value="Add">
 					</form>
 				</div>
@@ -64,7 +64,7 @@
 					<form name="sTipEditForm" action="{{ url_for('tips') }}" method=post>
 						<input type="hidden" name="type" value = "SE">
 						<input type="hidden" id = "sKey" name="sKey" value="">
-						<textarea rows="7" cols="100" name="editSTip" id="editSTip" required></textarea>
+						<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editSTip" id="editSTip" required></textarea>
 						<input type="submit" value="Edit">
 					</form>
 				</div>
@@ -85,7 +85,7 @@
 				<div id="addVTipForm" class="addVTipForm" title="Add Visitor Tip" >
 					<form name="vTipForm" action="{{ url_for('tips') }}" method=post>
 						<input type="hidden" name="type" value = "V">
-						<textarea rows="7" cols="100" name="newTip" required></textarea>
+						<textarea rows="7" cols="100" style="height:300px; width:500px;" name="newTip" required></textarea>
 						<input type="submit" value="Add">
 					</form>
 				
@@ -105,7 +105,7 @@
 					<form name="vTipEditForm" action="{{ url_for('tips') }}" method=post>
 						<input type="hidden" name="type" value = "VE">
 						<input type="hidden" id = "vKey" name="vKey" value="">
-						<textarea rows="7" cols="100" name="editVTip" id="editVTip" required></textarea>
+						<textarea rows="7" cols="100" style="height:300px; width:500px;" name="editVTip" id="editVTip" required></textarea>
 						<input type="submit" value="Edit">
 					</form>
 				</div>
