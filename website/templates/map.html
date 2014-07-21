@@ -1,5 +1,73 @@
 {% extends "layout.html" %}
 {% block content %}
-	<p style="color:red; font-size:2em; text-align:center; display:none;"> This page is currently under construction! </p>
-        <div id="MapContainer"></div>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<div>
+	<div id="MapType" value={{ mapType }}></div>
+    <div id="canvasDiv" style="align:center;">
+	    <canvas id="canvas" width="500" height="400" style="border:1px solid #000000; float:center; align:center;"></canvas>
+	</div>
+
+	<script id="main">(function(){
+                        var canvas = new fabric.Canvas('canvas');
+                        
+                        fabric.Table = fabric.util.createClass(fabric.IText, {
+                        
+                            type: 'table',
+                            left: 50,
+                            top: 50,
+                            
+                            initialize: function(options) {
+                                options || (options = {});
+                                this.callSuper('initialize',options);
+                                if (arguments.length > 2){
+                                this.set('left', arguments[1]);
+                                this.set('top', arguments[2]);
+                            }
+                            },
+
+                            toObject: function() {
+                                return fabric.util.object.extend(this.callSuper('toObject'), {
+                                    left: this.get('left'),
+                                    top: this.get('top')
+                                });
+                            },
+                
+                            _render: function(ctx) {
+                                this.callSuper('_render',ctx);
+                                ctx.rect(-this.width/2, -this.height/2, this.width, this.height);
+                                ctx.stroke();
+                            }
+                        
+                        });
+
+                            fabric.Table.fromObject = function(object, callback) {
+                        var tbl =new fabric.Table(object.text, object.left, object.top, object);
+                            tbl.left = object.left;
+                            tbl.top = object.top;
+                            return tbl;
+                        };
+                        
+                        canvas.selectionColor = 'rgba(0,255,0,0.3)';
+                        canvas.selectionBorderColor = 'red';
+                        canvas.selectionLineWidth = 5;
+                        
+
+                                               
+                            var mapType = "NormalMap";
+                            if (document.getElementById("MapType").value == "RainMap") 
+                                mapType = "RainMap";
+
+                            var serialized = ""
+                            if (mapType == "NormalMap")
+                                serialized = $.get( $SCRIPT_ROOT + '/map', { normalMap: "a" }, function(data) {canvas.loadFromJSON(data,canvas.renderAll.bind(canvas));},"text" );
+                            else
+                                $.get( $SCRIPT_ROOT + '/map', { rainMap: "a" }, function(data) {canvas.loadFromJSON(data,canvas.renderAll.bind(canvas)); },"text" );
+
+                        
+                        })();
+                    </script>
+                   </div>
+                   </div>
 {% endblock %}

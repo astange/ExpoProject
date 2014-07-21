@@ -292,3 +292,10 @@ class RedisDB:
             self.dbc.set("rainMap", mapSerialized)
         else:
             self.dbc.set("normalMap", mapSerialized)
+
+    def getMapType(self):
+        return "normalMap"
+        #return self.dbc.get("mapType")
+
+    def setMapType(self, map):
+        self.dbc.set("mapType", map)

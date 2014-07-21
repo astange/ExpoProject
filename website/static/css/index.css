@@ -308,6 +308,11 @@ input[class=icon]:active{
   background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
 }
 
+.canvas-container {  
+width:90%; 
+margin:0 auto; 
+}  
+
 
 /*Contact Us form*/
 form input {

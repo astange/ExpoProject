@@ -16,6 +16,7 @@ app = Flask(__name__)
 #its config in the main method.
 theDatabase = RedisDB()
 mail = None 
+mapType = "NormalMap"
 
 # These next three functions can be used to password-protect pages.
 # Simply put an @requires_auth immediately above the def function() line.
@@ -74,7 +75,12 @@ def social():
 
 @app.route('/map')
 def map():
-    return render_template('map.html', pageName="Expo Map", emailForm=emailForm())
+    if (request.method=='GET'):
+        if request.args.get('rainMap'):
+            return theDatabse.getMapCanvas("rainMap")
+        elif request.args.get("normalMap"):
+            return theDatabase.getMapCanvas("normalMap")
+    return render_template('map.html', pageName="Expo Map", emailForm=emailForm(), mapType=theDatabase.getMapType())
 
 
 @app.route('/projects')
