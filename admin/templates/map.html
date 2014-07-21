@@ -37,6 +37,11 @@
                             <code>Load</code>    
                         </button> 
                       </p>
+                      <p>
+                        <button type="button" id="delete" name="delete-active" value="delete">
+                            <code>Delete Selected Object</code>    
+                        </button> 
+                      </p>
                        <p>
                         <code>Background Image...</code>  
                         <input type="file" id="bg-image" name="bgImage" value="bgImage">
@@ -146,7 +151,11 @@
                             }
                             reader.readAsDataURL(e.target.files[0]);
                         }; 
-
+                        
+                        document.getElementById('delete').onclick = function() {
+                                canvas.remove(canvas.getActiveObject());
+                        };
+                        
                         document.getElementById('bg-image').onchange = function handleImage(e) {
                             var reader = new FileReader();
                             reader.onload = function(event){
