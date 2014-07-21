@@ -99,6 +99,7 @@ def social():
     return render_template('social.html', pageName="Social", emailForm=emailForm())
 
 @app.route('/map', methods=['GET', 'POST'])
+@requires_auth
 def map():
     if (request.method=='POST'):
         if request.form.get('rainMap'):
