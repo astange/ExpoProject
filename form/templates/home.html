@@ -63,11 +63,19 @@
         }
         else section.options[1].selected = true;
         for (i=0; i<section.length; i++){
+            if (m=="mixed" && section.options[i].value.slice(0,5)=="mixed"){
+                        section.options[i].selected = true;
+            }
+            else if (section.options[i].value.slice(0,2)=="un"){
+                sections.options[i].selected = true;
+                sections.options[i].disable = false;
+                continue;
+            }
             match = (section.options[i].value.slice(0,m.length)!=m);
             section.options[i].disabled = match;
 			if (m=="mixed" && section.options[i].value.slice(0,"gt".length)=="gt") section.options[i].disabled = false;
         }
-        section.options[1].disabled = false;
+        //section.options[1].disabled = false;
     }
     
     </script>

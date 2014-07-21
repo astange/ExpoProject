@@ -1,26 +1,35 @@
 from flask.ext.wtf import Form
 from wtforms.fields import TextField, TextAreaField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired, ValidationError, NumberRange, Email, Length
-
+from redisDB import *
+theDatabase = RedisDB()
+theDatabase.init()
 
 class teamForm(Form):
-    majorChoices = [('interdisciplinary', 'Interdisciplinary'), ('ae', 'AE'), ('bme', 'BME'), ('chbe', 'CHBE'), ('ece', 'ECE'), ('pubp', 'PUBP'), ('id', 'ID'), ('isye', 'ISYE'), ('me', 'ME'), ('mse', 'MSE')]
-    sectionChoices = [('mixed', 'Mixed (if you chose interdisciplinary)'), ('unknown', 'Don\'t know')]
-    sectionChoices.extend([('ae4351-a', 'AE 4351-A'), ('ae4351-b', 'AE 4351-B'), ('ae4351-ip', 'AE 4351-IP')])
-    sectionChoices.extend([('ae4357-a', 'AE 4357-A'), ('ae4357-b', 'AE 4357-B'),('ae4357-ip', 'AE 4357-IP'), ('ae4357-ip2', 'AE 4357-IP2')])
-    sectionChoices.extend([('ae4359-a', 'AE 4359-A')])
-    sectionChoices.extend([('bme4602-a', 'BME 4602-A'), ('bme4602-b', 'BME 4602-B'), ('bme4602-c', 'BME 4602-C'),('bme4602-d', 'BME 4602-D'), ('bme4602-e', 'BME 4602-E'), ('bme4602-ip', 'BME 4602-IP')])
-    sectionChoices.extend([('chbe4505-a', 'CHBE 4505-A'), ('chbe4525-a', 'CHBE 4525-A')])
-    sectionChoices.extend([('ece4012-ip', 'ECE 4012-IP'), ('ece4012-l1a', 'ECE 4012-L1A'), ('ece4012-l1b', 'ECE 4012-L1B'), ('ece4012-l1c', 'ECE 4012-L1C'), ('ece4012-l2a', 'ECE 4012-L2A'), ('ece4012-l2b', 'ECE 4012-L2B'),
-                          ('ece4012-l3a', 'ECE 4012-L3A'), ('ece4012-l3b', 'ECE 4012-L3B'), ('ece4012-l4a', 'ECE 4012-L4A'), ('ece4012-l4b', 'ECE 4012-L4B'), ('ece4012-l4c', 'ECE 4012-L4C'), ('ece4012-vp1', 'ECE 4012-VP1'), ('ece4012-vpc', 'ECE 4012-VPC')])
-    sectionChoices.extend([('gt4823-a', 'GT 4823-A'), ('gt4823-b', 'GT 4823-B')])
-    sectionChoices.extend([('id4012-a', 'ID 4012-A'), ('id4012-me', 'ID 4012-ME'), ('id4012-mid', 'ID 4012-MID')])
-    sectionChoices.extend([('isye4106-ad', 'ISYE 4106-AD'), ('isye4106-al', 'ISYE 4106-AL'), ('isye4106-cz', 'ISYE 4106-CZ'), ('isye4106-cs2', 'ISYE 4106-CS2'), ('isye4106-db1', 'ISYE 4106-DB1'), ('isye4106-db2', 'ISYE 4106-DB2'), ('isye4106-ip', 'ISYE 4106-IP'),
-                          ('isye4106-js', 'ISYE 4106-JS'), ('isye4106-js1', 'ISYE 4106-JS1'), ('isye4106-lh', 'ISYE 4106-LH'), ('isye4106-oe', 'ISYE 4106-OE'), ('isye4106-pk', 'ISYE 4106-PK'), ('isye4106-rm', 'ISYE 4106-RM'), ('isye4106-sp1', 'ISYE 4106-SP1')])
-    sectionChoices.extend([('me4182-a', 'ME 4182-A'), ('me4182-b', 'ME 4182-B'), ('me4182-c', 'ME 4182-C'), ('me4182-d', 'ME 4182-D'), ('me4182-e', 'ME 4182-E'),
-                          ('me4182-f', 'ME 4182-F'), ('me4182-g', 'ME 4182-G'), ('me4182-h', 'ME 4182-H'), ('me4182-j', 'ME 4182-J'), ('me4182-id', 'ME 4182-ID')])
-    sectionChoices.extend([('mse4402-a', 'MSE 4402-A')])
-    sectionChoices.extend([('pubp4020-ki', 'PUBP 4020-KI')])
+    #majorChoices = [('interdisciplinary', 'Interdisciplinary'), ('ae', 'AE'), ('bme', 'BME'), ('chbe', 'CHBE'), ('ece', 'ECE'), ('pubp', 'PUBP'), ('id', 'ID'), ('isye', 'ISYE'), ('me', 'ME'), ('mse', 'MSE')]
+    majorChoices = theDatabase.getAllMajors()
+    sectionChoices = theDatabase.getAllSections()
+    if majorChoices is not None:
+        majorChoices.sort()
+
+    if sectionChoices is not None:
+        sectionChoices.sort()
+    #sectionChoices = [('mixed', 'Mixed (if you chose interdisciplinary)'), ('unknown', 'Don\'t know')]
+    #sectionChoices.extend([('ae4351-a', 'AE 4351-A'), ('ae4351-b', 'AE 4351-B'), ('ae4351-ip', 'AE 4351-IP')])
+    #sectionChoices.extend([('ae4357-a', 'AE 4357-A'), ('ae4357-b', 'AE 4357-B'),('ae4357-ip', 'AE 4357-IP'), ('ae4357-ip2', 'AE 4357-IP2')])
+    #sectionChoices.extend([('ae4359-a', 'AE 4359-A')])
+    #sectionChoices.extend([('bme4602-a', 'BME 4602-A'), ('bme4602-b', 'BME 4602-B'), ('bme4602-c', 'BME 4602-C'),('bme4602-d', 'BME 4602-D'), ('bme4602-e', 'BME 4602-E'), ('bme4602-ip', 'BME 4602-IP')])
+    #sectionChoices.extend([('chbe4505-a', 'CHBE 4505-A'), ('chbe4525-a', 'CHBE 4525-A')])
+    #sectionChoices.extend([('ece4012-ip', 'ECE 4012-IP'), ('ece4012-l1a', 'ECE 4012-L1A'), ('ece4012-l1b', 'ECE 4012-L1B'), ('ece4012-l1c', 'ECE 4012-L1C'), ('ece4012-l2a', 'ECE 4012-L2A'), ('ece4012-l2b', 'ECE 4012-L2B'),
+    #                      ('ece4012-l3a', 'ECE 4012-L3A'), ('ece4012-l3b', 'ECE 4012-L3B'), ('ece4012-l4a', 'ECE 4012-L4A'), ('ece4012-l4b', 'ECE 4012-L4B'), ('ece4012-l4c', 'ECE 4012-L4C'), ('ece4012-vp1', 'ECE 4012-VP1'), ('ece4012-vpc', 'ECE 4012-VPC')])
+    #sectionChoices.extend([('gt4823-a', 'GT 4823-A'), ('gt4823-b', 'GT 4823-B')])
+    #sectionChoices.extend([('id4012-a', 'ID 4012-A'), ('id4012-me', 'ID 4012-ME'), ('id4012-mid', 'ID 4012-MID')])
+    #sectionChoices.extend([('isye4106-ad', 'ISYE 4106-AD'), ('isye4106-al', 'ISYE 4106-AL'), ('isye4106-cz', 'ISYE 4106-CZ'), ('isye4106-cs2', 'ISYE 4106-CS2'), ('isye4106-db1', 'ISYE 4106-DB1'), ('isye4106-db2', 'ISYE 4106-DB2'), ('isye4106-ip', 'ISYE 4106-IP'),
+     #                     ('isye4106-js', 'ISYE 4106-JS'), ('isye4106-js1', 'ISYE 4106-JS1'), ('isye4106-lh', 'ISYE 4106-LH'), ('isye4106-oe', 'ISYE 4106-OE'), ('isye4106-pk', 'ISYE 4106-PK'), ('isye4106-rm', 'ISYE 4106-RM'), ('isye4106-sp1', 'ISYE 4106-SP1')])
+    #sectionChoices.extend([('me4182-a', 'ME 4182-A'), ('me4182-b', 'ME 4182-B'), ('me4182-c', 'ME 4182-C'), ('me4182-d', 'ME 4182-D'), ('me4182-e', 'ME 4182-E'),
+    #                      ('me4182-f', 'ME 4182-F'), ('me4182-g', 'ME 4182-G'), ('me4182-h', 'ME 4182-H'), ('me4182-j', 'ME 4182-J'), ('me4182-id', 'ME 4182-ID')])
+    #sectionChoices.extend([('mse4402-a', 'MSE 4402-A')])
+    #sectionChoices.extend([('pubp4020-ki', 'PUBP 4020-KI')])
 
     setupChoices = [('tableTop', 'Table top setup (tables are 6\' x 3\')'), ('laptop', 'Laptop only (not provided)'), ('floor', 'Floor setup (area is 8\'x8\')'), (
         'large', 'Large demonstration area (these will be outside)'), ('vehicle', 'A vehicle is involved (these projects will be outside)')]

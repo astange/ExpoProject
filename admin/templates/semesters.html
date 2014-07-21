@@ -37,7 +37,14 @@
 <form name="reg-OpenClosed">
     <input type="button" value="{{ registration }}" onclick="toggleRegistration();">
 </form>
-
+ <form method="get" action="{{url_for('static',filename='data/sections.csv')}}">
+<button type="submit">Download Sections.csv</button>
+</form>
+ <form method=post action="{{ url_for('semesters') }}" enctype=multipart/form-data>
+<input type="hidden" name="type" value="sections">
+<input type=file name="file">
+<button type="submit">Upload Sections.csv</button>
+</form>
 <form name="log-out">
     <input type="button" value="Log Out" onclick="logOut();">
 </form>

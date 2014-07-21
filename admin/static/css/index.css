@@ -436,11 +436,7 @@ form input#send {
   
 }
 
-.ui-dialog{
-background-color:rgb(100,100,100);
-}
-
-.ui-dialog.form-dialog{
+.form-dialog{
 background-color: #EEB211;
 height: 600;
 width: 600;

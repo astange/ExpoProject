@@ -299,3 +299,49 @@ class RedisDB:
 
     def setMapType(self, map):
         self.dbc.set("mapType", map)
+    def getAllMajors(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        majorList = []
+        for x in keys:
+            majorList.append((self.dbc.get(x).lower(),self.dbc.get(x)))
+        return majorList
+    def getAllSections(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        majorList = []
+        for x in keys:
+            if (self.dbc.get(x) == 'Don\'t know'):
+                majorList.append(('unknown', 'Don\'t know'))
+            else:
+                majorList.append((self.dbc.get(x).lower().replace(" ",""),self.dbc.get(x)))
+        return majorList
+    def addMajor(self, major):
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        majorList = []
+        for x in keys:
+            majorList.append(self.dbc.get(x).lower())
+        print(major)
+        if (major.lower() not in majorList):
+                print(major+"True")
+		numMajors = int(self.dbc.get('numMajors'))
+		self.dbc.incr('numMajors')
+		name = self.getCurrentSemester()+'major'+str(numMajors)
+		self.dbc.set(name, major) 
+
+    def addSection(self, section):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        majorList = []
+        for x in keys:
+            majorList.append(self.dbc.get(x).lower())
+        if (section not in majorList):
+		numMajors = int(self.dbc.get('numSections'))
+		self.dbc.incr('numSections')
+		name = self.getCurrentSemester()+'section'+str(numMajors)
+		self.dbc.set(name, section) 
+
+    def removeAllSectionAMajor(self):
+        keys = self.dbc.keys(self.getCurrentSemester()+'section*')
+        for x in keys:
+            self.dbc.delete(x)
+        keys = self.dbc.keys(self.getCurrentSemester()+'major*')
+        for x in keys:
+            self.dbc.delete(x)
