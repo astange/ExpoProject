@@ -37,6 +37,9 @@ def requires_auth(f):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    print theDatabase.getCurrentSemester()
+    print theDatabase.getAllMajors()
+    print theDatabase.getAllSections()
     teamFormInstance = teamForm(request.form)
     if request.method == 'GET':
         if theDatabase.getRegistrationStatus() == "open":

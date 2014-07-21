@@ -130,12 +130,18 @@ def projects():
             processTables(files)
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
+<<<<<<< HEAD
 @app.route('/semesters', methods=['GET','POST'])
 @requires_auth
+=======
+
+@app.route('/semesters', methods=['GET','POST'])
+>>>>>>> origin/Timothy
 def semesters():
     if(request.method =='POST'):
         files = request.files['file']
         processSection(files)
+<<<<<<< HEAD
     return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester(), registration = theDatabase.getRegistrationButton())
 
 @app.route('/semesters/registration')
@@ -143,6 +149,9 @@ def semesters():
 def toggleRegistration():
     theDatabase.toggleRegistration();
     return redirect(flask.url_for('semesters'));
+=======
+    return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester())
+>>>>>>> origin/Timothy
 
 @app.route('/semesters/<newSemester>/<newKey>')
 @requires_auth
