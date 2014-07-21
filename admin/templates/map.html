@@ -107,14 +107,21 @@
                         fabric.Table = fabric.util.createClass(fabric.IText, {
                         
                             type: 'table',
+                            left: 0,
+                            top: 0,
                             
                             initialize: function(options) {
-                                options || (options = { });
+                                options || (options = {left: this.left, top: this.top});
                                 this.callSuper('initialize',options);
+                                this.set('left', options[1]);
+                                this.set('top', options[2]);
+
                             },
 
                             toObject: function() {
                                 return fabric.util.object.extend(this.callSuper('toObject'), {
+                                    left: this.get(left),
+                                    top: this.get(top)
                                 });
                             },
                 
@@ -127,7 +134,10 @@
                         });
 
                             fabric.Table.fromObject = function(object, callback) {
-                        return new fabric.Table(object.text, object);
+                        var tbl =new fabric.Table(object.text, object.left, object.top, object);
+                            tbl.left = object.left;
+                            tbl.top = object.top;
+                            return tbl;
                         };
                         
                         canvas.selectionColor = 'rgba(0,255,0,0.3)';
