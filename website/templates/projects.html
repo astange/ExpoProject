@@ -19,7 +19,7 @@
        <tr >  
 	<td>
 	{% if ((entry[0].table != null) and (entry[0].table.strip() in favs))%}
-	<img src="{{url_for('static', filename="img/favicon.ico")}}" id="{{entry[0].table}}" class="favoriteOn" onclick="favoriteFunc(this.id)" onload="favCheck(this.id);">
+	<img src="{{url_for('static', filename="img/favOn.ico")}}" id="{{entry[0].table}}" class="favoriteOn" onclick="favoriteFunc(this.id)" onload="favCheck(this.id);">
 	{% else %}
 	<img src="{{url_for('static', filename="img/favOff.ico")}}" id="{{entry[0].table}}" class="favoriteOff" onclick="favoriteFunc(this.id)" onload="favCheck(this.id);">
 	{% endif %}
