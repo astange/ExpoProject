@@ -270,7 +270,6 @@ class RedisDB:
         self.dbc.set('seelioKey', newKey)
     def setTableNum(self, subNum,tableNum):
         self.dbc.hset(subNum, "table",tableNum)
-<<<<<<< HEAD
         
     def toggleRegistration(self):
         current = self.dbc.get("registration")
@@ -309,9 +308,7 @@ class RedisDB:
 
     def setMapType(self, map):
         self.dbc.set("mapType", map)
-=======
 
->>>>>>> origin/Timothy
     def getAllMajors(self):
         keys = self.dbc.keys(self.getCurrentSemester()+'major*')
         majorList = []
