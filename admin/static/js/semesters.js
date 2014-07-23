@@ -1,3 +1,5 @@
+//Is called when the delete semester button is clicked. Pretty straightforward
+//does a GET request on expo.gatech.edu/semesters/delete/<semester to delete>
 function deleteSemester(){
     var semester = document.getElementById("delSem");
     var strSem = semester.options[semester.selectedIndex].value;
@@ -9,7 +11,8 @@ function deleteSemester(){
 	}
 	document.location.href = "semesters/delete/" + strSem;
 }
-
+//Is called when the change semester button is clicked. Pretty straightforward
+//does a GET request on expo.gatech.edu/semesters/<semester to make actives>
 function changeSemesters(){
     var selected = document.getElementById('changeSem').selectedIndex;
     var options = document.getElementById('changeSem').options;
@@ -21,6 +24,9 @@ function changeSemesters(){
     document.location.href = "semesters/" + options[selected].value;
 }
 
+//called whenever a user wants to create a new semeseter.
+//When everything is verified it does a GET request with the on /semester/<semester + year>/<sKey>
+//Ex. semesters/Fall2016/123456
 function validateForm() {
 	var semester;
 	if(document.getElementById('sem_Summer').checked) {
@@ -55,6 +61,7 @@ function validateForm() {
 	document.location.href = "semesters/" + semester + year + "/" + sKey;
 }
 
+//Simple does a GET request that causes the python to close registration on the form.
 function toggleRegistration() {
 	document.location.href = "semesters/registration";
 }

@@ -34,12 +34,10 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-
+#If GET,this loads the form for the user only if the registration status is open.
+#If POST, this submits the teams form to the DB.
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    print theDatabase.getCurrentSemester()
-    print theDatabase.getAllMajors()
-    print theDatabase.getAllSections()
     teamFormInstance = teamForm(request.form)
     if request.method == 'GET':
         if theDatabase.getRegistrationStatus() == "open":
@@ -63,13 +61,13 @@ def home():
 
             return render_template('success.html')
 
-
+#Lists all the entries for the current semester in a nice form.
 @app.route('/listentries')
 @requires_auth
 def listEntries():
     return render_template('listEntries.html', entries=theDatabase.getAllEntriesWithSubmissionNums())
 
-
+#Does the same as above, but sorts by name.
 @app.route('/listentriesbyname')
 @requires_auth
 def listEntriesByName():

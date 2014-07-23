@@ -29,8 +29,6 @@ mail = None
 
 # These next three functions can be used to password-protect pages.
 # Simply put an @requires_auth immediately above the def function() line.
-
-
 def check_auth(username, password):
     return username == 'expospring2014' and password == 'haveaniceday'
 
@@ -81,6 +79,8 @@ def index():
 def projectdetails(submissionNum):
     return render_template('projectdetails.html', submission=theDatabase.getOneSubmission(submissionNum), pageName="Project Details", emailForm=emailForm())
 
+#If GET, returns current schedule as normal, but the admin schedule so he can change what he needs to.
+#If POST, it edits the database entry for the tip depending on the type of form.
 @app.route('/schedule', methods=['GET','POST'])
 @requires_auth
 def schedule():
@@ -93,11 +93,15 @@ def schedule():
             theDatabase.editSchEnd(request.form['editEndSchTip'])
     return render_template('schedule.html', schedule=theDatabase.getSchedule(), busSchedule=theDatabase.getBusSchedule(), schEnd=theDatabase.getSchEnd(), pageName="Spring 2014 Expo Schedule", emailForm=emailForm())
 
+#Social is exactly the same as the main website.
 @app.route('/social')
 @requires_auth
 def social():
     return render_template('social.html', pageName="Social", emailForm=emailForm())
 
+#If GET, the map will either load the rain map or normal map if it was a load request. Otherwise it loads
+#the map editor so the admin can create his own map.
+#If POST, the code will either use the database to set the current rain map or normal map.
 @app.route('/map', methods=['GET', 'POST'])
 @requires_auth
 def map():
@@ -118,6 +122,9 @@ def map():
     print("HERE")
     return render_template('map.html', pageName="Expo Map", emailForm=emailForm(), rainSerialized=theDatabase.getMapCanvas(map="rainMap"), normalSerialized=theDatabase.getMapCanvas(map="normalMap"))
 
+#If GET, it renders the admin template which allows the admin to do all sorts of things.
+#If POST, it checks the type and will either delete the project or allow the admin to upload
+#the tables for the new teams.
 @app.route('/projects', methods=['GET','POST'])
 @requires_auth
 def projects():
@@ -130,7 +137,9 @@ def projects():
             processTables(files)
     return render_template('projects.html', entries=theDatabase.getAllEntriesWithSubmissionNums(), pageName="Projects", emailForm=emailForm())
 
-
+#If GET, it returns the normal semesters template that allows the admin to change courses for the semeseter,
+#change, create, or delete semesters, close registration, and logout.
+#If POST, it takes in the file that the admin gave it and processes that for the new classes.
 @app.route('/semesters', methods=['GET','POST'])
 @requires_auth
 def semesters():
@@ -139,37 +148,44 @@ def semesters():
         processSection(files)
     return render_template('semesters.html', pageName="Semesters", emailForm=emailForm(), entries=theDatabase.getAllSemesters(), currentSemester = theDatabase.getCurrentSemester(), registration = theDatabase.getRegistrationButton())
 
+#Used to toggle registration.
 @app.route('/semesters/registration')
 @requires_auth
 def toggleRegistration():
     theDatabase.toggleRegistration();
     return redirect(flask.url_for('semesters'));
 
+#Method used by semester to create a new semester.
 @app.route('/semesters/<newSemester>/<newKey>')
 @requires_auth
 def addsemesterWithKey(newSemester, newKey):
     theDatabase.setCurrentSemester(newSemester)
     theDatabase.setCurrentSeelioKey(newKey, newSemester)
     return redirect(flask.url_for('semesters'))
-        
+       
+#Used to create a new semester without changing the seelio key. 
 @app.route('/semesters/<newSemester>')
 @requires_auth
 def addSemester(newSemester):
     theDatabase.setCurrentSemester(newSemester)
     return redirect(flask.url_for('semesters'))
-        
+   
+#Used to delete a specific semester.     
 @app.route('/semesters/delete/<semester>')
 @requires_auth
 def removeSemester(semester):
     theDatabase.removeSemester(semester)        
     return redirect(flask.url_for('semesters'))
 
+#Creates the new map.
 @app.route('/map/<mapType>/<serialized>')
 @requires_auth
 def saveMap(mapType, serialized):
     theDatabase.setMapCanvas(mapSerialized = serialized, map = mapType)
     return redirect(flask.url_for('map'))
 
+#If GET, returns admin tips page.
+#If POST, will change the tip based on the type of the form.
 @app.route('/tips', methods=['GET', 'POST'])
 @requires_auth
 def tips():
@@ -202,6 +218,7 @@ def tips():
 def search(searchString):
     return render_template('projects.html', entries=theDatabase.search(searchString), pageName="Search Results", searchTitle="Search Results for: " + "\""+searchString +"\"", emailForm=emailForm())
 
+#Creates the table.csv so the admin can download it.
 def tablesTable():
     tableFile = open(os.path.join(UPLOAD_FOLDER,"tables.csv"),'w')
     tableFile.write("ID,Project Name, Table Number\n")
@@ -212,6 +229,7 @@ def tablesTable():
             tableFile.write(str(entry[1]) + "," + entry[0]["projectName"]+ "," + "\n")
     tableFile.close()
 
+#Processes csv file into the DB.
 def processTables(csvFile):
     csvFile.save(os.path.join(UPLOAD_FOLDER,"upTables.csv"))
     csvfile = open(os.path.join(UPLOAD_FOLDER,"upTables.csv"), "r")
@@ -224,6 +242,7 @@ def processTables(csvFile):
         curRow = string.split(row,',')
         theDatabase.setTableNum(curRow[0],curRow[2].strip())
 
+#Processes new sections and adds them to the DB.
 def processSection(csvFile):
     csvFile.save(os.path.join(UPLOAD_FOLDER,"upSections.csv"))
     csvfile = open(os.path.join(UPLOAD_FOLDER,"upSections.csv"), "r")
@@ -239,6 +258,8 @@ def processSection(csvFile):
         theDatabase.addMajor(str(curRow[0]))
         theDatabase.addSection(str(curRow[0])+" "+str(curRow[1])+"-"+str(curRow[2]).strip())
 
+#If GET, this redirects to the registration page so the admin can manually add new teams.
+#If POST, this is used to submit a new team to the DB.
 @app.route('/addteam', methods=['GET', 'POST'])
 @requires_auth
 def home():

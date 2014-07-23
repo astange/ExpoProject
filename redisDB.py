@@ -11,6 +11,8 @@ class RedisDB:
 
     # If we're just starting the database and numSubmissions doesn't exist,
     # create it and set to 0
+    #We also create the main keys here that need to be initialized before the database can
+    #be used by our software.
     def init(self):
         self.dbc.setnx('registration', 'open')
         self.dbc.setnx('currentSemester', 'Spring2014')
@@ -28,6 +30,7 @@ class RedisDB:
         self.dbc.setnx('Spring2014'+'sections0','Mixed')
         self.dbc.setnx('Spring2014'+'sections1','Don\'t know')
 
+    #This is responsible for saving a form to the DB.
     def saveToDB(self, formDict, semester=None):
         self.init()
         if(semester == None):
@@ -49,7 +52,7 @@ class RedisDB:
         return submission
 
 
-
+    #This gets all the entries for the specified semester.
     def getAllEntries(self, semester=None):
         self.init()
         if(semester == None):
@@ -61,6 +64,7 @@ class RedisDB:
             entryList.append(self.dbc.hgetall(x))
         return sorted(entryList, key=lambda k: k['projectName'])
 
+    #For a specified submission number, return all data associated with it.
     def getAllDataForSubmission(self, submissionNum):
         return self.dbc.hgetall(submissionNum)
 
@@ -85,6 +89,7 @@ class RedisDB:
             entryList.append([self.dbc.hgetall(x), x])
         return sorted(entryList, key=lambda k: k[0]['projectName'])
 
+    #This gets all the entries and grabs the information associated with them.
     def getAllNames(self, semester=None):
         self.init()
         if(semester == None):
@@ -108,6 +113,7 @@ class RedisDB:
                     entryList.append(nameEntry)
         return entryList
 
+    #this searches for a team based on a string and a given semester.
     def search(self, string, semester=None):
         self.init()
         entryList = self.getAllEntriesWithSubmissionNums(semester)
@@ -162,6 +168,7 @@ class RedisDB:
 
 #in order to make the webpage edittable, we will store certain text information here so it can easily be editted.
 
+    #Add a visitor tip.
     def addVisTip(self, tip):
         self.dbc.incr('numVTips')
         numVTips = int(self.dbc.get('numVTips'))
@@ -169,6 +176,7 @@ class RedisDB:
         self.dbc.hset(name, "tip", tip) 
         self.dbc.hset(name, "num", str(numVTips)) 
 
+    #Add a judge tip
     def addJudTip(self, tip):
 
         self.dbc.incr('numJTips')
@@ -177,7 +185,7 @@ class RedisDB:
         self.dbc.hset(name, "tip",tip) 
         self.dbc.hset(name, "num", str(numJTips)) 
 
-
+    #Add a student tip.
     def addStuTip(self, tip):
 
         self.dbc.incr('numSTips')
@@ -186,6 +194,7 @@ class RedisDB:
         self.dbc.hset(name, "tip", tip) 
         self.dbc.hset(name, "num", str(numSTips)) 
 
+    #Get all visitor tips.
     def getAllVTips(self):
         keys = self.dbc.keys('VTips*')
         vTips = [];
@@ -193,7 +202,7 @@ class RedisDB:
             vTips.append((self.dbc.hget(x,"tip"),self.dbc.hget(x,"num")))
         return vTips
 
-
+    #Get all the student tips.
     def getAllSTips(self):
         keys = self.dbc.keys('STips*')
         sTips = [];
@@ -202,7 +211,7 @@ class RedisDB:
         return sTips
 
 
-
+    #Get all the judges tips.
     def getAllJTips(self):
         keys = self.dbc.keys('JTips*')
         jTips = [];
@@ -309,12 +318,15 @@ class RedisDB:
     def setMapType(self, map):
         self.dbc.set("mapType", map)
 
+    #Gets all the majors for the current semester.
     def getAllMajors(self):
         keys = self.dbc.keys(self.getCurrentSemester()+'major*')
         majorList = []
         for x in keys:
             majorList.append((self.dbc.get(x).lower(),self.dbc.get(x)))
         return majorList
+
+    #Gets all inputted sections for the given semester.
     def getAllSections(self):
         keys = self.dbc.keys(self.getCurrentSemester()+'section*')
         majorList = []
@@ -324,6 +336,8 @@ class RedisDB:
             else:
                 majorList.append((self.dbc.get(x).lower().replace(" ",""),self.dbc.get(x)))
         return majorList
+
+    #Adds a major to the DB
     def addMajor(self, major):
         keys = self.dbc.keys(self.getCurrentSemester()+'major*')
         majorList = []
@@ -337,6 +351,7 @@ class RedisDB:
 		name = self.getCurrentSemester()+'major'+str(numMajors)
 		self.dbc.set(name, major) 
 
+    #Adds a section to the DB for the current semester.
     def addSection(self, section):
         keys = self.dbc.keys(self.getCurrentSemester()+'section*')
         majorList = []
@@ -348,6 +363,7 @@ class RedisDB:
 		name = self.getCurrentSemester()+'section'+str(numMajors)
 		self.dbc.set(name, section) 
 
+    #Remove all the sections and majors.
     def removeAllSectionAMajor(self):
         keys = self.dbc.keys(self.getCurrentSemester()+'section*')
         for x in keys:

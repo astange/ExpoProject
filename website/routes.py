@@ -72,7 +72,7 @@ def schedule():
 def social():
     return render_template('social.html', pageName="Social", emailForm=emailForm())
 
-
+#Will either load the rain map or normal map depending on the request arguments.
 @app.route('/map')
 def map():
     if (request.method=='GET'):
@@ -87,6 +87,7 @@ def map():
 def projects():
     return redirect(url_for('projects') + "/" + theDatabase.getCurrentSemester())
 
+#Loads the project for a specified semester and loads the favorites, if any, for the semester.
 @app.route('/projects/<semester>')
 def projectsSem(semester):
     cooks = request.cookies.get("favs")
