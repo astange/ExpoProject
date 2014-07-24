@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-
+<!--The project details page takes in the submission that the user clicked on in the projects page and then iterates through it and displays all the information associated with it.-->
 <div id="Tablecontainer">
   <h4 id="Team"> Team Name: {{ submission.teamName }} </h4>
   <h4 id="Team"> Table: {{ submission.table }}<a href="{{ url_for('map') }}"> [Go to expo map]</a></h4>

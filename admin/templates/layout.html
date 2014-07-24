@@ -28,7 +28,6 @@
 	<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}"/></script>
 	<script src="{{ url_for('static', filename='js/map.js') }}"/></script>
 	<script src="{{ url_for('static', filename='js/index.js') }}"/></script>
-	<!--Temporarily here for testing-->
 	<script type="text/javascript">
 	function searchForm(){
 		var searchtext= document.getElementById("searchText").value;
@@ -36,7 +35,6 @@
 	}
 	</script>
 
-	<!--Temporarily here for testing-->
 	<script type="text/javascript">
 	function thankContact(x){
 		// window.location = '#successModal';
@@ -69,6 +67,7 @@
 
 </script>
 
+	<!--This is used for the upload button-->
 	 <script>
 		$(function() {
 			$( "#uploadForm" ).dialog({
@@ -80,24 +79,25 @@
 			});
 		});
 	</script>
+
+	<!--This is the script for the judge tip form dialog box-->	
 	 <script>
 		$(function() {
 			$( "#addJTipForm" ).dialog({
 				autoOpen: false,
 				position: { my: "left", at: "right", of:"#addJTip"},
-<<<<<<< HEAD
 				dialogClass: "form-dialog",
 				height:350,
 				width:550
-=======
 				dialogClass: "form-dialog"
->>>>>>> origin/Timothy
 			});
 				$( "#addJTip" ).click(function() {
 				$( "#addJTipForm" ).dialog( "open" );
 			});
 		});
 	</script>
+
+	<!--This is the script for the student tip form dialog box-->	
 	 <script>
 		$(function() {
 			$( "#addSTipForm" ).dialog({
@@ -112,6 +112,8 @@
 			});
 		});
 	</script>
+
+	<!--This is the script for the visitor tip form dialog box-->	
 	 <script>
 		$(function() {
 			$( "#addVTipForm" ).dialog({
@@ -127,6 +129,8 @@
 		});
 	</script>
 
+	<!--All scripts below this until the </head> statement are for different dialog
+	boxes on the form.-->	
 	 <script>
 		$(function() {
 			$( "#EditVForm" ).dialog({
@@ -344,6 +348,8 @@
 			<div class="container">
 				<div class="main clearfix">
 				<div class="column">
+					<!--Based on the entered pagename insert specific things for the page.
+					All the  stuff below here is pretty trivial.-->
 					{% if pageName == "Project Details" %}
 					<button type="button" class="button" onclick="location.href='{{url_for('index')}}'">Back</button>
 					<span id="reds">{{ submission.projectName }}</span>

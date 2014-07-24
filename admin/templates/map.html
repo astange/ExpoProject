@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+<!--This is the admin drag and drop utility that we were creating before the semester ended.
+It has several options in the first div that the javascript references to perform certain tasks.-->
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
@@ -87,29 +89,15 @@
 	                
                     <script id="main">(function(){
                         var canvas = new fabric.Canvas('canvas');
-
-                        document.onkeydown = onKeyDownHandler;
                         
-                        function onKeyDownHandler(event){
-                            var key;
-                            if(window.event){
-                                key = window.event.keyCode;
-                            }
-                            else{
-                                key = event.keyCode;
-                            }
-                            
-                            if(key == 46 || 8){
-                                canvas.remove(canvas.getActiveObject());
-                            }
-                        }
-                        
+                        //Custom table class that allows a label to be placed on top of a outlined rectangle.
                         fabric.Table = fabric.util.createClass(fabric.IText, {
                         
                             type: 'table',
                             left: 50,
                             top: 50,
                             
+                            //initializes the params.
                             initialize: function(options) {
                                 options || (options = {});
                                 this.callSuper('initialize',options);
@@ -126,6 +114,7 @@
                                 });
                             },
                 
+                            //where the object is rendered.
                             _render: function(ctx) {
                                 this.callSuper('_render',ctx);
                                 ctx.rect(-this.width/2, -this.height/2, this.width, this.height);
@@ -141,10 +130,12 @@
                             return tbl;
                         };
                         
+
                         canvas.selectionColor = 'rgba(0,255,0,0.3)';
                         canvas.selectionBorderColor = 'red';
                         canvas.selectionLineWidth = 5;
                         
+                        //uploads the image to a temporary place and then adds it to the canvas.
                         document.getElementById('use-image').onchange = function handleImage(e) {
                             var reader = new FileReader();
                             reader.onload = function(event){
@@ -163,10 +154,13 @@
                             reader.readAsDataURL(e.target.files[0]);
                         }; 
                         
+                        //deletes the currently selected object.
                         document.getElementById('delete').onclick = function() {
                                 canvas.remove(canvas.getActiveObject());
                         };
                         
+                        //admin can use this to add a background image to the canvas
+                        //the canvas dynamically resizes based on the background image.
                         document.getElementById('bg-image').onchange = function handleImage(e) {
                             var reader = new FileReader();
                             reader.onload = function(event){
@@ -190,6 +184,7 @@
                             reader.readAsDataURL(e.target.files[0]);
                         }; 
                         
+                        //used to draw a table onto the canvas.
                         document.getElementById('draw-table').onclick = function() {
                             var tn = $('#tableNumber').val();
 
@@ -200,7 +195,7 @@
                             }));
                         }; 
                         
-                        
+                        //removes all the objects on the canvas.
                         document.getElementById('reset').onclick = function() {
                             var r = confirm("Are you sure you would like to reset?\nWarning! This WILL delete all unsaved changes and make your data unrecoverable.");
                             if(r == false) return false;
@@ -209,6 +204,7 @@
                             });
                         };
                         
+                        //saves canvas based on whether it is a rain map or normal map to a specific file.
                         document.getElementById('save').onclick = function() {
                             var serialized = JSON.stringify(canvas);
                             var mapType = "normalMap";
@@ -225,7 +221,8 @@
                  
                             console.log(serialized);
                         }; 
-                                               
+                        
+                        //loads canvas based on whether rain map or normal map is checked.                    
                         document.getElementById('load').onclick = function() {
                             var mapType = "NormalMap";
                             if (document.getElementById("RainMap").checked) 
@@ -242,14 +239,17 @@
                                 $.get( $SCRIPT_ROOT + '/map', { rainMap: "a" }, function(data) {canvas.loadFromJSON(data,canvas.renderAll.bind(canvas)); alert("Map Loaded");},"text" );
                         };                        
 
+                        //moves the selected object to the front.
                         document.getElementById('move-forward').onclick = function() {
                             canvas.getActiveObject().bringToFront();
                         };
                         
+                        //moves the selected object to the back.
                         document.getElementById('move-back').onclick = function() {
                             canvas.getActiveObject().sendToBack();
                         };
                         
+                        //check boxes for normal map and rain map.
                         document.getElementById('NormalMap').onclick = function() {
                             document.getElementById('RainMap').checked = !this.checked; 
                         };
